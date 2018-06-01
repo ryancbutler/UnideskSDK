@@ -13,15 +13,15 @@ build_script:
 - ps: |
     Install-PackageProvider -Name NuGet -Force | Out-Null
     find-module -Repository PSGallery -Name PowerShellGet | Out-Null
-    Install-Module -Name PowerShellGet -Force -Repository PSGallery | Out-Null
+    Install-Module -Name PowerShellGet -Force -Repository PSGallery -SkipPublisherCheck | Out-Null
     find-module -Repository PSGallery -Name PSScriptAnalyzer | Out-Null
-    Install-Module -Name PSScriptAnalyzer -Force -Repository PSGallery | Out-Null
+    Install-Module -Name PSScriptAnalyzer -Force -Repository PSGallery -SkipPublisherCheck | Out-Null
     find-module -Repository PSGallery -Name Pester | Out-Null
-    Install-Module -Name Pester -Force -Repository PSGallery | Out-Null
+    Install-Module -Name Pester -Force -Repository PSGallery -SkipPublisherCheck | Out-Null
     find-module -Repository PSGallery -Name PSDeploy | Out-Null
-    Install-Module -Name PSDeploy -Force -Repository PSGallery | Out-Null
+    Install-Module -Name PSDeploy -Force -Repository PSGallery -SkipPublisherCheck | Out-Null
     find-module -Repository PSGallery -Name posh-git | Out-Null
-    Install-Module -Name posh-git -Force -Repository PSGallery | Out-Null
+    Install-Module -Name posh-git -Force -Repository PSGallery -SkipPublisherCheck | Out-Null
     $env:Path += ";$env:ProgramFiles\Git\cmd"
 test_script:
   - ps: |

@@ -1,5 +1,5 @@
-Import-Module -Name "$env:APPVEYOR_BUILD_FOLDER\CTXXD-Replicate" -Force -Verbose
-$verbs = (Get-Command -Module CTXXD-Replicate).Verb | Select-Object -Unique
+Import-Module -Name "$env:APPVEYOR_BUILD_FOLDER\ctxal-sdk" -Force -Verbose
+$verbs = (Get-Command -Module ctxal-sdk).Verb | Select-Object -Unique
  
 foreach ($verb in $verbs)
 {
@@ -9,7 +9,7 @@ foreach ($verb in $verbs)
   $data += ''
   $data += "This page contains details on **$verb** commands."
   $data += ''
-  foreach ($help in (Get-Command -Module CTXXD-Replicate | Where-Object -FilterScript {
+  foreach ($help in (Get-Command -Module ctxal-sdk| Where-Object -FilterScript {
         $_.name -like "$verb-*"
   }))
   {
