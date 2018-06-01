@@ -109,16 +109,16 @@ PrivateData = @{
         Tags = 'Unidesk','Citrix','AppLayering','CAL'
 
         # A URL to the license for this module.
-        # LicenseUri = ''
+        LicenseUri = 'https://github.com/ryancbutler/UnideskSDK/blob/master/LICENSE'
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/ryancbutler/UnideskSDK'
 
         # A URL to an icon representing this module.
         # IconUri = ''
 
         # ReleaseNotes of this module
-        # ReleaseNotes = ''
+        ReleaseNotes = '06-01-2018 BETA release'
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
@@ -128,7 +128,7 @@ PrivateData = @{
  } # End of PrivateData hashtable
 
 # HelpInfo URI of this module
-# HelpInfoURI = ''
+HelpInfoURI = 'https://github.com/ryancbutler/UnideskSDK/blob/master/README.md'
 
 # Default prefix for commands exported from this module. Override the default prefix using Import-Module -Prefix.
 # DefaultCommandPrefix = ''
