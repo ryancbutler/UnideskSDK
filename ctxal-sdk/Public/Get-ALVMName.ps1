@@ -20,7 +20,7 @@ Begin {
   }
 Process {
 $pattern = "(?<=\]).+?(?=\[)"
-$result = [regex]::match($string, $pattern)
+$result = [regex]::match($message, $pattern)
 Write-Verbose $result
 return $result.value
 }
