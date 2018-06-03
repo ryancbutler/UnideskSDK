@@ -57,7 +57,15 @@ $connector = Get-ALconnector -websession $websession -type Create
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
-new-aloslayerrev -websession $websession -version "2.0" -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id
+$myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id
+
+#Keep checking for change in task
+do{
+$status = get-alstatus -websession $websession|where{$_.id -eq $myosrev}
+Start-Sleep -Seconds 5
+} Until ($status.state -eq "ActionRequired")
+#use function to extractt VM NAME from status message
+get-alvmname -message $status.WorkItems.WorkItemResult.Status
 ```
 
 ## Application Layers
