@@ -8,7 +8,7 @@ function Get-ALPlatformLayerDetail
 .PARAMETER websession
   Existing Webrequest session for CAL Appliance
 .PARAMETER id
-  Platform layer ID 
+  Platform layer ID
 .EXAMPLE
   get-alplatformlayerDetail -websession $websession -id $platform.id
 #>

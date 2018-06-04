@@ -1,4 +1,4 @@
-function Add-ALAppAssignment
+﻿function Add-ALAppAssignment
 {
 <#
 .SYNOPSIS
@@ -52,7 +52,7 @@ SOAPAction = "http://www.unidesk.com/UpdateAppLayerAssignment";
 "Content-Type" = "text/xml; charset=utf-8";
 UNIDESK_TOKEN = $websession.token;
 }
-if ($PSCmdlet.ShouldProcess("Adding $apprevid to $imageid")) { 
+if ($PSCmdlet.ShouldProcess("Adding $apprevid to $imageid")) {
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
 [xml]$obj = $return.Content
@@ -67,7 +67,7 @@ if ($PSCmdlet.ShouldProcess("Printing output for app add"))
   if($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error)
   {
     throw $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error.message
-  
+
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId)"

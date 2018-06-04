@@ -64,7 +64,7 @@ UNIDESK_TOKEN = $websession.token;
 }
 
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-  if ($PSCmdlet.ShouldProcess("Setting app layer $name")) { 
+  if ($PSCmdlet.ShouldProcess("Setting app layer $name")) {
 
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content

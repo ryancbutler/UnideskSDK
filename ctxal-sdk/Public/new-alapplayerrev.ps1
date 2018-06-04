@@ -104,7 +104,7 @@ SOAPAction = "http://www.unidesk.com/CreateAppLayerRevision";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-if ($PSCmdlet.ShouldProcess("Creating $apprevid version $version")) { 
+if ($PSCmdlet.ShouldProcess("Creating $apprevid version $version")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 

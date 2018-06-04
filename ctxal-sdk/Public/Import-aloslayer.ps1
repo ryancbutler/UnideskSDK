@@ -85,7 +85,7 @@ SOAPAction = "http://www.unidesk.com/ImportOs";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) { 
+if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 

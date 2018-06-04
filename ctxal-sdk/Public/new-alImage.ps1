@@ -101,7 +101,7 @@ UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  if ($PSCmdlet.ShouldProcess("Creating image $name")) { 
+  if ($PSCmdlet.ShouldProcess("Creating image $name")) {
   [xml]$obj = $return.Content
 
   if($obj.Envelope.Body.CreateImageResponse.CreateImageResult.Error)

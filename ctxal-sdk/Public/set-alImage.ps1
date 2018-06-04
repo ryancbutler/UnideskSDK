@@ -91,7 +91,7 @@ SOAPAction = "http://www.unidesk.com/EditImage";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-  if ($PSCmdlet.ShouldProcess("Setting image $name")) { 
+  if ($PSCmdlet.ShouldProcess("Setting image $name")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 

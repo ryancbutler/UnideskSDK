@@ -112,7 +112,7 @@ SOAPAction = "http://www.unidesk.com/CreatePlatformLayerRevision";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-  if ($PSCmdlet.ShouldProcess("Creating platform layerversion $version from $layerrevid")) { 
+  if ($PSCmdlet.ShouldProcess("Creating platform layerversion $version from $layerrevid")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 

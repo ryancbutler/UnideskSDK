@@ -46,7 +46,7 @@ SOAPAction = "http://www.unidesk.com/ExportImage";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-if ($PSCmdlet.ShouldProcess("Publishing $imageid")) { 
+if ($PSCmdlet.ShouldProcess("Publishing $imageid")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 

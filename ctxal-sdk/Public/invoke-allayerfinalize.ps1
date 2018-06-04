@@ -61,7 +61,7 @@ $headers = @{
     UNIDESK_TOKEN = $websession.token;
     }
     $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-    if ($PSCmdlet.ShouldProcess("Finalizing $LayerRevisionId")) { 
+    if ($PSCmdlet.ShouldProcess("Finalizing $LayerRevisionId")) {
       $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
       [xml]$obj = $return.Content
       if($obj.Envelope.Body.FinalizeLayerRevisionResponse.FinalizeLayerRevisionResult.Error)

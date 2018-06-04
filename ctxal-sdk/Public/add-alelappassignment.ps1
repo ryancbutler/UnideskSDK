@@ -1,10 +1,10 @@
-function Add-ALELAppassignment
+﻿function Add-ALELAppassignment
 {
 <#
 .SYNOPSIS
-  Adds a user account or group to an applications elastic layer assignment 
+  Adds a user account or group to an applications elastic layer assignment
 .DESCRIPTION
-  Adds a user account or group to an applications elastic layer assignment 
+  Adds a user account or group to an applications elastic layer assignment
 .PARAMETER websession
   Existing Webrequest session for CAL Appliance
 .PARAMETER apprevid
@@ -21,7 +21,7 @@ function Add-ALELAppassignment
   $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
   $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
   $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
-#>  
+#>
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
@@ -62,7 +62,7 @@ SOAPAction = "http://www.unidesk.com/UpdateAppLayerAssignment";
 "Content-Type" = "text/xml; charset=utf-8";
 UNIDESK_TOKEN = $websession.token;
 }
-if ($PSCmdlet.ShouldProcess("Adding $apprevid to $($user.DN)")) { 
+if ($PSCmdlet.ShouldProcess("Adding $apprevid to $($user.DN)")) {
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
 [xml]$obj = $return.Content
@@ -72,12 +72,12 @@ $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers 
 
 
 end{
-if ($PSCmdlet.ShouldProcess("Output for application add")) 
+if ($PSCmdlet.ShouldProcess("Output for application add"))
 {
   if($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error)
   {
     throw $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error.message
-  
+
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId)"
