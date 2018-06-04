@@ -2,9 +2,9 @@ function Get-ALVMName
 {
 <#
 .SYNOPSIS
-  Extracts VM name out of action task
+  Extracts VM name out of "action required" task
 .DESCRIPTION
-  Extracts VM name out of action task
+  Extracts VM name out of "action required" task
 .PARAMETER message
   Message from pending operation
 .EXAMPLE
@@ -20,7 +20,7 @@ Begin {
   }
 Process {
 $pattern = "(?<=\]).+?(?=\[)"
-$result = [regex]::match($string, $pattern)
+$result = [regex]::match($message, $pattern)
 Write-Verbose $result
 return $result.value
 }

@@ -118,7 +118,10 @@ PrivateData = @{
         # IconUri = ''
 
         # ReleaseNotes of this module
-        ReleaseNotes = '06-01-2018 BETA release'
+        ReleaseNotes = '06-01-2018 BETA release
+        06-03-2018 Function for appliance details
+        06-03-2018 Fix in Get-alvmname for message text
+        06-04-2018 Get system info functions'
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
