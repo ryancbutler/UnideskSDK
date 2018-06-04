@@ -1,4 +1,4 @@
-function Get-ALSystemSettings
+function Get-ALSystemSettingInfo
 {
 <#
 .SYNOPSIS
@@ -8,7 +8,7 @@ function Get-ALSystemSettings
 .PARAMETER websession
   Existing Webrequest session for CAL Appliance
 .EXAMPLE
-  Get-ALSystemInfo -websession $websession
+  Get-ALSystemSettingInfo -websession $websession
 #>
 [cmdletbinding()]
 Param(

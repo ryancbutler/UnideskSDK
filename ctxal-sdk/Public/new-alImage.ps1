@@ -63,6 +63,8 @@ $appids|ForEach-Object{
 <long>$_</long>
 "@
 }
+#workaround for script analyzer
+$temp = $temp
 
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">

@@ -237,7 +237,7 @@ Get-ALSystemInfo -websession $websession
 
 #### Get System Settings
 ```
-$settings = get-alsystemsettings -websession $websession
+$settings = get-alsystemsettingInfo -websession $websession
 
 foreach ($setting in $settings)
 {
