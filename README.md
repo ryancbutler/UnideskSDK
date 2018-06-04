@@ -227,3 +227,21 @@ $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
 $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
+
+### System Info
+
+#### Get System Information (Version)
+```
+Get-ALSystemInfo -websession $websession
+```
+
+#### Get System Settings
+```
+$settings = get-alsystemsettings -websession $websession
+
+foreach ($setting in $settings)
+{
+write-host "Name: $($setting.name)"
+write-host "Value: $($setting.value.'#text')"
+} 
+```
