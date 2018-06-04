@@ -1,4 +1,4 @@
-﻿function Add-ALAppAssignment
+function Add-ALAppAssignment
 {
 <#
 .SYNOPSIS
@@ -78,4 +78,3 @@ Write-Verbose "END: $($MyInvocation.MyCommand)"
 }
 
 }
-

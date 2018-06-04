@@ -1,4 +1,4 @@
-﻿function Add-ALELAppassignment
+function Add-ALELAppassignment
 {
 <#
 .SYNOPSIS
@@ -88,4 +88,3 @@ if ($PSCmdlet.ShouldProcess("Output for application add"))
 }
 
 }
-
