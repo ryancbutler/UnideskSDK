@@ -93,6 +93,107 @@ REMARKS
     For technical information, type: "get-help Get-ALapplayerDetail -full".
 
 
+Get-ALAuditInfo
+-------------------------
+
+NAME
+    Get-ALAuditInfo
+    
+SYNOPSIS
+    Gets audit information
+    
+    
+SYNTAX
+    Get-ALAuditInfo [-websession] <Object> [-entitytype] <Object> [[-id] <Object>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets System Settings
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for CAL Appliance
+        
+    -entitytype <Object>
+        Type of log to pull
+        
+    -id <Object>
+        ID of entity to pull audit logs
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALAuditInfo -websession $websession -entitytype OsLayer -id 753664
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>Get-ALAuditInfo -websession $websession -entitytype ManagementAppliance
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALAuditInfo -examples".
+    For more information, type: "get-help Get-ALAuditInfo -detailed".
+    For technical information, type: "get-help Get-ALAuditInfo -full".
+
+
+Get-ALCachePointInfo
+-------------------------
+
+NAME
+    Get-ALCachePointInfo
+    
+SYNOPSIS
+    Gets appliance Layering Service Info
+    
+    
+SYNTAX
+    Get-ALCachePointInfo [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets appliance Layering Service Info
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for CAL Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALCachePointInfo -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALCachePointInfo -examples".
+    For more information, type: "get-help Get-ALCachePointInfo -detailed".
+    For technical information, type: "get-help Get-ALCachePointInfo -full".
+
+
 Get-ALconnector
 -------------------------
 
@@ -637,6 +738,92 @@ REMARKS
     To see the examples, type: "get-help Get-ALStatus -examples".
     For more information, type: "get-help Get-ALStatus -detailed".
     For technical information, type: "get-help Get-ALStatus -full".
+
+
+Get-ALSystemInfo
+-------------------------
+
+NAME
+    Get-ALSystemInfo
+    
+SYNOPSIS
+    Gets appliance System Details
+    
+    
+SYNTAX
+    Get-ALSystemInfo [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets appliance System Details
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for CAL Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALSystemInfo -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALSystemInfo -examples".
+    For more information, type: "get-help Get-ALSystemInfo -detailed".
+    For technical information, type: "get-help Get-ALSystemInfo -full".
+
+
+Get-ALSystemSettingInfo
+-------------------------
+
+NAME
+    Get-ALSystemSettingInfo
+    
+SYNOPSIS
+    Gets appliance System Settings
+    
+    
+SYNTAX
+    Get-ALSystemSettingInfo [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets appliance System Settings
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for CAL Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALSystemSettingInfo -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALSystemSettingInfo -examples".
+    For more information, type: "get-help Get-ALSystemSettingInfo -detailed".
+    For technical information, type: "get-help Get-ALSystemSettingInfo -full".
 
 
 Get-ALVMName
