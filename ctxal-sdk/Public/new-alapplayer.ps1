@@ -125,7 +125,7 @@ if ($PSCmdlet.ShouldProcess("Creating app layer $name"))
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateApplicationLayerResponse.CreateApplicationLayerResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreateApplicationLayerResponse.CreateApplicationLayerResult.WorkTicketId
+    return $obj.Envelope.Body.CreateApplicationLayerResponse.CreateApplicationLayerResult
   }
   }
 }

@@ -107,7 +107,7 @@ $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers 
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult.WorkTicketId
+    return $obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult
   }
   }
 }

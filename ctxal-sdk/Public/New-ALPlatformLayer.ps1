@@ -152,7 +152,7 @@ if ($PSCmdlet.ShouldProcess("Creating platform layer $name")) {
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreatePlatformLayerResponse.CreatePlatformLayerResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreatePlatformLayerResponse.CreatePlatformLayerResult.WorkTicketId
+    return $obj.Envelope.Body.CreatePlatformLayerResponse.CreatePlatformLayerResult
   }
   }
 }

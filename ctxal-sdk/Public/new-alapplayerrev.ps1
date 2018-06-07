@@ -115,7 +115,7 @@ if ($PSCmdlet.ShouldProcess("Creating $apprevid version $version")) {
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult.WorkTicketId
+    return $obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult
   }
 }
 
