@@ -89,14 +89,14 @@ if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
 
-  if($obj.Envelope.Body.CreateImportOs.CreateImportOs.Error)
+  if($obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error)
   {
-    throw $obj.Envelope.Body.CreateImportOs.CreateImportOs.Error.message
+    throw $obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error.message
 
   }
   else {
-    Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateImportOs.CreateImportOs.WorkTicketId)"
-    return $obj.Envelope.Body.CreateImportOs.CreateImportOs.WorkTicketId
+    Write-Verbose "WORKTICKET: $($obj.Envelope.Body.ImportOsResponse.ImportOsResult.WorkTicketId)"
+    return $obj.Envelope.Body.ImportOsResponse.ImportOsResult
   }
   }
 }
