@@ -32,7 +32,7 @@ function New-ALAppLayer
 .PARAMETER icon
   Icon ID (default 196608)
 .EXAMPLE
- $connector = Get-ALconnector -websession $websession -type Create
+ $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
  $fileshare = Get-ALRemoteshare -websession $websession
  $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
  $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
