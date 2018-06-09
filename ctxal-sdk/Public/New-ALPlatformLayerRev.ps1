@@ -124,7 +124,7 @@ $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.WorkTicketId
+    return $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult
   }
   }
 }

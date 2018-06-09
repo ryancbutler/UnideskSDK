@@ -27,7 +27,7 @@ function New-ALAppLayerRev
   Size of layer in GB (default 10240)
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
-  $connector = Get-ALconnector -websession $websession -type Create
+  $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
   $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
   $oss = Get-ALOsLayer -websession $websession
   $osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayerId
@@ -115,7 +115,7 @@ if ($PSCmdlet.ShouldProcess("Creating $apprevid version $version")) {
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult.WorkTicketId
+    return $obj.Envelope.Body.CreateAppLayerRevisionResponse.CreateAppLayerRevisionResult
   }
 }
 

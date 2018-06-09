@@ -27,7 +27,7 @@ function New-ALOsLayerRev
   Size of layer in GB (default 61440)
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
-  $connector = Get-ALconnector -websession $websession -type Create
+  $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
   $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
   $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
   $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
@@ -107,7 +107,7 @@ $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers 
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult.WorkTicketId
+    return $obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult
   }
   }
 }
