@@ -30,7 +30,7 @@ disconnect-alsession -websession $websession
 ## Finalize Layer
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 $apprevs = get-alapplayerdetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finalizable"}|Sort-Object revision -Descending|select -First 1
@@ -43,7 +43,7 @@ invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -Layer
 **CURRENTLY ONLY WORKS WITH VSPHERE**
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $shares = get-alremoteshare -websession $websession
 #vCenter Command
 $vm = Get-VM "Windows2016VM"
@@ -53,7 +53,7 @@ $response = import-aloslayer -websession $websession -vmname $vm.name -connector
 ### New Operating System Layer Version
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
@@ -61,7 +61,7 @@ $myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid 
 
 #Keep checking for change in task
 do{
-$status = get-alstatus -websession $websession|where{$_.id -eq $myosrev}
+$status = get-alstatus -websession $websession|where{$_.id -eq $myosrev.WorkTicketId}
 Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
 #use function to extractt VM NAME from status message
@@ -72,7 +72,7 @@ get-alvmname -message $status.WorkItems.WorkItemResult.Status
 
 ### New Application Layer
 ```
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $fileshare = Get-ALRemoteshare -websession $websession
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
@@ -82,7 +82,7 @@ new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -de
 ### New Application Layer Version
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 $oss = Get-ALOsLayer -websession $websession
 $osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayerId
@@ -103,7 +103,7 @@ Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $a
 ### New Platform Layer
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
@@ -112,7 +112,7 @@ New-ALPlatformLayer -websession $websession -osrevid $osrevid.Id -name "Citrix X
 ### New Platform Layer Version
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
@@ -142,7 +142,7 @@ New-ALPlatformLayerRev @params
 ### Create New Image
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
@@ -165,7 +165,7 @@ new-alimage -websession $websession -name "Windows 10 Accounting" -description "
 
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
