@@ -68,7 +68,7 @@ PARAMETERS
     
     PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
     
-    $connector = Get-ALconnector -websession $websession -type Create
+    $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
     $shares = get-alremoteshare -websession $websession
     #vCenter Command
     $vm = Get-VM "Windows2016VM"

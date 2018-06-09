@@ -136,7 +136,7 @@ PARAMETERS
     
     PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
     
-    $connector = Get-ALconnector -websession $websession -type Create
+    $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
     $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
     $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
     $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
