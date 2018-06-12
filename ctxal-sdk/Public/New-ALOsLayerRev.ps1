@@ -96,8 +96,9 @@ SOAPAction = "http://www.unidesk.com/CreateOsLayerRevision";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+if ($PSCmdlet.ShouldProcess("Creating OS version $version from $osrevid")) {
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  if ($PSCmdlet.ShouldProcess("Creating OS version $version from $osrevid")) {
+  
   [xml]$obj = $return.Content
 
   if($obj.Envelope.Body.CreateOsLayerRevisionResponse.CreateOsLayerRevisionResult.Error)
