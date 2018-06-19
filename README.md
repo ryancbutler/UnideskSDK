@@ -34,7 +34,7 @@ $connector = Get-ALconnector -websession $websession -type Create|where{$_.name 
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 $apprevs = get-alapplayerdetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finalizable"}|Sort-Object revision -Descending|select -First 1
-$disklocation = get-allayerinstalldisk -websession $websession -layerid $apprevid.LayerId
+$disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
 ## Operating System Layers
