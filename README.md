@@ -139,6 +139,14 @@ New-ALPlatformLayerRev @params
 
 ## Images
 
+### Get Image Composition
+```
+$image = Get-ALImageComp -websession $websession -name "Windows 10 Accounting"
+$image.OSLayer
+$image.PlatformLayer
+$image.AppLayer
+```
+
 ### Create New Image
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
