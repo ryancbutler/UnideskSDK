@@ -123,7 +123,8 @@ PrivateData = @{
 06-03-2018 Function for appliance details
 06-03-2018 Fix in Get-alvmname for message text
 06-04-2018 Get system info functions
-06-09-2018 Better response output and clarify examples'
+06-09-2018 Better response output and clarify examples
+06-20-2018 Get-ALImageComp function add'
 
         # External dependent modules of this module
         # ExternalModuleDependencies = ''
