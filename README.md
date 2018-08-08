@@ -1,5 +1,5 @@
 # Citrix App Layering PowerShell SDK (BETA)
-This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version ** >= 4.11**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
+This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
 
 Tested with PVS and vCenter connectors only.  All other connectors may fail depending on command.
 # Usage
