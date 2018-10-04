@@ -283,6 +283,82 @@ REMARKS
     For technical information, type: "get-help Get-ALimage -full".
 
 
+Get-ALImageComp
+-------------------------
+
+NAME
+    Get-ALImageComp
+    
+SYNOPSIS
+    Gets image composition details
+    
+    
+SYNTAX
+    Get-ALImageComp [-websession] <Object> [[-id] <String>] [[-name] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets image composition details
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for CAL Appliance
+        
+    -id <String>
+        Image(template) id
+        
+    -name <String>
+        Image name (supports wildcard)
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Gets all images and layer composition
+    
+    Get-ALImageComp -websession $websession
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>Gets image and layer composition based on ID
+    
+    Get-ALImageComp -websession $websession -id 5535
+    
+    
+    
+    
+    -------------------------- EXAMPLE 3 --------------------------
+    
+    PS C:\>Gets image and layer composition based on name
+    
+    Get-ALImageComp -websession $websession -name "Windows 10"
+    
+    
+    
+    
+    -------------------------- EXAMPLE 4 --------------------------
+    
+    PS C:\>Gets image and layer composition based on name (wildcard)
+    
+    Get-ALImageComp -websession $websession -name "*10*"
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALImageComp -examples".
+    For more information, type: "get-help Get-ALImageComp -detailed".
+    For technical information, type: "get-help Get-ALImageComp -full".
+
+
 Get-ALimageDetail
 -------------------------
 
