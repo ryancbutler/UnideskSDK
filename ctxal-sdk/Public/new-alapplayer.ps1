@@ -90,7 +90,7 @@ $plat = @"
           <IconId>$icon</IconId>
         </LayerInfo>
         <RevisionInfo>
-          <Name>1</Name>
+          <Name>$version</Name>
           <Description>$revdescription</Description>
           <LayerSizeMiB>$size</LayerSizeMiB>
         </RevisionInfo>
