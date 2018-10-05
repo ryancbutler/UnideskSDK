@@ -37,6 +37,12 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finali
 $disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
+## Cancel Task
+Locate ID of Task `Get-ALStatus -websession $websession`
+```
+Stop-ALWorkTicket -id 123456 -websession $websession
+```
+
 ## Operating System Layers
 
 ### Import Operating System
