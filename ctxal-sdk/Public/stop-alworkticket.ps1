@@ -42,8 +42,7 @@ UNIDESK_TOKEN = $websession.token;
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 if ($PSCmdlet.ShouldProcess("Remove Work ID $id")) 
 {
-    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-    return $id
+    Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession|Out-Null
 }
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
