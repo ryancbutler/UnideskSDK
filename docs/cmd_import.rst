@@ -16,7 +16,7 @@ SYNOPSIS
     
 SYNTAX
     Import-ALOsLayer [-websession] <Object> [-vmname] <Object> [[-description] <Object>] [-connectorid] <Object> [-shareid] <Object> [[-icon] <Object>] [-name] <Object> [[-size] <Object>] [-version] <Object> [-vmid] <Object> 
-    [-WhatIf] [-Confirm] [<CommonParameters>]
+    [-hypervisor] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -52,7 +52,10 @@ PARAMETERS
         Version number of the layer
         
     -vmid <Object>
-        Virtual Machine ID from vCenter
+        Virtual Machine ID from vCenter or GUID XenCenter
+        
+    -hypervisor <String[]>
+        Hypversior to import from (ESXI or XenServer)
         
     -WhatIf [<SwitchParameter>]
         
@@ -73,7 +76,20 @@ PARAMETERS
     #vCenter Command
     $vm = Get-VM "Windows2016VM"
     $vmid = $vm.Id -replace "VirtualMachine-",""
-    $response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid
+    $response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid -hypervisor esxi
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
+    
+    $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYXenCenter"}
+    $shares = get-alremoteshare -websession $websession
+    #Xen Command
+    $XenVM = get-xenvm -name $VMName
+    $response = import-aloslayer -websession $websession -vmname $vmname -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $XenVM.uuid -hypervisor xenserver
     
     
     
