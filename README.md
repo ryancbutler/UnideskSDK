@@ -47,7 +47,9 @@ Stop-ALWorkTicket -id 123456 -websession $websession
 ## Operating System Layers
 
 ### Import Operating System
-**CURRENTLY ONLY WORKS WITH VSPHERE**
+**CURRENTLY ONLY WORKS WITH VSPHERE AND XENSERVER**
+
+#### vCenter
 ```
 $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -55,7 +57,17 @@ $shares = get-alremoteshare -websession $websession
 #vCenter Command
 $vm = Get-VM "Windows2016VM"
 $vmid = $vm.Id -replace "VirtualMachine-",""
-$response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid
+$response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid -hypervisor esxi
+```
+#### Citrix Hypervisor (XenServer)
+Thanks Dan Feller!
+```
+$fileshare = Get-ALRemoteshare -websession $websession
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
+$shares = get-alremoteshare -websession $websession
+#Xen Command
+$XenVM = get-xenvm -name $VMName
+$response = import-aloslayer -websession $websession -vmname $vmname -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $XenVM.uuid -hypervisor xenserver
 ```
 ### New Operating System Layer Version
 ```

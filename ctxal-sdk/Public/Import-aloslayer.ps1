@@ -24,7 +24,9 @@ function Import-ALOsLayer
 .PARAMETER version
   Version number of the layer
 .PARAMETER vmid
-  Virtual Machine ID from vCenter
+  Virtual Machine ID from vCenter or GUID XenCenter
+.PARAMETER hypervisor
+  Hypversior to import from (ESXI or XenServer)
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
   $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -32,7 +34,14 @@ function Import-ALOsLayer
   #vCenter Command
   $vm = Get-VM "Windows2016VM"
   $vmid = $vm.Id -replace "VirtualMachine-",""
-  $response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid
+  $response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid -hypervisor esxi
+.EXAMPLE
+  $fileshare = Get-ALRemoteshare -websession $websession
+  $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYXenCenter"}
+  $shares = get-alremoteshare -websession $websession
+  #Xen Command
+  $XenVM = get-xenvm -name $VMName
+  $response = import-aloslayer -websession $websession -vmname $vmname -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $XenVM.uuid -hypervisor xenserver
 #>
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
@@ -45,13 +54,30 @@ Param(
 [Parameter(Mandatory=$true)]$name,
 [Parameter(Mandatory=$false)]$size="61440",
 [Parameter(Mandatory=$true)]$version,
-[Parameter(Mandatory=$true)]$vmid
+[Parameter(Mandatory=$true)]$vmid,
+[Parameter(Mandatory=$true)][ValidateSet('esxi','xenserver')][string[]]$hypervisor
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
   Test-ALWebsession -WebSession $websession
 }
 Process {
+
+switch ($hypervisor)
+{
+"esxi" {
+$platformdata =  @"
+<PlatformData>{"VmId":{"attributes":{"type":"VirtualMachine"},"`$value":"$vmid"},"VmName":"$vmname"}</PlatformData>
+"@   
+  }
+
+"xenserver" {
+$platformdata = @"
+<PlatformData>{"vmUuid":"$vmid","vmName":"$vmname","osImport":true}</PlatformData>
+"@ 
+}
+}
+
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -60,7 +86,7 @@ Process {
         <SelectedFileShare>$shareid</SelectedFileShare>
         <PlatformConnectorConfigId>$connectorid</PlatformConnectorConfigId>
         <PlatformAuditInfo>OS Machine Name: $vmname</PlatformAuditInfo>
-        <PlatformData>{"VmId":{"attributes":{"type":"VirtualMachine"},"`$value":"$vmid"},"VmName":"$vmname"}</PlatformData>
+        $platformdata
         <LayerInfo>
           <Name>$name</Name>
           <Description>$description</Description>
@@ -79,6 +105,7 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
+
 $headers = @{
 SOAPAction = "http://www.unidesk.com/ImportOs";
 "Content-Type" = "text/xml; charset=utf-8";
@@ -97,6 +124,7 @@ if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) {
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.ImportOsResponse.ImportOsResult.WorkTicketId)"
     return $obj.Envelope.Body.ImportOsResponse.ImportOsResult
+
   }
   }
 }
