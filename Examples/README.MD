@@ -1,0 +1,1 @@
+Check out https://www.techdrabble.com/citrix/app-layering/34-automating-app-and-os-layers for usage
