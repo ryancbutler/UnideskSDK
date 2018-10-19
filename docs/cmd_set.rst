@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -id <String>
         ID of the applayer to edit
@@ -90,7 +90,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -id <Object>
         ID of image

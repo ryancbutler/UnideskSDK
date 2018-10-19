@@ -6,7 +6,7 @@ function Get-ALOsLayer
 .DESCRIPTION
   Gets all OS layers
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   Get-ALOsLayer -websession $websession
 #>

@@ -6,7 +6,7 @@ function Get-ALPlatformLayerDetail
 .DESCRIPTION
   Gets detailed information on a platform layer including revisions
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   Platform layer ID
 .EXAMPLE

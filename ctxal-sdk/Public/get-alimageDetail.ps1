@@ -6,7 +6,7 @@ function Get-ALimageDetail
 .DESCRIPTION
   Gets additional image(template) detail
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   Image(template) id
 .EXAMPLE

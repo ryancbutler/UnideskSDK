@@ -6,7 +6,7 @@ function Get-ALPlatformlayer
 .DESCRIPTION
   Gets all platform layers
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   Get-ALPlatformlayer -websession $websession
 #>

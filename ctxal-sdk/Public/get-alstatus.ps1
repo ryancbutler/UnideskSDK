@@ -6,7 +6,7 @@ function Get-ALStatus
 .DESCRIPTION
   Gets any non-completed task currently running on appliance
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   Get-ALStatus -websession $websession
 #>

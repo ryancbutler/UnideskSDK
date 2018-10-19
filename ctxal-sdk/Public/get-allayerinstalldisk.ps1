@@ -6,7 +6,7 @@ function Get-ALLayerInstallDisk
 .DESCRIPTION
   Gets install disk location during finalize process
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   Layer ID to be located
 .EXAMPLE

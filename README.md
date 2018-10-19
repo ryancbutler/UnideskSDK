@@ -264,11 +264,5 @@ Get-ALSystemInfo -websession $websession
 
 #### Get System Settings
 ```
-$settings = get-alsystemsettingInfo -websession $websession
-
-foreach ($setting in $settings)
-{
-write-host "Name: $($setting.name)"
-write-host "Value: $($setting.value.'#text')"
-} 
+get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty value -Property @{Name="SettingName"; Expression = {$_.Name}}
 ```

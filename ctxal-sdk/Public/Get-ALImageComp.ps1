@@ -6,7 +6,7 @@ function Get-ALImageComp
 .DESCRIPTION
   Gets image composition details
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   Image(template) id
 .PARAMETER name
@@ -64,6 +64,7 @@ Process {
     ImageId =  $image.Imageid
     Name = $image.Name
     Type = $image.Type
+    Description = $imagedetail.Description
     DateCreated = $image.DateCreated
     DateLastModified = $image.DateLastModified 
     IsPublishable = $image.IsPublishable
@@ -71,6 +72,9 @@ Process {
     PlatformConnectorName = $image.PlatformConnectorName
     PlatformConnectorConfigId = $image.PlatformConnectorConfigId
     PlatformConnectorConfigName = $image.PlatformConnectorConfigName
+    SysprepType = $imagedetail.SysprepType
+    ElasticLayerMode = $imagedetail.ElasticLayerMode
+    SizeMB = $imagedetail.LayeredImagePartitionSizeMiB
     }
 
     #Operating System

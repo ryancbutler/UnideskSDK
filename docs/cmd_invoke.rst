@@ -36,7 +36,7 @@ PARAMETERS
         Filename of the disk
         
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -WhatIf [<SwitchParameter>]
         
@@ -87,7 +87,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -imageid <Object>
         Image ID to be published

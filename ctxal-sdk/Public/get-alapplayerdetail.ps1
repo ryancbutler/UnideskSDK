@@ -6,7 +6,7 @@ function Get-ALapplayerDetail
 .DESCRIPTION
   Gets detailed information on Application Layer including revisions(versions)
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   Application layer ID
 .EXAMPLE

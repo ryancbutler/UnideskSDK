@@ -6,7 +6,7 @@ function New-ALPlatformLayerRev
 .DESCRIPTION
   Creates new platform layer version
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER osrevid
   OS version layer id to use
 .PARAMETER connectorid

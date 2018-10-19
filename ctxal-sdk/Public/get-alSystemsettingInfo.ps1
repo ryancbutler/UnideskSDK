@@ -6,7 +6,7 @@ function Get-ALSystemSettingInfo
 .DESCRIPTION
   Gets appliance System Settings
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   Get-ALSystemSettingInfo -websession $websession
 #>

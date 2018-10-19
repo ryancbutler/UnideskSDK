@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -applayerid <String>
         
@@ -79,7 +79,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -applayerid <String>
         
@@ -144,7 +144,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -id <Object>
         ID of image to remove

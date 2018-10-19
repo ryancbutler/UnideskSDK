@@ -6,7 +6,7 @@ function Stop-ALWorkTicket
 .DESCRIPTION
   Stops or cancels a running layer operation process
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   Stop-ALWorkTicket -websession $websession
 #>

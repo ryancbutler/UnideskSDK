@@ -6,7 +6,7 @@ function New-ALImage
 .DESCRIPTION
   Creates new image(template)
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER name
   Name of the layer
 .PARAMETER description

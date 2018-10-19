@@ -6,7 +6,7 @@ function Remove-ALELAppassignment
 .DESCRIPTION
   Removes a user account or group to an applications elastic layer assignment 
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER apprevid
   Application version layer ID
 .PARAMETER user

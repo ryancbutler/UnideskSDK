@@ -6,7 +6,7 @@ function New-ALAppLayer
 .DESCRIPTION
   Creates a new application layer
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER version
   Version of the layer
 .PARAMETER name

@@ -25,7 +25,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -version <Object>
         Version of the layer
@@ -114,7 +114,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -version <Object>
         Version of the revision
@@ -201,7 +201,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -name <Object>
         Name of the layer
@@ -287,7 +287,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -version <Object>
         Version of the new layer
@@ -366,7 +366,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -osrevid <Object>
         OS version layer id to use
@@ -456,7 +456,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for CAL Appliance
+        Existing Webrequest session for ELM  Appliance
         
     -osrevid <Object>
         OS version layer id to use

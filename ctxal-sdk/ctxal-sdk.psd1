@@ -30,7 +30,7 @@ CompanyName = 'TechDrabble.com'
 Copyright = '(c) 2018 Ryan Butler. All rights reserved.'
 
 # Description of the functionality provided by this module
-Description = 'Reversed Engineered Unidesk\App Layering SDK'
+Description = 'Reversed Engineered Unidesk\Citrix App Layering SDK'
 
 # Minimum version of the Windows PowerShell engine required by this module
 PowerShellVersion = '5.0'
@@ -107,7 +107,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        Tags = 'Unidesk','Citrix','AppLayering','CAL'
+        Tags = 'Unidesk','Citrix','AppLayering','CAL','ELM'
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/ryancbutler/UnideskSDK/blob/master/LICENSE'
@@ -124,7 +124,10 @@ PrivateData = @{
 06-03-2018 Fix in Get-alvmname for message text
 06-04-2018 Get system info functions
 06-09-2018 Better response output and clarify examples
-06-20-2018 Get-ALImageComp function add'
+06-20-2018 Get-ALImageComp function add
+10-05-2018 Add stop-alworkticket function
+10-18-2018 Add XenServer OS import option (now vcenter and xenserver)
+10-18-2018 More detail for Get-ALImageComp'
 
         # Prerelease string of this module
         # Prerelease = ''

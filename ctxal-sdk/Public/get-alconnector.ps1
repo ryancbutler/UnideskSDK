@@ -6,7 +6,7 @@ function Get-ALconnector
 .DESCRIPTION
   Gets all appliance connectors currently configured
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER type
   Connector type for publishing or creating layers\images
 .EXAMPLE

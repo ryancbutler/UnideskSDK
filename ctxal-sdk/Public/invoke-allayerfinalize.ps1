@@ -14,7 +14,7 @@ function Invoke-ALLayerFinalize
 .PARAMETER filename
   Filename of the disk
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
   $apprevs = get-alapplayerdetail -websession $websession -id $app.Id

@@ -6,7 +6,7 @@ function Add-ALAppAssignment
 .DESCRIPTION
   Adds a layer(application) assignment to image(template)
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER apprevid
   Application layer version to be added
 .PARAMETER imageid

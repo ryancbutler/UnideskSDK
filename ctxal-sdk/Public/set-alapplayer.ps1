@@ -6,7 +6,7 @@ function Set-ALApplayer
 .DESCRIPTION
   Edits values of an application layer
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER id
   ID of the applayer to edit
 .PARAMETER name

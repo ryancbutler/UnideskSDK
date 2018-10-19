@@ -8,7 +8,7 @@ function Invoke-ALPublish
 .PARAMETER imageid
   Image ID to be published
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .EXAMPLE
   $images = Get-ALimage -websession $websession|where{$_.name -eq "Win 10 Accounting"}
   $image = get-alimagedetail -websession $websession -id $images.Id

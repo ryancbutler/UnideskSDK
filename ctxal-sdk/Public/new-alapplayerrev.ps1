@@ -6,7 +6,7 @@ function New-ALAppLayerRev
 .DESCRIPTION
   Creates a new layer version
 .PARAMETER websession
-  Existing Webrequest session for CAL Appliance
+  Existing Webrequest session for ELM  Appliance
 .PARAMETER version
   Version of the revision
 .PARAMETER name
