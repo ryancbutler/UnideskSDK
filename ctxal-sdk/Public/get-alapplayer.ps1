@@ -6,7 +6,7 @@ function Get-ALapplayer
 .DESCRIPTION
   Gets all application layers
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .EXAMPLE
   Get-ALapplayer -websession $websession
 #>

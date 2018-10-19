@@ -6,7 +6,7 @@ function Get-ALImageComp
 .DESCRIPTION
   Gets image composition details
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER id
   Image(template) id
 .PARAMETER name

@@ -6,7 +6,7 @@ function Remove-ALImage
 .DESCRIPTION
   Removes image(template)
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER id
   ID of image to remove
 .EXAMPLE

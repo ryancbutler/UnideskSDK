@@ -6,7 +6,7 @@ function Get-ALCachePointInfo
 .DESCRIPTION
   Gets appliance Layering Service Info
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .EXAMPLE
   Get-ALCachePointInfo -websession $websession
 #>

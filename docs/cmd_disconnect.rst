@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,

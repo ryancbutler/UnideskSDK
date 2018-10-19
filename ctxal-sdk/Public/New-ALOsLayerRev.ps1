@@ -6,7 +6,7 @@ function New-ALOsLayerRev
 .DESCRIPTION
   Creates new OS layer version
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER version
   Version of the new layer
 .PARAMETER description

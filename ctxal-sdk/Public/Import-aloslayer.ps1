@@ -6,7 +6,7 @@ function Import-ALOsLayer
 .DESCRIPTION
   Creates a new operating system layer
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER vmname
   Virtual machine name to import from
 .PARAMETER description

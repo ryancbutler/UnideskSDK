@@ -6,7 +6,7 @@ function Get-ALAuditInfo
 .DESCRIPTION
   Gets System Settings
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER entitytype
   Type of log to pull
 .PARAMETER ID

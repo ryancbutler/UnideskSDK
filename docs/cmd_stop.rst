@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         

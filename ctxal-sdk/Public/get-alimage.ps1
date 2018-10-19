@@ -6,7 +6,7 @@ function Get-ALimage
 .DESCRIPTION
   Gets all images(templates)
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .EXAMPLE
   Get-ALimage -websession $websession
 #>

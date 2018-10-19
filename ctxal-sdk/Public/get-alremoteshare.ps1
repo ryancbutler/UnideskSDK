@@ -6,7 +6,7 @@ function Get-ALRemoteshare
 .DESCRIPTION
   Gets CIFS share information currently configured 
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .EXAMPLE
   Get-ALRemoteshare -websession $websession
 #>

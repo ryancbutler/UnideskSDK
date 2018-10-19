@@ -6,7 +6,7 @@ function Add-ALELAppassignment
 .DESCRIPTION
   Adds a user account or group to an applications elastic layer assignment
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER apprevid
   Application version layer ID
 .PARAMETER user

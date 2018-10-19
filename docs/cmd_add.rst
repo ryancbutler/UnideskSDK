@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -apprevid <String>
         Application layer version to be added
@@ -80,7 +80,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -apprevid <String>
         Application version layer ID

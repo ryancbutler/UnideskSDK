@@ -6,7 +6,7 @@ function Set-ALImage
 .DESCRIPTION
   Edits values of a image(template)
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER id
   ID of image
 .PARAMETER name

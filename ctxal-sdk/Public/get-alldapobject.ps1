@@ -6,7 +6,7 @@ function Get-ALLdapObject
 .DESCRIPTION
   Locates LDAP user or group object
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER object
   Group or user to be located
 .EXAMPLE

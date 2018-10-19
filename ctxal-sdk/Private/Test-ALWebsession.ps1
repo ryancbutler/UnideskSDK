@@ -6,7 +6,7 @@ function Test-ALWebsession
 .DESCRIPTION
     Tests for valid web request session
 .PARAMETER websession
-    Existing Webrequest session for ELM  Appliance
+    Existing Webrequest session for ELM Appliance
 .EXAMPLE
    Test-ALWebsession -websession $websession
 #>

@@ -6,7 +6,7 @@ function Remove-ALAppassignment
 .DESCRIPTION
   Removes a layer(application) assignment to image(template)
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .PARAMETER apprevid
   Application layer version to be removed
 .PARAMETER imageid

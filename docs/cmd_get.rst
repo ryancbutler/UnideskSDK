@@ -24,7 +24,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -67,7 +67,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         Application layer ID
@@ -113,7 +113,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -entitytype <Object>
         Type of log to pull
@@ -171,7 +171,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -214,7 +214,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -type <Object>
         Connector type for publishing or creating layers\images
@@ -260,7 +260,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -303,7 +303,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         Image(template) id
@@ -379,7 +379,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         Image(template) id
@@ -425,7 +425,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <Object>
         Layer ID to be located
@@ -471,7 +471,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -object <String>
         Group or user to be located
@@ -526,7 +526,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -569,7 +569,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         Operating System Layer ID
@@ -615,7 +615,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         workticket id
@@ -661,7 +661,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -704,7 +704,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     -id <String>
         Platform layer ID
@@ -750,7 +750,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -793,7 +793,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -836,7 +836,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -879,7 +879,7 @@ DESCRIPTION
 
 PARAMETERS
     -websession <Object>
-        Existing Webrequest session for ELM  Appliance
+        Existing Webrequest session for ELM Appliance
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,

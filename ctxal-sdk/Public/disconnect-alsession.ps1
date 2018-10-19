@@ -6,7 +6,7 @@ function Disconnect-ALsession
 .DESCRIPTION
   Logs off and disconnects web session
 .PARAMETER websession
-  Existing Webrequest session for ELM  Appliance
+  Existing Webrequest session for ELM Appliance
 .EXAMPLE
   Disconnect-ALsession -websession $websession
 #>
