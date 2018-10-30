@@ -12,7 +12,7 @@ function new-ALicon
 .EXAMPLE
   Upload-ALicon -websession $websession -iconfilename "d:\mysweeticon.png"
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(    
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)]$iconfile
@@ -53,10 +53,12 @@ SOAPAction = "http://www.unidesk.com/CreateIcon";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
 
-return $obj.Envelope.Body.CreateIconResponse.CreateIconResult.IconId
+if ($PSCmdlet.ShouldProcess("Will create new ICON from $iconfile")) {
+  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+  [xml]$obj = $return.Content
+  return $obj.Envelope.Body.CreateIconResponse.CreateIconResult.IconId
+}
 
 }
 
