@@ -12,7 +12,6 @@ function Connect-ALsession
 #>
 [cmdletbinding()]
 Param(
-[Parameter(Mandatory=$false)][string]$username="administrator",
 [parameter(Mandatory=$true)][pscredential]$Credential,
 [Parameter(Mandatory=$true)][string]$aplip
 )

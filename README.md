@@ -254,6 +254,17 @@ $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
 $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
+### ICONS
+
+### Export all icons (save as png)
+```
+$icons = Get-ALicon -websession $websession
+
+foreach($icon in $icons)
+{
+    Invoke-WebRequest -uri $($icon.url) -OutFile ("D:\Temp\icons\" + $($icon.iconid)+".png")
+}
+```
 
 ### System Info
 
