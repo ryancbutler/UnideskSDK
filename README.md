@@ -262,8 +262,19 @@ $icons = Get-ALicon -websession $websession
 
 foreach($icon in $icons)
 {
+    #No authentication needed to grab image
     Invoke-WebRequest -uri $($icon.url) -OutFile ("D:\Temp\icons\" + $($icon.iconid)+".png")
 }
+```
+
+### Create new icon
+```
+$iconfile = "D:\Temp\icons\myiconpic.png"
+$temp = new-alicon -WebSession $websession -iconfile $iconfile -Verbose
+```
+### Remove icon
+```
+Remove-ALicon -websession $websession -iconid "4259840"
 ```
 
 ### System Info
