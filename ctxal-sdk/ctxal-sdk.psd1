@@ -128,7 +128,7 @@ PrivateData = @{
 10-05-2018 Add stop-alworkticket function
 10-18-2018 Add XenServer OS import option (now vcenter and xenserver)
 10-18-2018 More detail for Get-ALImageComp
-10-30-2018 Added functionality to export\view icons
+10-30-2018 Added functionality to export, view, create and remove icons
 '
 
         # Prerelease string of this module
