@@ -1,10 +1,53 @@
+- [Citrix App Layering PowerShell SDK (BETA)](#citrix-app-layering-powershell-sdk--beta-)
+  * [Install and Update](#install-and-update)
+    + [Install Manually](#install-manually)
+    + [Install PSGallery](#install-psgallery)
+    + [Update PSGallery](#update-psgallery)
+  * [Connect and Disconnect](#connect-and-disconnect)
+    + [Connect](#connect)
+    + [Disconnect](#disconnect)
+  * [Finalize Layer](#finalize-layer)
+  * [Cancel Task](#cancel-task)
+  * [Operating System Layers](#operating-system-layers)
+    + [Import Operating System](#import-operating-system)
+      - [vCenter](#vcenter)
+      - [Citrix Hypervisor (XenServer)](#citrix-hypervisor--xenserver-)
+    + [New Operating System Layer Version](#new-operating-system-layer-version)
+  * [Application Layers](#application-layers)
+    + [New Application Layer](#new-application-layer)
+    + [New Application Layer Version](#new-application-layer-version)
+    + [Set Application Layer](#set-application-layer)
+  * [Platform Layers](#platform-layers)
+    + [New Platform Layer](#new-platform-layer)
+    + [New Platform Layer Version](#new-platform-layer-version)
+  * [Images](#images)
+    + [Get Image Composition](#get-image-composition)
+    + [Create New Image](#create-new-image)
+    + [Edit Image](#edit-image)
+    + [Remove Image](#remove-image)
+    + [Publish Image](#publish-image)
+  * [Application Assignments](#application-assignments)
+    + [Add app layers to an image](#add-app-layers-to-an-image)
+    + [Remove app layers from an image](#remove-app-layers-from-an-image)
+    + [Add user\group to Elastic Layers](#add-user-group-to-elastic-layers)
+    + [Remove user\group from Elastic Layers](#remove-user-group-from-elastic-layers)
+  * [Icons](#icons)
+    + [Get icon ids](#Get-icon-ids)
+    + [Export all icons (save as png)](#export-all-icons--save-as-png-)
+    + [Get icon associations](#get-icon-associations)
+    + [Create new icon](#create-new-icon)
+    + [Remove icon](#remove-icon)
+  * [System Info](#system-info)
+    + [Get System Information (Version)](#get-system-information--version-)
+    + [Get System Settings](#get-system-settings)
+
 # Citrix App Layering PowerShell SDK (BETA)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/ty6dlw382m8fimdq/branch/master?retina=true)](https://ci.appveyor.com/project/ryancbutler/unidesksdk/branch/master)
 
 This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
 
-## Usage
+## Install and Update
 
 ### Install Manually
 
@@ -26,9 +69,9 @@ Find-Module -name ctxal-sdk
 Update-Module -Name ctxal-sdk
 ```
 
-### Connect and Disconnect
+## Connect and Disconnect
 
-#### Connect
+### Connect
 
 ```powershell
 $aplip = "192.168.1.5"
@@ -39,13 +82,13 @@ $Credential = New-Object System.Management.Automation.PSCredential ($Username, $
 $websession = Connect-alsession -aplip $aplip -Credential $Credential -Verbose
 ```
 
-#### Disconnect
+### Disconnect
 
 ```powershell
 disconnect-alsession -websession $websession
 ```
 
-### Finalize Layer
+## Finalize Layer
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -57,18 +100,18 @@ $disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.Lay
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
 
-### Cancel Task
+## Cancel Task
 Locate ID of Task `Get-ALStatus -websession $websession`
 
 ```powershell
 Stop-ALWorkTicket -id 123456 -websession $websession
 ```
 
-### Operating System Layers
+## Operating System Layers
 
-#### Import Operating System
+### Import Operating System
 
-##### vCenter
+#### vCenter
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -80,7 +123,7 @@ $vmid = $vm.Id -replace "VirtualMachine-",""
 $response = import-aloslayer -websession $websession -vmname $vm.name -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $vmid -hypervisor esxi
 ```
 
-##### Citrix Hypervisor (XenServer)
+#### Citrix Hypervisor (XenServer)
 
 Thanks Dan Feller!
 
@@ -93,7 +136,7 @@ $XenVM = get-xenvm -name $VMName
 $response = import-aloslayer -websession $websession -vmname $vmname -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $XenVM.uuid -hypervisor xenserver
 ```
 
-#### New Operating System Layer Version
+### New Operating System Layer Version
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -112,9 +155,9 @@ Start-Sleep -Seconds 5
 get-alvmname -message $status.WorkItems.WorkItemResult.Status
 ```
 
-### Application Layers
+## Application Layers
 
-#### New Application Layer
+### New Application Layer
 
 ```powershell
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -125,7 +168,7 @@ $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployabl
 new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -description "Accounting application" -connectorid $connector.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -OsLayerSwitching BoundToOsLayer -fileshareid $fileshare.id
 ```
 
-#### New Application Layer Version
+### New Application Layer Version
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -139,16 +182,16 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id
 ```
 
-#### Set Application Layer
+### Set Application Layer
 
 ```powershell
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $app.Id -scriptpath "C:\NeededScript.ps1" -OsLayerSwitching BoundToOsLayer
 ```
 
-### Platform Layers
+## Platform Layers
 
-#### New Platform Layer
+### New Platform Layer
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -159,7 +202,7 @@ $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployabl
 New-ALPlatformLayer -websession $websession -osrevid $osrevid.Id -name "Citrix XA VDA 7.18" -connectorid $connector.id -shareid $fileshare.id -diskformat $connector.ValidDiskFormats.DiskFormat -type Create
 ```
 
-#### New Platform Layer Version
+### New Platform Layer Version
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -188,9 +231,9 @@ diskformat = $connector.ValidDiskFormats.DiskFormat;
 New-ALPlatformLayerRev @params
 ```
 
-### Images
+## Images
 
-#### Get Image Composition
+### Get Image Composition
 
 ```powershell
 $image = Get-ALImageComp -websession $websession -name "Windows 10 Accounting"
@@ -199,7 +242,7 @@ $image.PlatformLayer
 $image.AppLayer
 ```
 
-#### Create New Image
+### Create New Image
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -223,7 +266,7 @@ foreach ($app in $apps)
 new-alimage -websession $websession -name "Windows 10 Accounting" -description "Accounting" -connectorid $connector.id -osrevid $osrevid.Id -appids $appids -platrevid $platformrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -ElasticLayerMode Session
 ```
 
-#### Edit Image
+### Edit Image
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
@@ -238,23 +281,23 @@ $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accou
 Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
 ```
 
-#### Remove Image
+### Remove Image
 
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 Remove-ALImage -websession $websession -imageid $image.id
 ```
 
-#### Publish Image
+### Publish Image
 
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting""}
 invoke-alpublish -websession $websession -imageid $image.id
 ```
 
-### Application Assignments
+## Application Assignments
 
-#### Add app layers to an image
+### Add app layers to an image
 
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
@@ -264,7 +307,7 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $image.id
 ```
 
-#### Remove app layers from an image
+### Remove app layers from an image
 
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
@@ -274,7 +317,7 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 remove-alappassignment -websession $websession -applayerid $apprevid.LayerId -imageid $image.id
 ```
 
-#### Add user\group to Elastic Layers
+### Add user\group to Elastic Layers
 
 ```powershell
 $users = @('MyGroup1','MyGroup2','Domain Users')
@@ -285,7 +328,7 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
 
-#### Remove user\group to Elastic Layers
+### Remove user\group from Elastic Layers
 
 ```powershell
 $users = @('MyGroup1','MyGroup2','Domain Users')
@@ -296,9 +339,15 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
 
-### Icons
+## Icons
 
-#### Export all icons (save as png)
+### Get icon ids
+
+```powershell
+Get-ALicon -websession $websession
+```
+
+### Export all icons (save as png)
 
 ```powershell
 $icons = Get-ALicon -websession $websession
@@ -310,34 +359,34 @@ foreach($icon in $icons)
 }
 ```
 
-#### Get icon associations
+### Get icon associations
 
 ```powershell
 Get-ALiconassoc -websession $websession -iconid "196608"
 ```
 
-#### Create new icon
+### Create new icon
 
 ```powershell
 $iconfile = "D:\Temp\icons\myiconpic.png"
 $temp = new-alicon -WebSession $websession -iconfile $iconfile -Verbose
 ```
 
-#### Remove icon
+### Remove icon
 
 ```powershell
 Remove-ALicon -websession $websession -iconid "4259840"
 ```
 
-### System Info
+## System Info
 
-#### Get System Information (Version)
+### Get System Information (Version)
 
 ```powershell
 Get-ALSystemInfo -websession $websession
 ```
 
-#### Get System Settings
+### Get System Settings
 
 ```powershell
 get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty value -Property @{Name="SettingName"; Expression = {$_.Name}}
