@@ -15,7 +15,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Connect-ALsession [[-username] <String>] [-Credential] <PSCredential> [-aplip] <String> [<CommonParameters>]
+    Connect-ALsession [-Credential] <PSCredential> [-aplip] <String> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -23,8 +23,6 @@ DESCRIPTION
     
 
 PARAMETERS
-    -username <String>
-        
     -Credential <PSCredential>
         PowerShell credential object
         
