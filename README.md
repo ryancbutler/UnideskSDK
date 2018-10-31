@@ -19,6 +19,13 @@ Find-Module -name ctxal-sdk
 Install-Module -Name ctxal-sdk -Scope CurrentUser
 ```
 
+### Update PSGallery
+
+```powershell
+Find-Module -name ctxal-sdk
+Update-Module -Name ctxal-sdk
+```
+
 ### Connect and Disconnect
 
 #### Connect
