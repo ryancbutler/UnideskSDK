@@ -129,7 +129,7 @@ Thanks Dan Feller!
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYXenServer"}
 $shares = get-alremoteshare -websession $websession
 #Xen Command
 $XenVM = get-xenvm -name $VMName
