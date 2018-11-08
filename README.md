@@ -37,7 +37,7 @@
     + [Get icon associations](#get-icon-associations)
     + [Create new icon](#create-new-icon)
     + [Remove icon](#remove-icon)
-  * [Export and Import Layers](#export-and-import-Layers)
+  * [Export and Import Layers](#export-and-import-layers)
     + [Export Layers](#export-layers)
     + [Import Layers](#import-layers)
   * [System Info](#system-info)
@@ -388,22 +388,45 @@ Exports all "exportable" layers to fileshare
 
 ```powershell
 $mypath = "\\mynas\layershare\
-Get-ALExportableRevs -websession $websession -sharepath $mypath|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrevs -websession $websession -sharepath $mypath
+Get-ALExportableRev -websession $websession -sharepath $mypath|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrev -websession $websession -sharepath $mypath
 ```
+
+Exports all "exportable" layers to fileshare with authenication. (Press CTRL key to select more than one layer)
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALExportableRev -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrev -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"
+```
+
 Allows user to select which layers to export. (Press CTRL key to select more than one layer)
 
 ```powershell
 $mypath = "\\mynas\layershare\
-Get-ALExportableRevs -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrevs -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"
-```
-Allows user to select which layers to export. (Press CTRL key to select more than one layer)
-
-```powershell
-$mypath = "\\mynas\layershare\
-Get-ALExportableRevs -websession $websession -sharepath $mypath|Out-gridview -PassThru|Export-ALlayerrevs -websession $websession -sharepath $mypath
+Get-ALExportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Export-ALlayerrev -websession $websession -sharepath $mypath
 ```
 
 ### Import Layers
+
+Imports all "importable" layers to fileshare
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALImportableRev -websession $websession -sharepath $mypath|Where-Object{$_.ExistsInDestination -eq $false}|Import-ALlayerrev -websession $websession -sharepath $mypath
+```
+
+Imports all "importable" layers to fileshare with authenication. (Press CTRL key to select more than one layer)
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALImportableRev -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"|Where-Object{$_.ExistsInDestination -eq $false}|Import-ALlayerrev -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"
+```
+
+Allows user to select which layers to import. (Press CTRL key to select more than one layer)
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Import-ALlayerrev -websession $websession -sharepath $mypath
+```
 
 ## System Info
 

@@ -1,4 +1,4 @@
-function Export-ALLayerRevs
+function Export-ALLayerRev
 {
 <#
 .SYNOPSIS
@@ -16,7 +16,7 @@ function Export-ALLayerRevs
 .PARAMETER sharepw
   Share password
 .EXAMPLE
-  Export-ALlayerrevs -websession $websession -sharepath "\\myserver\path\layers" -revid @(12042,225252,2412412)
+  Export-ALlayerrev -websession $websession -sharepath "\\myserver\path\layers" -id @(12042,225252,2412412)
 #>
 [cmdletbinding()]
 Param(

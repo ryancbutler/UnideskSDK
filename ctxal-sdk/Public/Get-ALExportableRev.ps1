@@ -1,10 +1,10 @@
-function Get-ALImportableRevs
+function Get-ALExportableRev
 {
 <#
 .SYNOPSIS
-  Gets revisions that can be used to import
+  Gets revisions that can be used to export to share
 .DESCRIPTION
-  Gets revisions that can be used to import
+  Gets revisions that can be used to export to share
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .PARAMETER sharepath
@@ -14,7 +14,7 @@ function Get-ALImportableRevs
 .PARAMETER sharepw
   Share password
 .EXAMPLE
-  Get-ALImportableRevs -websession $websession -sharepath "\\myserver\path\layers"
+  Get-ALExportableRev -websession $websession -sharepath "\\myserver\path\layers"
 #>
 [cmdletbinding()]
 Param(
@@ -36,7 +36,7 @@ test-alremotefileshare -websession $websession -sharepath $sharepath -username $
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <QueryImportableRevisions xmlns="http://www.unidesk.com/">
+    <QueryExportableRevisions xmlns="http://www.unidesk.com/">
       <query>
         <Share>
           <ShareId xsi:nil="true"/>
@@ -45,7 +45,7 @@ test-alremotefileshare -websession $websession -sharepath $sharepath -username $
           <Password>$sharepw</Password>
         </Share>
       </query>
-    </QueryImportableRevisions>
+    </QueryExportableRevisions>
   </s:Body>
 </s:Envelope>
 "@
@@ -56,14 +56,14 @@ test-alremotefileshare -websession $websession -sharepath $sharepath
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <QueryImportableRevisions xmlns="http://www.unidesk.com/">
+    <QueryExportableRevisions xmlns="http://www.unidesk.com/">
       <query>
         <Share>
           <ShareId xsi:nil="true"/>
           <SharePath>$sharepath</SharePath>
         </Share>
       </query>
-    </QueryImportableRevisions>
+    </QueryExportableRevisions>
   </s:Body>
 </s:Envelope>
 "@ 
@@ -71,16 +71,16 @@ test-alremotefileshare -websession $websession -sharepath $sharepath
 
 
 $headers = @{
-SOAPAction = "http://www.unidesk.com/QueryImportableRevisions";
+SOAPAction = "http://www.unidesk.com/QueryExportableRevisions";
 "Content-Type" = "text/xml; charset=utf-8";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
 [xml]$obj = $return.Content
-#return $obj
+
 $output = @()
-foreach ($oslayer in $obj.Envelope.Body.QueryImportableRevisionsResponse.QueryImportableRevisionsResult.ImportableLayerHierarchy.OsLayers.PortableOsLayer)
+foreach ($oslayer in $obj.Envelope.Body.QueryExportableRevisionsResponse.QueryExportableRevisionsResult.ExportableLayerHierarchy.OsLayers.PortableOsLayer)
 {
     write-verbose $oslayer.name
         foreach ($osrev in $oslayer.Revisions.PortableRevision)
