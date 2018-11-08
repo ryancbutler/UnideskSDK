@@ -394,6 +394,12 @@ Allows user to select which layers to export. (Press CTRL key to select more tha
 
 ```powershell
 $mypath = "\\mynas\layershare\
+Get-ALExportableRevs -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrevs -websession $websession -sharepath $mypath -username "myusername" -sharepw "mysharepass"
+```
+Allows user to select which layers to export. (Press CTRL key to select more than one layer)
+
+```powershell
+$mypath = "\\mynas\layershare\
 Get-ALExportableRevs -websession $websession -sharepath $mypath|Out-gridview -PassThru|Export-ALlayerrevs -websession $websession -sharepath $mypath
 ```
 
