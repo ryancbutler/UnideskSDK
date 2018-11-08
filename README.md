@@ -37,6 +37,9 @@
     + [Get icon associations](#get-icon-associations)
     + [Create new icon](#create-new-icon)
     + [Remove icon](#remove-icon)
+  * [Export and Import Layers](#export-and-import-Layers)
+    + [Export Layers](#export-layers)
+    + [Import Layers](#import-layers)
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
@@ -377,6 +380,24 @@ $temp = new-alicon -WebSession $websession -iconfile $iconfile -Verbose
 ```powershell
 Remove-ALicon -websession $websession -iconid "4259840"
 ```
+## Export and Import Layers
+
+### Export Layers
+
+Exports all "exportable" layers to fileshare
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALExportableRevs -websession $websession -sharepath $mypath|Where-Object{$_.ExistsInDestination -eq $false}|Export-ALlayerrevs -websession $websession -sharepath $mypath
+```
+Allows user to select which layers to export. (Press CTRL key to select more than one layer)
+
+```powershell
+$mypath = "\\mynas\layershare\
+Get-ALExportableRevs -websession $websession -sharepath $mypath|Out-gridview -PassThru|Export-ALlayerrevs -websession $websession -sharepath $mypath
+```
+
+### Import Layers
 
 ## System Info
 
