@@ -79,7 +79,65 @@ $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
 [xml]$obj = $return.Content
 
-return $obj
+$output = @()
+foreach ($oslayer in $obj.Envelope.Body.QueryExportableRevisionsResponse.QueryExportableRevisionsResult.ExportableLayerHierarchy.OsLayers.PortableOsLayer)
+{
+    write-verbose $oslayer.name
+        foreach ($osrev in $oslayer.Revisions.PortableRevision)
+        {
+        write-verbose "Entering os layer revisions"
+        $temp = [PSCustomObject]@{
+        "OSLayer" = $oslayer.Name;
+        "LayerTYPE" = "OS";
+        "BaseName" = $oslayer.Name;
+        "RevName" = $osrev.Name;
+        "ID" = $osrev.Id.'#text';
+        "SizeInMB" = $osrev.LayerSizeInMb;
+        "ExistsInDestination" = $osrev.ExistsInDestination;
+        }
+        $output += $temp
+        }
+        
+        foreach ($applayer in $oslayer.AppLayers.PortableLayer)
+        {
+            write-verbose "Entering app layer"
+            foreach ($applayerrev in $applayer.Revisions.PortableRevision)
+            {
+            $temp = [PSCustomObject]@{
+            "OSLayer" = $oslayer.Name;
+            "LayerTYPE" = "APP";
+            "BaseName" = $applayer.Name;
+            "RevName" = $applayerrev.Name;
+            "ID" = $applayerrev.Id.'#text';
+            "SizeInMB" = $applayerrev.LayerSizeInMb;
+            "ExistsInDestination" = $applayerrev.ExistsInDestination;
+            }
+            $output += $temp
+            }
+        }
+
+        foreach ($platlayer in $oslayer.PlatformLayers.PortableLayer)
+        {
+        write-verbose "Entering platform layer"
+            foreach ($platlayerev in $platlayer.Revisions.PortableRevision)
+            {
+            $temp = [PSCustomObject]@{
+            "OSLayer" = $oslayer.Name;
+            "LayerTYPE" = "PLATFORM";
+            "BaseName" = $platlayer.Name;
+            "RevName" = $platlayerev.Name;
+            "ID" = $platlayerev.Id.'#text';
+            "SizeInMB" = $platlayerev.LayerSizeInMb;
+            "ExistsInDestination" = $platlayerev.ExistsInDestination;
+            }
+            $output += $temp
+            }
+        }
+
+
+}
+return $output
+
 }
 
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
