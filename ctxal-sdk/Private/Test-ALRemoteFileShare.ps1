@@ -90,10 +90,13 @@ if ($obj.Envelope.Body.TestRemoteFileShareResponse.TestRemoteFileShareResult.Err
 }
 else {
   Write-Verbose "Share connection OK"
-  return $true
-}
-
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  #return $true
 }
 
 }
+
+end{
+  Write-Verbose "END: $($MyInvocation.MyCommand)"}
+}
+
+
