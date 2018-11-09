@@ -415,13 +415,14 @@ Get-ALimportableRev -websession $websession -sharepath $mypath -showall
 Exports all "exportable" layers to fileshare
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALExportableRev -websession $websession -sharepath $mypath|Export-ALlayerrev -websession $websession -sharepath $mypath
 ```
 
 Exports all "exportable" layers to fileshare with authenication. (Press CTRL key to select more than one layer)
 
 ```powershell
+$mypath = "\\mynas\layershare\"
 $myusername = "mydomain@domain.com"
 $sharepw = "mysupersecret"
 Get-ALExportableRev -websession $websession -sharepath $mypath -username $myusername -sharepw $sharepw|Export-ALlayerrev -websession $websession -sharepath $mypath -username $myusername -sharepw $sharepw
@@ -430,7 +431,7 @@ Get-ALExportableRev -websession $websession -sharepath $mypath -username $myuser
 Allows user to select which layers to export. (Press CTRL key to select more than one layer)
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALExportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Export-ALlayerrev -websession $websession -sharepath $mypath
 ```
 
@@ -439,14 +440,14 @@ Get-ALExportableRev -websession $websession -sharepath $mypath|Out-gridview -Pas
 Imports all "importable" layers to fileshare
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALImportableRev -websession $websession -sharepath $mypath|Import-ALlayerrev -websession $websession -sharepath $mypath
 ```
 
 Imports all "importable" layers to fileshare with authenication. (Press CTRL key to select more than one layer)
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 $myusername = "mydomain@domain.com"
 $sharepw = "mysupersecret"
 Get-ALImportableRev -websession $websession -sharepath $mypath -username $myusername -sharepw $sharepw|Import-ALlayerrev -websession $websession -sharepath $mypath -username $myusername -sharepw $sharepw
@@ -455,7 +456,7 @@ Get-ALImportableRev -websession $websession -sharepath $mypath -username $myuser
 Allows user to select which layers to import. (Press CTRL key to select more than one layer)
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Import-ALlayerrev -websession $websession -sharepath $mypath
 ```
 
