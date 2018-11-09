@@ -35,6 +35,12 @@ $idsxml = $null
 
 
 Process {
+if(!$id)
+{
+  Write-Verbose "NOTHING TO DO"
+  return $false
+}
+
 Write-Verbose "Building XML"
 foreach ($revid in $id)
 {
@@ -45,6 +51,12 @@ $idsxml += @"
 }
 
 end{
+if(!$id)
+{
+  Write-Verbose "NOTHING TO DO"
+  return $false
+}
+
 if ($username)
 {
 Write-Verbose "Using Credentials"

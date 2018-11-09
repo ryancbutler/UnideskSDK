@@ -30,11 +30,16 @@ Begin {
 Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
 Test-ALWebsession -WebSession $websession
 $idsxml = $null 
-
 }
 
 
 Process {
+if(!$id)
+{
+  Write-Verbose "NOTHING TO DO"
+  return $false
+}
+
 Write-Verbose "Building XML"
 foreach ($revid in $id)
 {
@@ -42,9 +47,16 @@ $idsxml += @"
 <anyType xsi:type="xsd:string">$revid</anyType>
 "@
 }
+
 }
 
 end{
+if(!$id)
+{
+  Write-Verbose "NOTHING TO DO"
+  return $false
+}
+
 if ($username)
 {
 Write-Verbose "Using Credentials"
