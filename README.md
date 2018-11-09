@@ -410,7 +410,6 @@ $mypath = "\\mynas\layershare\
 Get-ALimportableRev -websession $websession -sharepath $mypath -showall
 ```
 
-
 ### Export Layers
 
 Exports all "exportable" layers to fileshare
