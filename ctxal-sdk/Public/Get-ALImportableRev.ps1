@@ -13,6 +13,8 @@ function Get-ALImportableRev
   Share username
 .PARAMETER sharepw
   Share password
+.PARAMETER showall
+  Get all layers including non exportable ones
 .EXAMPLE
   Get-ALImportableRev -websession $websession -sharepath "\\myserver\path\layers"
 #>
@@ -21,7 +23,8 @@ Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)]$sharepath,
 [Parameter(Mandatory=$false)]$username,
-[Parameter(Mandatory=$false)]$sharepw
+[Parameter(Mandatory=$false)]$sharepw,
+[Parameter(Mandatory=$false)][switch]$showall
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -136,7 +139,14 @@ foreach ($oslayer in $obj.Envelope.Body.QueryImportableRevisionsResponse.QueryIm
 
 
 }
-return $output
+
+if ($showall)
+{
+  return $output
+}
+else {
+  return $output|Where-Object{$_.ExistsInDestination -eq $false}
+}
 
 }
 
