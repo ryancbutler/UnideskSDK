@@ -130,6 +130,7 @@ PrivateData = @{
 10-18-2018 Add XenServer OS import option (now vcenter and xenserver)
 10-18-2018 More detail for Get-ALImageComp
 10-30-2018 Added functionality to export, view, create, check associations and remove icons
+11-08-2018 Added functionality to export and import layers to and from network shares
 '
 
         # Prerelease string of this module
