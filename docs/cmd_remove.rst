@@ -1,7 +1,7 @@
-﻿Remove Commands
+﻿remove Commands
 =========================
 
-This page contains details on **Remove** commands.
+This page contains details on **remove** commands.
 
 Remove-ALAppassignment
 -------------------------
@@ -122,6 +122,56 @@ REMARKS
     To see the examples, type: "get-help Remove-ALELAppassignment -examples".
     For more information, type: "get-help Remove-ALELAppassignment -detailed".
     For technical information, type: "get-help Remove-ALELAppassignment -full".
+
+
+remove-ALicon
+-------------------------
+
+NAME
+    remove-ALicon
+    
+SYNOPSIS
+    Removes icon based on ID
+    
+    
+SYNTAX
+    remove-ALicon [-websession] <Object> [-iconid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes icon based on ID
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -iconid <Object>
+        Icon ID
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Remove-ALicon -websession $websession -iconid "4259847"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help remove-ALicon -examples".
+    For more information, type: "get-help remove-ALicon -detailed".
+    For technical information, type: "get-help remove-ALicon -full".
 
 
 Remove-ALImage

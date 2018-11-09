@@ -1,7 +1,7 @@
-﻿New Commands
+﻿new Commands
 =========================
 
-This page contains details on **New** commands.
+This page contains details on **new** commands.
 
 New-ALAppLayer
 -------------------------
@@ -178,6 +178,56 @@ REMARKS
     To see the examples, type: "get-help New-ALAppLayerRev -examples".
     For more information, type: "get-help New-ALAppLayerRev -detailed".
     For technical information, type: "get-help New-ALAppLayerRev -full".
+
+
+new-ALicon
+-------------------------
+
+NAME
+    new-ALicon
+    
+SYNOPSIS
+    Converts and uploads image file to be used as icon
+    
+    
+SYNTAX
+    new-ALicon [-websession] <Object> [-iconfile] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Converts and uploads image file to be used as icon
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -iconfile <Object>
+        Icon filename
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Upload-ALicon -websession $websession -iconfilename "d:\mysweeticon.png"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help new-ALicon -examples".
+    For more information, type: "get-help new-ALicon -detailed".
+    For technical information, type: "get-help new-ALicon -full".
 
 
 New-ALImage

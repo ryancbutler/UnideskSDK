@@ -240,6 +240,95 @@ REMARKS
     For technical information, type: "get-help Get-ALconnector -full".
 
 
+Get-ALicon
+-------------------------
+
+NAME
+    Get-ALicon
+    
+SYNOPSIS
+    Gets all icon IDs
+    
+    
+SYNTAX
+    Get-ALicon [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets all icon IDs
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALicon -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALicon -examples".
+    For more information, type: "get-help Get-ALicon -detailed".
+    For technical information, type: "get-help Get-ALicon -full".
+
+
+Get-ALiconassoc
+-------------------------
+
+NAME
+    Get-ALiconassoc
+    
+SYNOPSIS
+    Gets items associated with icon
+    
+    
+SYNTAX
+    Get-ALiconassoc [-websession] <Object> [-iconid] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets items associated with icon
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -iconid <Object>
+        Icon ID
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALicon -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALiconassoc -examples".
+    For more information, type: "get-help Get-ALiconassoc -detailed".
+    For technical information, type: "get-help Get-ALiconassoc -full".
+
+
 Get-ALimage
 -------------------------
 
