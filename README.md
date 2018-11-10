@@ -166,7 +166,7 @@ $myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid 
 
 #Keep checking for change in task
 do{
-$status = get-alstatus -websession $websession|where{$_.id -eq $myosrev.WorkTicketId}
+$status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
 Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
 #use function to extractt VM NAME from status message
