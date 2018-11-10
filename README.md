@@ -7,7 +7,9 @@
     + [Connect](#connect)
     + [Disconnect](#disconnect)
   * [Finalize Layer](#finalize-layer)
-  * [Cancel Task](#cancel-task)
+  * [Task Status](#task-status)
+    + [Get Job Status](#get-job-status)
+    + [Cancel Task](#cancel-task)
   * [Operating System Layers](#operating-system-layers)
     + [Import Operating System](#import-operating-system)
       - [vCenter](#vcenter)
@@ -32,7 +34,7 @@
     + [Add user\group to Elastic Layers](#add-user-group-to-elastic-layers)
     + [Remove user\group from Elastic Layers](#remove-user-group-from-elastic-layers)
   * [Icons](#icons)
-    + [Get icon ids](#Get-icon-ids)
+    + [Get icon ids](#get-icon-ids)
     + [Export all icons (save as png)](#export-all-icons--save-as-png-)
     + [Get icon associations](#get-icon-associations)
     + [Create new icon](#create-new-icon)
@@ -102,8 +104,21 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finali
 $disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
+## Task Status
 
-## Cancel Task
+### Get Job Status
+
+Get all jobs
+```powershell
+Get-ALStatus -websession $websession
+```
+
+Get specific job based on ID (accepts wildcard)
+```powershell
+Get-ALStatus -id 123456 -websession $websession
+```
+
+### Cancel Task
 Locate ID of Task `Get-ALStatus -websession $websession`
 
 ```powershell
