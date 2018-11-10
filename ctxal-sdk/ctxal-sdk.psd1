@@ -132,6 +132,7 @@ PrivateData = @{
 10-18-2018 More detail for Get-ALImageComp
 10-30-2018 Added functionality to export, view, create, check associations and remove icons
 11-08-2018 Added functionality to export and import layers to and from network shares
+11-10-2018 Cleaned up parameters and better get status returns
 '
 
         # Prerelease string of this module
