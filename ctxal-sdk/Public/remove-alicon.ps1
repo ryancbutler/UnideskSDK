@@ -15,7 +15,7 @@ function remove-ALicon
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(    
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$iconid
+[Parameter(Mandatory=$true)][string]$iconid
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

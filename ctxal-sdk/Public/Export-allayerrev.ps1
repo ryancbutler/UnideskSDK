@@ -21,10 +21,10 @@ function Export-ALLayerRev
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$sharepath,
-[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$True)]$id,
-[Parameter(Mandatory=$false)]$username,
-[Parameter(Mandatory=$false)]$sharepw
+[Parameter(Mandatory=$true)][string]$sharepath,
+[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$True)][string]$id,
+[Parameter(Mandatory=$false)][string]$username,
+[Parameter(Mandatory=$false)][string]$sharepw
 )
 Begin {
 Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

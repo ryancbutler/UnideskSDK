@@ -1,3 +1,9 @@
+# Citrix App Layering PowerShell SDK (BETA)
+
+[![Build status](https://ci.appveyor.com/api/projects/status/ty6dlw382m8fimdq/branch/master?retina=true)](https://ci.appveyor.com/project/ryancbutler/unidesksdk/branch/master)
+
+This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
+
 - [Citrix App Layering PowerShell SDK (BETA)](#citrix-app-layering-powershell-sdk--beta-)
   * [Install and Update](#install-and-update)
     + [Install Manually](#install-manually)
@@ -7,7 +13,9 @@
     + [Connect](#connect)
     + [Disconnect](#disconnect)
   * [Finalize Layer](#finalize-layer)
-  * [Cancel Task](#cancel-task)
+  * [Task Status](#task-status)
+    + [Get Task Status](#get-task-status)
+    + [Cancel Task](#cancel-task)
   * [Operating System Layers](#operating-system-layers)
     + [Import Operating System](#import-operating-system)
       - [vCenter](#vcenter)
@@ -32,7 +40,7 @@
     + [Add user\group to Elastic Layers](#add-user-group-to-elastic-layers)
     + [Remove user\group from Elastic Layers](#remove-user-group-from-elastic-layers)
   * [Icons](#icons)
-    + [Get icon ids](#Get-icon-ids)
+    + [Get icon ids](#get-icon-ids)
     + [Export all icons (save as png)](#export-all-icons--save-as-png-)
     + [Get icon associations](#get-icon-associations)
     + [Create new icon](#create-new-icon)
@@ -43,12 +51,6 @@
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
-
-# Citrix App Layering PowerShell SDK (BETA)
-
-[![Build status](https://ci.appveyor.com/api/projects/status/ty6dlw382m8fimdq/branch/master?retina=true)](https://ci.appveyor.com/project/ryancbutler/unidesksdk/branch/master)
-
-This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
 
 ## Install and Update
 
@@ -102,8 +104,21 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finali
 $disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
+## Task Status
 
-## Cancel Task
+### Get Task Status
+Get all tasks
+
+```powershell
+Get-ALStatus -websession $websession
+```
+
+Get specific task based on ID (accepts wildcard)
+```powershell
+Get-ALStatus -id 123456 -websession $websession
+```
+
+### Cancel Task
 Locate ID of Task `Get-ALStatus -websession $websession`
 
 ```powershell
@@ -151,7 +166,7 @@ $myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid 
 
 #Keep checking for change in task
 do{
-$status = get-alstatus -websession $websession|where{$_.id -eq $myosrev.WorkTicketId}
+$status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
 Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
 #use function to extractt VM NAME from status message

@@ -42,18 +42,18 @@ function New-ALAppLayer
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$version,
-[Parameter(Mandatory=$true)]$name,
-[Parameter(Mandatory=$false)]$description="",
-[Parameter(Mandatory=$false)]$revdescription="",
+[Parameter(Mandatory=$true)][string]$version,
+[Parameter(Mandatory=$true)][string]$name,
+[Parameter(Mandatory=$false)][string]$description="",
+[Parameter(Mandatory=$false)][string]$revdescription="",
 [Parameter(Mandatory=$false)][ValidateSet("NotBoundToOsLayer", "BoundToOsLayer")][string]$OsLayerSwitching="BoundToOsLayer",
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$true)]$osrevid,
-[Parameter(Mandatory=$false)]$platformrevid,
-[Parameter(Mandatory=$true)]$diskformat,
-[Parameter(Mandatory=$true)]$fileshareid,
-[Parameter(Mandatory=$false)]$size="10240",
-[Parameter(Mandatory=$false)]$icon="196608"
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$true)][string]$osrevid,
+[Parameter(Mandatory=$false)][string]$platformrevid,
+[Parameter(Mandatory=$true)][string]$diskformat,
+[Parameter(Mandatory=$true)][string]$fileshareid,
+[Parameter(Mandatory=$false)][string]$size="10240",
+[Parameter(Mandatory=$false)][string]$icon="196608"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

@@ -93,7 +93,7 @@ Process {
     NAME = $imagedetail.PlatformLayer.name
     ID = $imagedetail.PlatformLayer.Revisions.RevisionResult.Id
     IMAGEID = $imagedetail.PlatformLayer.ImageId
-    VersionvNAME = $imagedetail.PlatformLayer.Revisions.RevisionResult.Name
+    VersionNAME = $imagedetail.PlatformLayer.Revisions.RevisionResult.Name
     Description = $imagedetail.PlatformLayer.Revisions.RevisionResult.Description
     Status = $imagedetail.PlatformLayer.Revisions.RevisionResult.Status
     }

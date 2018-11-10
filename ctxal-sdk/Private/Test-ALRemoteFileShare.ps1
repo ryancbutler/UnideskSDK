@@ -21,10 +21,10 @@ function Test-ALRemoteFileShare
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$sharepath,
-[Parameter(Mandatory=$false)]$sharetype="Cifs",
-[Parameter(Mandatory=$false)]$username,
-[Parameter(Mandatory=$false)]$sharepw
+[Parameter(Mandatory=$true)][string]$sharepath,
+[Parameter(Mandatory=$false)][string]$sharetype="Cifs",
+[Parameter(Mandatory=$false)][string]$username,
+[Parameter(Mandatory=$false)][string]$sharepw
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

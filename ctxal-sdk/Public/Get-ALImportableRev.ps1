@@ -21,9 +21,9 @@ function Get-ALImportableRev
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$sharepath,
-[Parameter(Mandatory=$false)]$username,
-[Parameter(Mandatory=$false)]$sharepw,
+[Parameter(Mandatory=$true)][string]$sharepath,
+[Parameter(Mandatory=$false)][string]$username,
+[Parameter(Mandatory=$false)][string]$sharepw,
 [Parameter(Mandatory=$false)][switch]$showall
 )
 Begin {

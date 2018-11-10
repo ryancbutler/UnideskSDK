@@ -15,7 +15,7 @@ function Get-ALLayerInstallDisk
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$id
+[Parameter(Mandatory=$true)][string]$id
 
 )
 Begin {

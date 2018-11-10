@@ -39,17 +39,17 @@ function New-ALAppLayerRev
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$version,
-[Parameter(Mandatory=$true)]$name,
-[Parameter(Mandatory=$false)]$description="",
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$true)]$appid,
-[Parameter(Mandatory=$true)]$apprevid,
-[Parameter(Mandatory=$true)]$osrevid,
-[Parameter(Mandatory=$false)]$platformrevid,
-[Parameter(Mandatory=$true)]$diskformat,
-[Parameter(Mandatory=$true)]$fileshareid,
-[Parameter(Mandatory=$false)]$size="10240"
+[Parameter(Mandatory=$true)][string]$version,
+[Parameter(Mandatory=$true)][string]$name,
+[Parameter(Mandatory=$false)][string]$description="",
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$true)][string]$appid,
+[Parameter(Mandatory=$true)][string]$apprevid,
+[Parameter(Mandatory=$true)][string]$osrevid,
+[Parameter(Mandatory=$false)][string]$platformrevid,
+[Parameter(Mandatory=$true)][string]$diskformat,
+[Parameter(Mandatory=$true)][string]$fileshareid,
+[Parameter(Mandatory=$false)][string]$size="10240"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
