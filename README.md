@@ -400,28 +400,28 @@ Remove-ALicon -websession $websession -iconid "4259840"
 Gets "Exportable" Layers
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALExportableRev -websession $websession -sharepath $mypath
 ```
 
 Gets "Exportable" layers including ones that are already present
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALExportableRev -websession $websession -sharepath $mypath -showall
 ```
 
 Gets "Importable" Layers
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALimportableRev -websession $websession -sharepath $mypath
 ```
 
 Gets "Importable" layers including ones that are already present
 
 ```powershell
-$mypath = "\\mynas\layershare\
+$mypath = "\\mynas\layershare\"
 Get-ALimportableRev -websession $websession -sharepath $mypath -showall
 ```
 
