@@ -17,7 +17,7 @@ function Invoke-ALPublish
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$imageid
+[Parameter(Mandatory=$true)][string]$imageid
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

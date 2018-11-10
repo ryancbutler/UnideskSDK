@@ -41,16 +41,16 @@ function New-ALImage
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$name,
-[Parameter(Mandatory=$false)]$description="",
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$true)]$appids,
-[Parameter(Mandatory=$true)]$osrevid,
-[Parameter(Mandatory=$true)]$platrevid,
+[Parameter(Mandatory=$true)][string]$name,
+[Parameter(Mandatory=$false)][string]$description="",
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$true)][string]$appids,
+[Parameter(Mandatory=$true)][string]$osrevid,
+[Parameter(Mandatory=$true)][string]$platrevid,
 [Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode="None",
-[Parameter(Mandatory=$true)]$diskformat,
-[Parameter(Mandatory=$false)]$size="102400",
-[Parameter(Mandatory=$false)]$icon="196608"
+[Parameter(Mandatory=$true)][string]$diskformat,
+[Parameter(Mandatory=$false)][string]$size="102400",
+[Parameter(Mandatory=$false)][string]$icon="196608"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

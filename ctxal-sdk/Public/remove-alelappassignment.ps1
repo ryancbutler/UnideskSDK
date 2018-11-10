@@ -26,7 +26,7 @@ function Remove-ALELAppassignment
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$applayerid,
-[Parameter(Mandatory=$true,ValueFromPipeline=$true)]$user
+[Parameter(Mandatory=$true,ValueFromPipeline=$true)][string]$user
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

@@ -50,19 +50,19 @@ function New-ALPlatformLayer
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$osrevid,
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$false)]$Description="",
-[Parameter(Mandatory=$true)]$shareid,
-[Parameter(Mandatory=$false)]$iconid="196608",
-[Parameter(Mandatory=$true)]$name,
-[Parameter(Mandatory=$false)]$size="10240",
-[Parameter(Mandatory=$true)]$diskformat,
-[Parameter(Mandatory=$false)]$platformrevid,
-[Parameter(Mandatory=$true)][ValidateSet("create","publish")]$type,
-[Parameter(Mandatory=$false)]$HypervisorPlatformTypeId="vsphere",
-[Parameter(Mandatory=$false)][ValidateSet("mcs","pvs")]$ProvisioningPlatformTypeId="mcs",
-[Parameter(Mandatory=$false)]$BrokerPlatformTypeId="xendesktop"
+[Parameter(Mandatory=$true)][string]$osrevid,
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$false)[string]]$Description="",
+[Parameter(Mandatory=$true)][string]$shareid,
+[Parameter(Mandatory=$false)][string]$iconid="196608",
+[Parameter(Mandatory=$true)][string]$name,
+[Parameter(Mandatory=$false)][string]$size="10240",
+[Parameter(Mandatory=$true)][string]$diskformat,
+[Parameter(Mandatory=$false)][string]$platformrevid,
+[Parameter(Mandatory=$true)][ValidateSet("create","publish")][string]$type,
+[Parameter(Mandatory=$false)][string]$HypervisorPlatformTypeId="vsphere",
+[Parameter(Mandatory=$false)][ValidateSet("mcs","pvs")][string]$ProvisioningPlatformTypeId="mcs",
+[Parameter(Mandatory=$false)][string]$BrokerPlatformTypeId="xendesktop"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

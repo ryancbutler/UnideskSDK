@@ -15,7 +15,7 @@ function Get-ALconnector
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][ValidateSet("Create","Publish")]$type
+[Parameter(Mandatory=$true)][ValidateSet("Create","Publish")][string]$type
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

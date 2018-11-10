@@ -46,15 +46,15 @@ function Import-ALOsLayer
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$vmname,
-[Parameter(Mandatory=$false)]$description="",
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$true)]$shareid,
-[Parameter(Mandatory=$false)]$icon="196608",
-[Parameter(Mandatory=$true)]$name,
-[Parameter(Mandatory=$false)]$size="61440",
-[Parameter(Mandatory=$true)]$version,
-[Parameter(Mandatory=$true)]$vmid,
+[Parameter(Mandatory=$true)][string]$vmname,
+[Parameter(Mandatory=$false)][string]$description="",
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$true)][string]$shareid,
+[Parameter(Mandatory=$false)][string]$icon="196608",
+[Parameter(Mandatory=$true)][string]$name,
+[Parameter(Mandatory=$false)][string]$size="61440",
+[Parameter(Mandatory=$true)][string]$version,
+[Parameter(Mandatory=$true)][string]$vmid,
 [Parameter(Mandatory=$true)][ValidateSet('esxi','xenserver')][string[]]$hypervisor
 )
 Begin {

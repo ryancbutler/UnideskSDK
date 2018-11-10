@@ -36,15 +36,15 @@ function New-ALOsLayerRev
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)]$version,
-[Parameter(Mandatory=$false)]$description="",
-[Parameter(Mandatory=$true)]$connectorid,
-[Parameter(Mandatory=$true)]$osid,
-[Parameter(Mandatory=$true)]$osrevid,
-[Parameter(Mandatory=$false)]$platformrevid,
-[Parameter(Mandatory=$true)]$diskformat,
-[Parameter(Mandatory=$true)]$shareid,
-[Parameter(Mandatory=$false)]$size="61440"
+[Parameter(Mandatory=$true)][string]$version,
+[Parameter(Mandatory=$false)][string]$description="",
+[Parameter(Mandatory=$true)][string]$connectorid,
+[Parameter(Mandatory=$true)][string]$osid,
+[Parameter(Mandatory=$true)][string]$osrevid,
+[Parameter(Mandatory=$false)][string]$platformrevid,
+[Parameter(Mandatory=$true)][string]$diskformat,
+[Parameter(Mandatory=$true)][string]$shareid,
+[Parameter(Mandatory=$false)][string]$size="61440"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

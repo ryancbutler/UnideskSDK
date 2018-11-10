@@ -25,12 +25,11 @@ function Invoke-ALLayerFinalize
 #>
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
-[Parameter(Mandatory=$true)]$fileshareid,
-[Parameter(Mandatory=$true)]$LayerRevisionId,
-[Parameter(Mandatory=$true)]$uncpath,
-[Parameter(Mandatory=$true)]$filename,
-[Parameter(Mandatory=$true)]$websession
-
+[Parameter(Mandatory=$true)]$websession,
+[Parameter(Mandatory=$true)][string]$fileshareid,
+[Parameter(Mandatory=$true)][string]$LayerRevisionId,
+[Parameter(Mandatory=$true)][string]$uncpath,
+[Parameter(Mandatory=$true)][string]$filename
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

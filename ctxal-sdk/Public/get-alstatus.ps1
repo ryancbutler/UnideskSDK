@@ -8,7 +8,7 @@ function Get-ALStatus
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .PARAMETER id
-  workticket id of job
+  Workticket ID of job
 .EXAMPLE
   Get-ALStatus -websession $websession
 .EXAMPLE
@@ -17,7 +17,7 @@ function Get-ALStatus
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$false)]$id="*"
+[Parameter(Mandatory=$false)][SupportsWildcards()][string]$id="*"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"

@@ -19,8 +19,8 @@ function Get-ALAuditInfo
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][ValidateSet("OsLayer","PlatformLayer","AppLayer","Image","ManagementAppliance")]$entitytype,
-[Parameter(Mandatory=$false)]$id
+[Parameter(Mandatory=$true)][ValidateSet("OsLayer","PlatformLayer","AppLayer","Image","ManagementAppliance")][string]$entitytype,
+[Parameter(Mandatory=$false)][string]$id
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
