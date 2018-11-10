@@ -52,7 +52,7 @@ Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$osrevid,
 [Parameter(Mandatory=$true)][string]$connectorid,
-[Parameter(Mandatory=$false)[string]]$Description="",
+[Parameter(Mandatory=$false)][string]$Description="",
 [Parameter(Mandatory=$true)][string]$shareid,
 [Parameter(Mandatory=$false)][string]$iconid="196608",
 [Parameter(Mandatory=$true)][string]$name,
