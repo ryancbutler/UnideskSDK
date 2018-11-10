@@ -7,12 +7,17 @@ function Get-ALStatus
   Gets any non-completed task currently running on appliance
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
+.PARAMETER id
+  workticket id of job
 .EXAMPLE
   Get-ALStatus -websession $websession
+.EXAMPLE
+  Get-ALStatus -websession $websession -id "4521984"
 #>
 [cmdletbinding()]
 Param(
-[Parameter(Mandatory=$true)]$websession
+[Parameter(Mandatory=$true)]$websession,
+[Parameter(Mandatory=$false)]$id="*"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -43,7 +48,7 @@ $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers 
     throw $obj.Envelope.Body.QueryActivityResponse.QueryActivityResult.Error.message
   }
   else {
-    return $obj.Envelope.Body.QueryActivityResponse.QueryActivityResult.Events.WorkTicketUpdatedEvent.Result.WorkTickets.WorkTicketResult
+    return $obj.Envelope.Body.QueryActivityResponse.QueryActivityResult.Events.WorkTicketUpdatedEvent.Result.WorkTickets.WorkTicketResult|Where-Object{$_.id -like $id}
   }
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
