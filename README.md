@@ -14,7 +14,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
     + [Disconnect](#disconnect)
   * [Finalize Layer](#finalize-layer)
   * [Task Status](#task-status)
-    + [Get Job Status](#get-job-status)
+    + [Get Task Status](#get-task-status)
     + [Cancel Task](#cancel-task)
   * [Operating System Layers](#operating-system-layers)
     + [Import Operating System](#import-operating-system)
@@ -106,14 +106,14 @@ invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -Layer
 ```
 ## Task Status
 
-### Get Job Status
+### Get Task Status
+Get all tasks
 
-Get all jobs
 ```powershell
 Get-ALStatus -websession $websession
 ```
 
-Get specific job based on ID (accepts wildcard)
+Get specific task based on ID (accepts wildcard)
 ```powershell
 Get-ALStatus -id 123456 -websession $websession
 ```
