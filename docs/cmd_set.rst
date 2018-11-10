@@ -80,8 +80,8 @@ SYNOPSIS
     
     
 SYNTAX
-    Set-ALImage [-websession] <Object> [-id] <Object> [-name] <Object> [[-description] <Object>] [-connectorid] <Object> [-osrevid] <Object> [-platrevid] <Object> [[-ElasticLayerMode] <String>] [-diskformat] <Object> [[-size] 
-    <Object>] [[-icon] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    Set-ALImage [-websession] <Object> [-id] <String> [-name] <String> [[-description] <String>] [-connectorid] <String> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> [[-size] 
+    <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -92,34 +92,34 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -id <Object>
+    -id <String>
         ID of image
         
-    -name <Object>
+    -name <String>
         Name of the image
         
-    -description <Object>
+    -description <String>
         Description of the image
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -osrevid <Object>
+    -osrevid <String>
         Operating system layer version ID
         
-    -platrevid <Object>
+    -platrevid <String>
         Platform layer version ID
         
     -ElasticLayerMode <String>
         Elastic Layer setting for the image. Options "None","Session","Office365","SessionOffice365","Desktop"
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 102400)
         
-    -icon <Object>
+    -icon <String>
         Icon ID (default 196608)
         
     -WhatIf [<SwitchParameter>]

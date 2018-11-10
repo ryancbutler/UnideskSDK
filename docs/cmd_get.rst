@@ -104,7 +104,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALAuditInfo [-websession] <Object> [-entitytype] <Object> [[-id] <Object>] [<CommonParameters>]
+    Get-ALAuditInfo [-websession] <Object> [-entitytype] <String> [[-id] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -115,10 +115,10 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -entitytype <Object>
+    -entitytype <String>
         Type of log to pull
         
-    -id <Object>
+    -id <String>
         ID of entity to pull audit logs
         
     <CommonParameters>
@@ -205,7 +205,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALconnector [-websession] <Object> [-type] <Object> [<CommonParameters>]
+    Get-ALconnector [-websession] <Object> [-type] <String> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -216,7 +216,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -type <Object>
+    -type <String>
         Connector type for publishing or creating layers\images
         
     <CommonParameters>
@@ -238,6 +238,61 @@ REMARKS
     To see the examples, type: "get-help Get-ALconnector -examples".
     For more information, type: "get-help Get-ALconnector -detailed".
     For technical information, type: "get-help Get-ALconnector -full".
+
+
+Get-ALExportableRev
+-------------------------
+
+NAME
+    Get-ALExportableRev
+    
+SYNOPSIS
+    Gets revisions that can be used to export to share
+    
+    
+SYNTAX
+    Get-ALExportableRev [-websession] <Object> [-sharepath] <String> [[-username] <String>] [[-sharepw] <String>] [-showall] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets revisions that can be used to export to share
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -sharepath <String>
+        Share UNC Path type
+        
+    -username <String>
+        Share username
+        
+    -sharepw <String>
+        Share password
+        
+    -showall [<SwitchParameter>]
+        Get all layers including non exportable ones
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALExportableRev -websession $websession -sharepath "\\myserver\path\layers"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALExportableRev -examples".
+    For more information, type: "get-help Get-ALExportableRev -detailed".
+    For technical information, type: "get-help Get-ALExportableRev -full".
 
 
 Get-ALicon
@@ -294,7 +349,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALiconassoc [-websession] <Object> [-iconid] <Object> [<CommonParameters>]
+    Get-ALiconassoc [-websession] <Object> [-iconid] <String> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -305,7 +360,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -iconid <Object>
+    -iconid <String>
         Icon ID
         
     <CommonParameters>
@@ -494,6 +549,61 @@ REMARKS
     For technical information, type: "get-help Get-ALimageDetail -full".
 
 
+Get-ALImportableRev
+-------------------------
+
+NAME
+    Get-ALImportableRev
+    
+SYNOPSIS
+    Gets revisions that can be used to import
+    
+    
+SYNTAX
+    Get-ALImportableRev [-websession] <Object> [-sharepath] <String> [[-username] <String>] [[-sharepw] <String>] [-showall] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets revisions that can be used to import
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -sharepath <String>
+        Share UNC Path type
+        
+    -username <String>
+        Share username
+        
+    -sharepw <String>
+        Share password
+        
+    -showall [<SwitchParameter>]
+        Get all layers including non exportable ones
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALImportableRev -websession $websession -sharepath "\\myserver\path\layers"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALImportableRev -examples".
+    For more information, type: "get-help Get-ALImportableRev -detailed".
+    For technical information, type: "get-help Get-ALImportableRev -full".
+
+
 Get-ALLayerInstallDisk
 -------------------------
 
@@ -505,7 +615,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALLayerInstallDisk [-websession] <Object> [-id] <Object> [<CommonParameters>]
+    Get-ALLayerInstallDisk [-websession] <Object> [-id] <String> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -516,7 +626,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -id <Object>
+    -id <String>
         Layer ID to be located
         
     <CommonParameters>
@@ -873,7 +983,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALStatus [-websession] <Object> [<CommonParameters>]
+    Get-ALStatus [-websession] <Object> [[-id] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -884,6 +994,9 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
+    -id <String>
+        Workticket ID of job
+        
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
         ErrorAction, ErrorVariable, WarningAction, WarningVariable,
@@ -893,6 +1006,15 @@ PARAMETERS
     -------------------------- EXAMPLE 1 --------------------------
     
     PS C:\>Get-ALStatus -websession $websession
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>Get-ALStatus -websession $websession -id "4521984"
     
     
     

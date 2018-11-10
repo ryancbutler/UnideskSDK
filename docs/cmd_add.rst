@@ -71,7 +71,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Add-ALELAppassignment [-websession] <Object> [-apprevid] <String> [-user] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Add-ALELAppassignment [-websession] <Object> [-apprevid] <String> [-user] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -85,7 +85,7 @@ PARAMETERS
     -apprevid <String>
         Application version layer ID
         
-    -user <Object>
+    -user <String>
         LDAP located user object
         
     -WhatIf [<SwitchParameter>]

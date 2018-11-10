@@ -3,9 +3,64 @@
 
 This page contains details on **Import** commands.
 
-Import-ALOsLayer
+Import-ALLayerRev
 -------------------------
 
+
+NAME
+    Import-ALLayerRev
+    
+SYNOPSIS
+    Imports existing layers from share into ELM
+    
+    
+SYNTAX
+    Import-ALLayerRev [-websession] <Object> [-sharepath] <String> [-id] <String> [[-username] <String>] [[-sharepw] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Imports existing layers from share into ELM
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -sharepath <String>
+        Share UNC Path type
+        
+    -id <String>
+        ID(s) of revision layers to export
+        
+    -username <String>
+        Share username
+        
+    -sharepw <String>
+        Share password
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Import-ALlayerrevs -websession $websession -sharepath "\\myserver\path\layers" -id @(12042,225252,2412412)
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Import-ALLayerRev -examples".
+    For more information, type: "get-help Import-ALLayerRev -detailed".
+    For technical information, type: "get-help Import-ALLayerRev -full".
+
+
+Import-ALOsLayer
+-------------------------
 
 NAME
     Import-ALOsLayer
@@ -15,7 +70,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Import-ALOsLayer [-websession] <Object> [-vmname] <Object> [[-description] <Object>] [-connectorid] <Object> [-shareid] <Object> [[-icon] <Object>] [-name] <Object> [[-size] <Object>] [-version] <Object> [-vmid] <Object> 
+    Import-ALOsLayer [-websession] <Object> [-vmname] <String> [[-description] <String>] [-connectorid] <String> [-shareid] <String> [[-icon] <String>] [-name] <String> [[-size] <String>] [-version] <String> [-vmid] <String> 
     [-hypervisor] <String[]> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
@@ -27,31 +82,31 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -vmname <Object>
+    -vmname <String>
         Virtual machine name to import from
         
-    -description <Object>
+    -description <String>
         Description of the layer
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -shareid <Object>
+    -shareid <String>
         ID of file share
         
-    -icon <Object>
+    -icon <String>
         Icon ID (default 196608)
         
-    -name <Object>
+    -name <String>
         Name of the layer
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 61440)
         
-    -version <Object>
+    -version <String>
         Version number of the layer
         
-    -vmid <Object>
+    -vmid <String>
         Virtual Machine ID from vCenter or GUID XenCenter
         
     -hypervisor <String[]>

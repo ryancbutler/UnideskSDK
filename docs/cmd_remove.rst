@@ -70,7 +70,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Remove-ALELAppassignment [-websession] <Object> [-applayerid] <String> [-user] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Remove-ALELAppassignment [-websession] <Object> [-applayerid] <String> [-user] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -83,7 +83,7 @@ PARAMETERS
         
     -applayerid <String>
         
-    -user <Object>
+    -user <String>
         LDAP located user object
         
     -WhatIf [<SwitchParameter>]
@@ -135,7 +135,7 @@ SYNOPSIS
     
     
 SYNTAX
-    remove-ALicon [-websession] <Object> [-iconid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    remove-ALicon [-websession] <Object> [-iconid] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -146,7 +146,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -iconid <Object>
+    -iconid <String>
         Icon ID
         
     -WhatIf [<SwitchParameter>]
@@ -185,7 +185,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Remove-ALImage [-websession] <Object> [-id] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Remove-ALImage [-websession] <Object> [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -196,7 +196,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -id <Object>
+    -id <String>
         ID of image to remove
         
     -WhatIf [<SwitchParameter>]

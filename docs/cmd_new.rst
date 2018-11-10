@@ -15,8 +15,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALAppLayer [-websession] <Object> [-version] <Object> [-name] <Object> [[-description] <Object>] [[-revdescription] <Object>] [[-OsLayerSwitching] <String>] [-connectorid] <Object> [-osrevid] <Object> [[-platformrevid] 
-    <Object>] [-diskformat] <Object> [-fileshareid] <Object> [[-size] <Object>] [[-icon] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALAppLayer [-websession] <Object> [-version] <String> [-name] <String> [[-description] <String>] [[-revdescription] <String>] [[-OsLayerSwitching] <String>] [-connectorid] <String> [-osrevid] <String> [[-platformrevid] 
+    <String>] [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -27,40 +27,40 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -version <Object>
+    -version <String>
         Version of the layer
         
-    -name <Object>
+    -name <String>
         Name of the layer
         
-    -description <Object>
+    -description <String>
         Description of the layer
         
-    -revdescription <Object>
+    -revdescription <String>
         Revision description
         
     -OsLayerSwitching <String>
         Allow OS Switching NotBoundToOsLayer=ON BoundToOsLayer=OFF
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -osrevid <Object>
+    -osrevid <String>
         Operating system version ID
         
-    -platformrevid <Object>
+    -platformrevid <String>
         Platform version ID if needed
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -fileshareid <Object>
+    -fileshareid <String>
         Fileshare ID to store disk
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 10240)
         
-    -icon <Object>
+    -icon <String>
         Icon ID (default 196608)
         
     -WhatIf [<SwitchParameter>]
@@ -104,8 +104,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALAppLayerRev [-websession] <Object> [-version] <Object> [-name] <Object> [[-description] <Object>] [-connectorid] <Object> [-appid] <Object> [-apprevid] <Object> [-osrevid] <Object> [[-platformrevid] <Object>] 
-    [-diskformat] <Object> [-fileshareid] <Object> [[-size] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALAppLayerRev [-websession] <Object> [-version] <String> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appid] <String> [-apprevid] <String> [-osrevid] <String> [[-platformrevid] <String>] 
+    [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -116,35 +116,35 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -version <Object>
+    -version <String>
         Version of the revision
         
-    -name <Object>
+    -name <String>
         Name of the layer revision
         
-    -description <Object>
+    -description <String>
         Description of the revision
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -appid <Object>
+    -appid <String>
         
-    -apprevid <Object>
+    -apprevid <String>
         Base application version layer id to use
         
-    -osrevid <Object>
+    -osrevid <String>
         OS version layer id to use
         
-    -platformrevid <Object>
+    -platformrevid <String>
         Platform version ID if needed
         
-    -diskformat <Object>
+    -diskformat <String>
         Diskformat to store layer
         
-    -fileshareid <Object>
+    -fileshareid <String>
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 10240)
         
     -WhatIf [<SwitchParameter>]
@@ -241,8 +241,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALImage [-websession] <Object> [-name] <Object> [[-description] <Object>] [-connectorid] <Object> [-appids] <Object> [-osrevid] <Object> [-platrevid] <Object> [[-ElasticLayerMode] <String>] [-diskformat] <Object> 
-    [[-size] <Object>] [[-icon] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALImage [-websession] <Object> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appids] <String> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> 
+    [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -253,34 +253,34 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -name <Object>
+    -name <String>
         Name of the layer
         
-    -description <Object>
+    -description <String>
         Description of the layer
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -appids <Object>
+    -appids <String>
         IDs of application versions to add to image
         
-    -osrevid <Object>
+    -osrevid <String>
         Operating system layer version ID
         
-    -platrevid <Object>
+    -platrevid <String>
         Platform layer version ID
         
     -ElasticLayerMode <String>
         Elastic Layer setting for the image. Options "None","Session","Office365","SessionOffice365","Desktop"
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 102400)
         
-    -icon <Object>
+    -icon <String>
         Icon ID (default 196608)
         
     -WhatIf [<SwitchParameter>]
@@ -327,8 +327,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALOsLayerRev [-websession] <Object> [-version] <Object> [[-description] <Object>] [-connectorid] <Object> [-osid] <Object> [-osrevid] <Object> [[-platformrevid] <Object>] [-diskformat] <Object> [-shareid] <Object> 
-    [[-size] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALOsLayerRev [-websession] <Object> [-version] <String> [[-description] <String>] [-connectorid] <String> [-osid] <String> [-osrevid] <String> [[-platformrevid] <String>] [-diskformat] <String> [-shareid] <String> 
+    [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -339,31 +339,31 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -version <Object>
+    -version <String>
         Version of the new layer
         
-    -description <Object>
+    -description <String>
         Description of the layer
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -osid <Object>
+    -osid <String>
         Operating system layer ID
         
-    -osrevid <Object>
+    -osrevid <String>
         OS version layer id to use
         
-    -platformrevid <Object>
+    -platformrevid <String>
         Platform version ID if needed
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -shareid <Object>
+    -shareid <String>
         ID of file share
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 61440)
         
     -WhatIf [<SwitchParameter>]
@@ -406,8 +406,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALPlatformLayer [-websession] <Object> [-osrevid] <Object> [-connectorid] <Object> [[-Description] <Object>] [-shareid] <Object> [[-iconid] <Object>] [-name] <Object> [[-size] <Object>] [-diskformat] <Object> 
-    [[-platformrevid] <Object>] [-type] <Object> [[-HypervisorPlatformTypeId] <Object>] [[-ProvisioningPlatformTypeId] <Object>] [[-BrokerPlatformTypeId] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALPlatformLayer [-websession] <Object> [-osrevid] <String> [-connectorid] <String> [[-Description] <String>] [-shareid] <String> [[-iconid] <String>] [-name] <String> [[-size] <String>] [-diskformat] <String> 
+    [[-platformrevid] <String>] [-type] <String> [[-HypervisorPlatformTypeId] <String>] [[-ProvisioningPlatformTypeId] <String>] [[-BrokerPlatformTypeId] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -418,42 +418,42 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -osrevid <Object>
+    -osrevid <String>
         OS version layer id to use
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -Description <Object>
+    -Description <String>
         Description of the layer
         
-    -shareid <Object>
+    -shareid <String>
         ID of file share
         
-    -iconid <Object>
+    -iconid <String>
         
-    -name <Object>
+    -name <String>
         Name of the layer
         
-    -size <Object>
+    -size <String>
         Size of layer in GB (default 10240)
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -platformrevid <Object>
+    -platformrevid <String>
         Platform version ID if needed
         
-    -type <Object>
+    -type <String>
         Type of platform layer to create (Create or Publish)
         
-    -HypervisorPlatformTypeId <Object>
+    -HypervisorPlatformTypeId <String>
         Hypervisor type of platform layer (default=vsphere)
         
-    -ProvisioningPlatformTypeId <Object>
+    -ProvisioningPlatformTypeId <String>
         Provisioning type MCS or PVS (default=mcs)
         
-    -BrokerPlatformTypeId <Object>
+    -BrokerPlatformTypeId <String>
         Broker type used (default=xendesktop)
         
     -WhatIf [<SwitchParameter>]
@@ -496,8 +496,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALPlatformLayerRev [-websession] <Object> [-osrevid] <Object> [-connectorid] <Object> [[-Description] <Object>] [-shareid] <Object> [-layerid] <Object> [-layerrevid] <Object> [-version] <Object> [-Diskname] <Object> 
-    [[-size] <Object>] [-diskformat] <Object> [[-HypervisorPlatformTypeId] <Object>] [[-ProvisioningPlatformTypeId] <Object>] [[-BrokerPlatformTypeId] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALPlatformLayerRev [-websession] <Object> [-osrevid] <String> [-connectorid] <String> [[-Description] <String>] [-shareid] <String> [-layerid] <String> [-layerrevid] <String> [-version] <String> [-Diskname] <String> 
+    [[-size] <String>] [-diskformat] <String> [[-HypervisorPlatformTypeId] <String>] [[-ProvisioningPlatformTypeId] <String>] [[-BrokerPlatformTypeId] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -508,43 +508,43 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -osrevid <Object>
+    -osrevid <String>
         OS version layer id to use
         
-    -connectorid <Object>
+    -connectorid <String>
         ID of Connector to use
         
-    -Description <Object>
+    -Description <String>
         Description of the layer
         
-    -shareid <Object>
+    -shareid <String>
         ID of file share
         
-    -layerid <Object>
+    -layerid <String>
         Platform layer ID
         
-    -layerrevid <Object>
+    -layerrevid <String>
         Version ID to base version from
         
-    -version <Object>
+    -version <String>
         Version of the new layer
         
-    -Diskname <Object>
+    -Diskname <String>
         Disk file name
         
-    -size <Object>
+    -size <String>
         Size of layer in MB (default 10240)
         
-    -diskformat <Object>
+    -diskformat <String>
         Disk format of the image
         
-    -HypervisorPlatformTypeId <Object>
+    -HypervisorPlatformTypeId <String>
         Hypervisor type of platform layer (default=vsphere)
         
-    -ProvisioningPlatformTypeId <Object>
+    -ProvisioningPlatformTypeId <String>
         Provisioning type MCS or PVS (default=mcs)
         
-    -BrokerPlatformTypeId <Object>
+    -BrokerPlatformTypeId <String>
         Broker type used (default=xendesktop)
         
     -WhatIf [<SwitchParameter>]

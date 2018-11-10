@@ -15,7 +15,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Invoke-ALLayerFinalize [-fileshareid] <Object> [-LayerRevisionId] <Object> [-uncpath] <Object> [-filename] <Object> [-websession] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Invoke-ALLayerFinalize [-websession] <Object> [-fileshareid] <String> [-LayerRevisionId] <String> [-uncpath] <String> [-filename] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -23,20 +23,20 @@ DESCRIPTION
     
 
 PARAMETERS
-    -fileshareid <Object>
-        ID of file share location used to store disk
-        
-    -LayerRevisionId <Object>
-        Revision ID of layer to be finalized
-        
-    -uncpath <Object>
-        UNC Path of fileshare
-        
-    -filename <Object>
-        Filename of the disk
-        
     -websession <Object>
         Existing Webrequest session for ELM Appliance
+        
+    -fileshareid <String>
+        ID of file share location used to store disk
+        
+    -LayerRevisionId <String>
+        Revision ID of layer to be finalized
+        
+    -uncpath <String>
+        UNC Path of fileshare
+        
+    -filename <String>
+        Filename of the disk
         
     -WhatIf [<SwitchParameter>]
         
@@ -78,7 +78,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Invoke-ALPublish [-websession] <Object> [-imageid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Invoke-ALPublish [-websession] <Object> [-imageid] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -89,7 +89,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -imageid <Object>
+    -imageid <String>
         Image ID to be published
         
     -WhatIf [<SwitchParameter>]
