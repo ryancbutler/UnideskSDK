@@ -106,8 +106,7 @@ $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers 
 
   if($obj.Envelope.Body.CreateImageResponse.CreateImageResult.Error)
   {
-    throw $obj.Envelope.Body.CreateImageResponse.CreateImageResult.Error.ExceptionMessage
-
+    throw $obj.Envelope.Body.CreateImageResponse.CreateImageResult.Error.Message
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreateImageResponse.CreateImageResult.WorkTicketId)"
