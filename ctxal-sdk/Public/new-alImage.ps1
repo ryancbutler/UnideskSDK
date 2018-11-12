@@ -44,7 +44,7 @@ Param(
 [Parameter(Mandatory=$true)][string]$name,
 [Parameter(Mandatory=$false)][string]$description="",
 [Parameter(Mandatory=$true)][string]$connectorid,
-[Parameter(Mandatory=$true)][string]$appids,
+[Parameter(Mandatory=$true)][string[]]$appids,
 [Parameter(Mandatory=$true)][string]$osrevid,
 [Parameter(Mandatory=$true)][string]$platrevid,
 [Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode="None",
