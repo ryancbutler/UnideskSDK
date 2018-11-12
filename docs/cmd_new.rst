@@ -241,7 +241,7 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALImage [-websession] <Object> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appids] <String> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> 
+    New-ALImage [-websession] <Object> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appids] <String[]> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> 
     [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
@@ -262,7 +262,7 @@ PARAMETERS
     -connectorid <String>
         ID of Connector to use
         
-    -appids <String>
+    -appids <String[]>
         IDs of application versions to add to image
         
     -osrevid <String>
