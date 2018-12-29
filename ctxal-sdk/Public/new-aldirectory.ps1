@@ -67,17 +67,17 @@ if($force)
 else {
   
   #Test Directory
-  if(!(test-aldirectory -websession $websession -serveraddress $serveraddress -usessl:$usessl))
+  if(!(test-aldirectory -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port))
   {
     throw "Can't connect to AD server. Use -force to skip tests"
   }
   
-  if(!(test-aldirectoryauth -websession $websession -serveraddress $serveraddress -usessl:$usessl -username $username -adpassword $adpassword))
+  if(!(test-aldirectoryauth -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port -username $username -adpassword $adpassword))
   {
     throw "Can't authenticate to AD server. Use -force to skip tests"
   }
   
-  if(!(test-aldirectorydn -websession $websession -serveraddress $serveraddress -usessl:$usessl -username $username -adpassword $adpassword -basedn $basedn))
+  if(!(test-aldirectorydn -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port -username $username -adpassword $adpassword -basedn $basedn))
   {
     throw "Can't find DN. Use -force to skip tests"
   }
@@ -144,6 +144,16 @@ Write-Verbose "Using SSL"
 }
 else {
 
+    #sets port if not set in parms
+  if([string]::IsNullOrWhiteSpace($port))
+  {
+    Write-Verbose "Port set to 389"
+    $port=389
+  }
+  else {
+    Write-Verbose "Using port $port"
+  }
+
   if($force)
   {
     Write-Verbose "Skipping Tests"
@@ -151,17 +161,17 @@ else {
   else {
     
     #Test Directory
-    if(!(test-aldirectory -websession $websession -serveraddress $serveraddress -usessl:$usessl))
+    if(!(test-aldirectory -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port))
     {
       throw "Can't connect to AD server. Use -force to skip tests"
     }
     
-    if(!(test-aldirectoryauth -websession $websession -serveraddress $serveraddress -usessl:$usessl -username $username -adpassword $adpassword))
+    if(!(test-aldirectoryauth -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port -username $username -adpassword $adpassword))
     {
       throw "Can't authenticate to AD server. Use -force to skip tests"
     }
     
-    if(!(test-aldirectorydn -websession $websession -serveraddress $serveraddress -usessl:$usessl -username $username -adpassword $adpassword -basedn $basedn))
+    if(!(test-aldirectorydn -websession $websession -serveraddress $serveraddress -usessl:$usessl -port $port -username $username -adpassword $adpassword -basedn $basedn))
     {
       throw "Can't find DN. Use -force to skip tests"
     }
@@ -170,15 +180,7 @@ else {
 
 Write-Verbose "NO SSL"
 
-#sets port if not set in parms
-if([string]::IsNullOrWhiteSpace($port))
-{
-  Write-Verbose "Port set to 389"
-  $port=389
-}
-else {
-  Write-Verbose "Using port $port"
-}
+
 
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
