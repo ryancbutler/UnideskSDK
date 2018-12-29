@@ -10,13 +10,13 @@ function test-aldirectory
 .PARAMETER serveraddress
   AD server to connect
 .PARAMETER port
-  AD port
+  AD port (uses 389 and 636 by default)
 .PARAMETER usessl
   Connect via SSL
 .EXAMPLE
-  Get-ALAuditInfo -websession $websession -entitytype OsLayer -id 753664
+  test-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose
 .EXAMPLE
-  Get-ALAuditInfo -websession $websession -entitytype ManagementAppliance
+  test-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl 
 #>
 [cmdletbinding()]
 Param(
@@ -58,6 +58,7 @@ Write-Verbose "Using SSL"
           <CertificateError>CnNoMatch</CertificateError>
           <CertificateError>Chaining</CertificateError>
         </AllowableCertificateErrors>
+        <RequestedAction>Connect</RequestedAction>
       </command>
     </TestDirectoryJunction>
   </s:Body>
