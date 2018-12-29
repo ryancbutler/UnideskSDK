@@ -1,10 +1,10 @@
-function test-aldirectoryauth
+function test-aldirectorydn
 {
 <#
 .SYNOPSIS
-  Test Directory Junction authentication
+  Test Directory Junction DN path
 .DESCRIPTION
-  Test Directory Junction authentication
+  Test Directory Junction DN path
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .PARAMETER serveraddress
@@ -17,10 +17,12 @@ function test-aldirectoryauth
   AD username (eg admin@domain.com)
 .PARAMETER adpassword
   AD password
+.PARAMETER basedn
+  Base AD DN
 .EXAMPLE
-  test-aldirectoryauth -websession $websession -serveraddress "mydc.domain.com" -Verbose -username "admin@domain.com" -adpassword "MYPASSWORD"
+  test-aldirectorydn -websession $websession -serveraddress "mydc.domain.com" -Verbose -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com
 .EXAMPLE
-  test-aldirectoryauth -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD"
+  test-aldirectorydn -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com
 #>
 [cmdletbinding()]
 Param(
@@ -29,7 +31,8 @@ Param(
 [Parameter(Mandatory=$false)][string]$port,
 [Parameter(Mandatory=$false)][switch]$usessl,
 [Parameter(Mandatory=$true)][string]$username,
-[Parameter(Mandatory=$true)][string]$adpassword
+[Parameter(Mandatory=$true)][string]$adpassword,
+[Parameter(Mandatory=$true)][string]$basedn
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -59,6 +62,7 @@ Write-Verbose "Using SSL"
       <command>
         <ServerAddress>$serveraddress</ServerAddress>
         <ServerPort>$port</ServerPort>
+        <BaseDN>$basedn</BaseDN>
         <UserName>$username</UserName>
         <Password>$adpassword</Password>
         <UseSsl>true</UseSsl>
@@ -66,7 +70,7 @@ Write-Verbose "Using SSL"
           <CertificateError>CnNoMatch</CertificateError>
           <CertificateError>Chaining</CertificateError>
         </AllowableCertificateErrors>
-        <RequestedAction>ConnectAndBind</RequestedAction>
+        <RequestedAction>ConnectBindAndQuery</RequestedAction>
       </command>
     </TestDirectoryJunction>
   </s:Body>
@@ -93,11 +97,12 @@ else {
       <command>
         <ServerAddress>$serveraddress</ServerAddress>
         <ServerPort>$port</ServerPort>
+        <BaseDN>$basedn</BaseDN>
         <UserName>$username</UserName>
         <Password>$adpassword</Password>
         <UseSsl>false</UseSsl>
         <AllowableCertificateErrors/>
-        <RequestedAction>ConnectAndBind</RequestedAction>
+        <RequestedAction>ConnectBindAndQuery</RequestedAction>
       </command>
     </TestDirectoryJunction>
   </s:Body>
