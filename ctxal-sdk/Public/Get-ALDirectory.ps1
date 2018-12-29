@@ -38,13 +38,29 @@ $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
 $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
 [xml]$obj = $return.Content
 
-#return $obj
+#apps
+
+
 if($obj.Envelope.Body.QueryDirectoryJunctionFoldersResponse.QueryDirectoryJunctionFoldersResult.Error)
     {
       throw $obj.Envelope.Body.QueryDirectoryJunctionFoldersResponse.QueryDirectoryJunctionFoldersResult.Error.message
     }
     else {
-      return $obj.Envelope.Body.QueryDirectoryJunctionFoldersResponse.QueryDirectoryJunctionFoldersResult.DirectoryJunctions.FolderSummary
+      $dirs = @()
+      foreach ($dirobj in $obj.Envelope.Body.QueryDirectoryJunctionFoldersResponse.QueryDirectoryJunctionFoldersResult.DirectoryJunctions.FolderSummary)
+      {
+        $dir = [PSCustomObject]@{
+        NAME = $dirobj.name
+        ID = $dirobj.DirectoryId.DirectoryJunctionId
+        LdapDN = $dirobj.DirectoryId.LdapDN
+        HasImportedChild = $dirobj.HasImportedChild
+        SubFolderCount= $dirobj.SubFolderCount
+        GroupCount = $dirobj.GroupCount
+        UsersCount= $dirobj.UsersCount
+        }
+        $dirs += $dir  
+      }
+      return $dirs
     }
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
