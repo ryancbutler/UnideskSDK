@@ -1,0 +1,94 @@
+function test-aldirectory
+{
+<#
+.SYNOPSIS
+  Test Directory Junction connectivity
+.DESCRIPTION
+  Test Directory Junction connectivity
+.PARAMETER websession
+  Existing Webrequest session for ELM Appliance
+.PARAMETER serveraddress
+  AD server to connect
+.PARAMETER port
+  AD port
+.PARAMETER usessl
+  Connect via SSL
+.EXAMPLE
+  Get-ALAuditInfo -websession $websession -entitytype OsLayer -id 753664
+.EXAMPLE
+  Get-ALAuditInfo -websession $websession -entitytype ManagementAppliance
+#>
+[cmdletbinding()]
+Param(
+[Parameter(Mandatory=$true)]$websession,
+[Parameter(Mandatory=$true)][string]$serveraddress,
+[Parameter(Mandatory=$false)][string]$port=389,
+[Parameter(Mandatory=$false)][switch]$usessl
+)
+Begin {
+  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+  Test-ALWebsession -WebSession $websession
+}
+Process {
+
+
+if($usessl)
+{
+Write-Verbose "Using SSL"
+[xml]$xml = @"
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <TestDirectoryJunction xmlns="http://www.unidesk.com/">
+      <command>
+        <ServerAddress>$serveraddress</ServerAddress>
+        <ServerPort>$port</ServerPort>
+        <UseSsl>true</UseSsl>
+        <AllowableCertificateErrors>
+          <CertificateError>CnNoMatch</CertificateError>
+          <CertificateError>Chaining</CertificateError>
+        </AllowableCertificateErrors>
+      </command>
+    </TestDirectoryJunction>
+  </s:Body>
+</s:Envelope>
+"@
+}
+else {
+Write-Verbose "NO SSL"
+[xml]$xml = @"
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <TestDirectoryJunction xmlns="http://www.unidesk.com/">
+      <command>
+        <ServerAddress>$serveraddress</ServerAddress>
+        <ServerPort>$port</ServerPort>
+        <UseSsl>false</UseSsl>
+        <AllowableCertificateErrors/>
+        <RequestedAction>Connect</RequestedAction>
+      </command>
+    </TestDirectoryJunction>
+  </s:Body>
+</s:Envelope>
+"@
+}
+$headers = @{
+SOAPAction = "http://www.unidesk.com/TestDirectoryJunction";
+"Content-Type" = "text/xml; charset=utf-8";
+UNIDESK_TOKEN = $websession.token;
+}
+$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+[xml]$obj = $return.Content
+
+if($obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.Error)
+{
+  write-warning $obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.Error.Message
+  write-warning $obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.Error.Details
+  return $false
+}
+  Write-Verbose "Connect to AD server OK!"
+  return $true
+}
+
+end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+}
