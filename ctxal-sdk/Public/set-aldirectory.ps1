@@ -24,9 +24,9 @@ function set-aldirectory
 .PARAMETER force
   Skip AD tests
 .EXAMPLE
-  new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+  Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id
 .EXAMPLE
-  new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+  Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id -name "MYNEWNAME"
 #>
 [cmdletbinding()]
 Param(
