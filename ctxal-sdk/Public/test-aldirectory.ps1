@@ -19,6 +19,7 @@ function test-aldirectory
   test-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl 
 #>
 [cmdletbinding()]
+[OutputType([System.boolean])]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$serveraddress,

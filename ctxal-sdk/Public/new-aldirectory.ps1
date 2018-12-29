@@ -28,7 +28,7 @@ function new-aldirectory
 .EXAMPLE
   new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$name,
@@ -238,18 +238,21 @@ SOAPAction = "http://www.unidesk.com/CreateDirectoryJunction";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
 
-#error found
-if($obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.Error)
+if ($PSCmdlet.ShouldProcess("Will create new directory junction $name"))
 {
-  throw $obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.Error.message
-}
+  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+  [xml]$obj = $return.Content
 
-Write-Verbose "Junction creation successful!"
-return $obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.id
-}
+  #error found
+  if($obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.Error)
+  {
+    throw $obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.Error.message
+  }
 
+  Write-Verbose "Junction creation successful!"
+  return $obj.Envelope.Body.CreateDirectoryJunctionResponse.CreateDirectoryJunctionResult.id
+  }
+}
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
 }

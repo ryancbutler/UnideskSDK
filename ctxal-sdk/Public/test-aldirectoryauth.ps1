@@ -23,6 +23,7 @@ function test-aldirectoryauth
   test-aldirectoryauth -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD"
 #>
 [cmdletbinding()]
+[OutputType([System.boolean])]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$serveraddress,

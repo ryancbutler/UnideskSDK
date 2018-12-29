@@ -25,6 +25,7 @@ function test-aldirectorydn
   test-aldirectorydn -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com
 #>
 [cmdletbinding()]
+[OutputType([System.boolean])]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$serveraddress,
