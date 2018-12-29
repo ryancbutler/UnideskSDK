@@ -22,7 +22,7 @@ function test-aldirectory
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$serveraddress,
-[Parameter(Mandatory=$false)][string]$port=389,
+[Parameter(Mandatory=$false)][string]$port,
 [Parameter(Mandatory=$false)][switch]$usessl
 )
 Begin {
@@ -34,6 +34,17 @@ Process {
 
 if($usessl)
 {
+
+#sets port if not set in parms
+if([string]::IsNullOrWhiteSpace($port))
+{
+  Write-Verbose "Port set to 636"
+  $port=636
+}
+else {
+  Write-Verbose "Using port $port"
+}
+
 Write-Verbose "Using SSL"
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -55,6 +66,17 @@ Write-Verbose "Using SSL"
 }
 else {
 Write-Verbose "NO SSL"
+
+#sets port if not set in parms
+if([string]::IsNullOrWhiteSpace($port))
+{
+  Write-Verbose "Port set to 389"
+  $port=389
+}
+else {
+  Write-Verbose "Using port $port"
+}
+
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -86,7 +108,7 @@ if($obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.
   write-warning $obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.Error.Details
   return $false
 }
-  Write-Verbose "Connect to AD server OK!"
+  Write-Verbose "Connected to AD server OK!"
   return $true
 }
 
