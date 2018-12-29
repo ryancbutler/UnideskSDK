@@ -125,7 +125,7 @@ if($obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.
   write-warning $obj.Envelope.Body.TestDirectoryJunctionResponse.TestDirectoryJunctionResult.Error.Details
   return $false
 }
-  Write-Verbose "Connected to AD server OK!"
+  Write-Verbose "AD DN OK!"
   return $true
 }
 
