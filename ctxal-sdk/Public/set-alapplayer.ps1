@@ -16,7 +16,7 @@ function Set-ALApplayer
 .PARAMETER scriptpath
   Path of script to be run
 .PARAMETER icon
-  Icon ID (default 196608)
+  Icon ID
 .PARAMETER OsLayerSwitching
   Allow OS Switching NotBoundToOsLayer=ON BoundToOsLayer=OFF
 .EXAMPLE
@@ -27,17 +27,68 @@ function Set-ALApplayer
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$id,
-[Parameter(Mandatory=$true)][string]$name,
-[Parameter(Mandatory=$false)][string]$description="",
-[Parameter(Mandatory=$false)][string]$scriptpath="",
-[Parameter(Mandatory=$false)][string]$icon="196608",
-[Parameter(Mandatory=$true)][ValidateSet("NotBoundToOsLayer", "BoundToOsLayer")][string]$OsLayerSwitching
+[Parameter(Mandatory=$false)][string]$name,
+[Parameter(Mandatory=$false)][string]$description,
+[Parameter(Mandatory=$false)][string]$scriptpath,
+[Parameter(Mandatory=$false)][string]$icon,
+[Parameter(Mandatory=$false)][ValidateSet("NotBoundToOsLayer", "BoundToOsLayer")][string]$OsLayerSwitching
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
   Test-ALWebsession -WebSession $websession
 }
 Process {
+
+$applayer = get-alapplayerdetail -websession $websession -id $id
+
+#Check for existing params
+if([string]::IsNullOrWhiteSpace($name))
+{
+  $name=$applayer.LayerSummary.Name
+  Write-Verbose "Using existing name value $name"
+}
+
+if([string]::IsNullOrWhiteSpace($description))
+{
+ 
+  $description=$applayer.$description
+  if([string]::IsNullOrWhiteSpace($applayer.$description))
+  {
+    $description=""
+  }
+  else {
+    $description=$applayer.description
+  }
+  Write-Verbose "Using existing description value $description"
+}
+
+if([string]::IsNullOrWhiteSpace($scriptpath))
+{
+  Write-Verbose "Using existing host value"
+  
+  if([string]::IsNullOrWhiteSpace($applayer.ScriptPath))
+  {
+    $scriptpath=""
+  }
+  else {
+    $scriptpath=$applayer.ScriptPath
+  }
+  Write-Verbose "Using existing scriptpath value $scriptpath"
+}
+
+if([string]::IsNullOrWhiteSpace($icon))
+{
+  
+  $icon=$applayer.LayerSummary.ImageId
+  Write-Verbose "Using existing icon value $icon"
+}
+
+if([string]::IsNullOrWhiteSpace($OsLayerSwitching))
+{
+  $OsLayerSwitching=$applayer.OsLayerSwitching
+  Write-Verbose "Using existing OsLayerSwitching value $OsLayerSwitching"
+}
+
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -57,6 +108,7 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
+$xml >> "C:\temp\myxml.xml"
 $headers = @{
 SOAPAction = "http://www.unidesk.com/EditLayer";
 "Content-Type" = "text/xml; charset=utf-8";
@@ -76,7 +128,7 @@ $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.EditLayerResponse.EditLayerResult.WorkTicketId)"
-    return $obj.Envelope.Body.EditLayerResponse.EditLayerResult.WorkTicketId
+    return $true
   }
 
   }

@@ -24,9 +24,9 @@ function Set-ALImage
 .PARAMETER diskformat
   Disk format of the image
 .PARAMETER size
-  Size of layer in GB (default 102400)
+  Size of layer in MB
 .PARAMETER icon
-  Icon ID (default 196608)
+  Icon ID
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
   $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -43,21 +43,86 @@ function Set-ALImage
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$id,
-[Parameter(Mandatory=$true)][string]$name,
-[Parameter(Mandatory=$false)][string]$description="",
-[Parameter(Mandatory=$true)][string]$connectorid,
-[Parameter(Mandatory=$true)][string]$osrevid,
-[Parameter(Mandatory=$true)][string]$platrevid,
-[Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode="None",
-[Parameter(Mandatory=$true)][string]$diskformat,
-[Parameter(Mandatory=$false)][string]$size="102400",
-[Parameter(Mandatory=$false)][string]$icon="196608"
+[Parameter(Mandatory=$false)][string]$name,
+[Parameter(Mandatory=$false)][string]$description,
+[Parameter(Mandatory=$false)][string]$connectorid,
+[Parameter(Mandatory=$false)][string]$osrevid,
+[Parameter(Mandatory=$false)][string]$platrevid,
+[Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode,
+[Parameter(Mandatory=$false)][string]$diskformat,
+[Parameter(Mandatory=$false)][string]$size,
+[Parameter(Mandatory=$false)][string]$icon
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
   Test-ALWebsession -WebSession $websession
 }
 Process {
+
+$image = get-alimagedetail -websession $websession -id $id
+
+#Check for existing params
+if([string]::IsNullOrWhiteSpace($name))
+{
+  $name=$image.Name
+  Write-Verbose "Using existing name value $name"
+}
+
+if([string]::IsNullOrWhiteSpace($description))
+{
+ 
+  $description=$image.$description
+  if([string]::IsNullOrWhiteSpace($image.$description))
+  {
+    $description=""
+  }
+  else {
+    $description=$image.description
+  }
+  Write-Verbose "Using existing description value $description"
+}
+
+if([string]::IsNullOrWhiteSpace($connectorid))
+{
+  $connectorid=$image.PlatformConnectorConfigId
+  Write-Verbose "Using existing PlatformConnectorId value $connectorid"
+}
+
+if([string]::IsNullOrWhiteSpace($osrevid))
+{
+  $osrevid=$image.OsRev.Revisions.RevisionResult.Id
+  Write-Verbose "Using existing osrevid value $osrevid"
+}
+
+if([string]::IsNullOrWhiteSpace($platrevid))
+{
+  $platrevid=$image.PlatformLayer.Revisions.RevisionResult.Id
+  Write-Verbose "Using existing platrevid value $platrevid"
+}
+
+if([string]::IsNullOrWhiteSpace($ElasticLayerMode))
+{
+  $ElasticLayerMode=$image.ElasticLayerMode
+  Write-Verbose "Using existing ElasticLayerMode value $ElasticLayerMode"
+}
+
+if([string]::IsNullOrWhiteSpace($diskformat))
+{
+  $diskformat=$image.LayeredImageDiskFormat
+  Write-Verbose "Using existing diskformat value $diskformat"
+}
+
+if([string]::IsNullOrWhiteSpace($size))
+{
+  $size=$image.LayeredImagePartitionSizeMiB
+  Write-Verbose "Using existing size value $size"
+}
+
+if([string]::IsNullOrWhiteSpace($icon))
+{
+  $icon=$image.ImageId
+  Write-Verbose "Using existing icon value $icon"
+}
 
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">

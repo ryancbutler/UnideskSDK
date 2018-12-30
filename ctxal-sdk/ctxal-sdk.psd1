@@ -12,7 +12,7 @@
 RootModule = 'ctxal-sdk.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.1.15'
+ModuleVersion = '0.2.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -133,6 +133,7 @@ PrivateData = @{
 10-30-2018 Added functionality to export, view, create, check associations and remove icons
 11-08-2018 Added functionality to export and import layers to and from network shares
 11-10-2018 Cleaned up parameters and better get status returns
+12-29-2018 Added functionality for directory junctions
 '
 
         # Prerelease string of this module

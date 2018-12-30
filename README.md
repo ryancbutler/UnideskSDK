@@ -48,6 +48,12 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
   * [Export and Import Layers](#export-and-import-layers)
     + [Export Layers](#export-layers)
     + [Import Layers](#import-layers)
+  * [Directory Junction](#directory-junction)
+    + [New Directory Junction](#new-directory-junction)
+    + [Get ALL Directory Junctions](#get-all-directory-junctions)
+    + [Get Directory Junction Info](#get-directory-junction-info)
+    + [Set Directory Junction Info](#set-directory-junction-info)
+    + [Delete Directory Junction](#delete-directory-junction)
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
@@ -473,6 +479,37 @@ Allows user to select which layers to import. (Press CTRL key to select more tha
 ```powershell
 $mypath = "\\mynas\layershare\"
 Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Import-ALlayerrev -websession $websession -sharepath $mypath
+```
+## Directory Junction
+
+### New Directory Junction
+
+```powershell
+new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+```
+
+### Get ALL Directory Junctions
+
+```powershell
+Get-ALDirectory -websession $websession
+```
+
+### Get Directory Junction Info
+
+```powershell
+get-aldirectorydetail -websession $websession -id $directory.id
+```
+
+### Set Directory Junction Info
+
+```powershell
+Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id -name "MYNEWNAME"
+```
+
+### Delete Directory Junction
+
+```powershell
+Remove-ALDirectory -websession $websession -id "4915204"
 ```
 
 ## System Info
