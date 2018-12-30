@@ -129,7 +129,7 @@ $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
   }
   else {
     Write-Verbose "WORKTICKET: $($obj.Envelope.Body.EditLayerResponse.EditLayerResult.WorkTicketId)"
-    return $obj.Envelope.Body.EditLayerResponse.EditLayerResult.WorkTicketId
+    return $true
   }
 
   }

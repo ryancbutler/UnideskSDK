@@ -29,6 +29,7 @@ function set-aldirectory
   Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id -name "MYNEWNAME"
 #>
 [cmdletbinding()]
+[OutputType([System.boolean])]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)]$id,
