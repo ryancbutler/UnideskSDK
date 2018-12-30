@@ -40,7 +40,6 @@ Begin {
 Process {
 
 $applayer = get-alapplayerdetail -websession $websession -id $id
-write-host $applayer
 
 #Check for existing params
 if([string]::IsNullOrWhiteSpace($name))

@@ -28,7 +28,7 @@ function set-aldirectory
 .EXAMPLE
   Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id -name "MYNEWNAME"
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 [OutputType([System.boolean])]
 Param(
 [Parameter(Mandatory=$true)]$websession,
@@ -280,17 +280,20 @@ SOAPAction = "http://www.unidesk.com/EditDirectoryJunction";
 UNIDESK_TOKEN = $websession.token;
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
 
-#error found
-if($obj.Envelope.Body.EditDirectoryJunctionResponse.EditDirectoryJunctionResult.Error)
-{
-  throw $obj.Envelope.Body.EditDirectoryJunctionResponse.EditDirectoryJunctionResult.Error.message
-}
+if ($PSCmdlet.ShouldProcess("Sets directory junction config for $name")) {
+  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+  [xml]$obj = $return.Content
 
-Write-verbose "Junction edit successful!"
-return $true
+  #error found
+  if($obj.Envelope.Body.EditDirectoryJunctionResponse.EditDirectoryJunctionResult.Error)
+  {
+    throw $obj.Envelope.Body.EditDirectoryJunctionResponse.EditDirectoryJunctionResult.Error.message
+  }
+
+  Write-verbose "Junction edit successful!"
+  return $true
+  }
 }
 
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
