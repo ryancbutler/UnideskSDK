@@ -15,7 +15,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Set-ALApplayer [-websession] <Object> [-id] <String> [-name] <String> [[-description] <String>] [[-scriptpath] <String>] [[-icon] <String>] [-OsLayerSwitching] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Set-ALApplayer [-websession] <Object> [-id] <String> [[-name] <String>] [[-description] <String>] [[-scriptpath] <String>] [[-icon] <String>] [[-OsLayerSwitching] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -39,7 +39,7 @@ PARAMETERS
         Path of script to be run
         
     -icon <String>
-        Icon ID (default 196608)
+        Icon ID
         
     -OsLayerSwitching <String>
         Allow OS Switching NotBoundToOsLayer=ON BoundToOsLayer=OFF
@@ -80,8 +80,8 @@ SYNOPSIS
     
     
 SYNTAX
-    Set-ALImage [-websession] <Object> [-id] <String> [-name] <String> [[-description] <String>] [-connectorid] <String> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> [[-size] 
-    <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    Set-ALImage [-websession] <Object> [-id] <String> [[-name] <String>] [[-description] <String>] [[-connectorid] <String>] [[-osrevid] <String>] [[-platrevid] <String>] [[-ElasticLayerMode] <String>] [[-diskformat] <String>] 
+    [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -117,10 +117,10 @@ PARAMETERS
         Disk format of the image
         
     -size <String>
-        Size of layer in GB (default 102400)
+        Size of layer in MB
         
     -icon <String>
-        Icon ID (default 196608)
+        Icon ID
         
     -WhatIf [<SwitchParameter>]
         
