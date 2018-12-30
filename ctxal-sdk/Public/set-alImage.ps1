@@ -24,9 +24,9 @@ function Set-ALImage
 .PARAMETER diskformat
   Disk format of the image
 .PARAMETER size
-  Size of layer in GB (default 102400)
+  Size of layer in MB
 .PARAMETER icon
-  Icon ID (default 196608)
+  Icon ID
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
   $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
