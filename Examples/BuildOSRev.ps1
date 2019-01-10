@@ -127,7 +127,7 @@ Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "PSWindowsUpd
 Invoke-Command -Session $session -ScriptBlock $sbtask
 
 #Enables autologon
-Invoke-Command -Session $session -ScriptBlock {Import-Module -Name Autologon -force;Enable-AutoLogon -Username $localadminuser -Password (ConvertTo-SecureString -String $localadminpw -AsPlainText -Force) -LogonCount "1" } -ErrorAction stop
+Invoke-Command -Session $session -ScriptBlock {Import-Module -Name Autologon -force;Enable-AutoLogon -Username $using:localadminuser -Password (ConvertTo-SecureString -String $using:localadminpw -AsPlainText -Force) -LogonCount "1" } -ErrorAction stop
 
 #Restart to kick off the process
 Restart-Computer -Force -ComputerName $ip -Credential $cred
@@ -145,7 +145,7 @@ do{
 
     write-host "Waiting for VM to shutdown...."
     Start-Sleep -Seconds 10
-    $vm = get-vm $vm
+    $vm = Get-VM $vmuniname
 }
 until ($vm.PowerState -eq "PoweredOff")
 
