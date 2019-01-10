@@ -237,7 +237,7 @@ foreach ($appname in $appnames)
                 do{
                     write-host "Waiting for VM to shutdown...."
                     Start-Sleep -Seconds 10
-                    $vm = get-vm $vm
+                    $vm = get-vm $vmuniname
                 }
                 until ($vm.PowerState -eq "PoweredOff")
 
