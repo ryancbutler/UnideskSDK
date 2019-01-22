@@ -1202,6 +1202,155 @@ REMARKS
     For technical information, type: "get-help Get-ALSystemSettingInfo -full".
 
 
+Get-ALUserAssignment
+-------------------------
+
+NAME
+    Get-ALUserAssignment
+    
+SYNOPSIS
+    Gets user app layer assignments
+    
+    
+SYNTAX
+    Get-ALUserAssignment [-websession] <Object> [-id] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets user app layer assignments
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        Unidesk ID of user
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALUserAssignments -websession $websession -id "4521984" -Verbose
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALUserAssignment -examples".
+    For more information, type: "get-help Get-ALUserAssignment -detailed".
+    For technical information, type: "get-help Get-ALUserAssignment -full".
+
+
+Get-ALUserDetail
+-------------------------
+
+NAME
+    Get-ALUserDetail
+    
+SYNOPSIS
+    Gets detailed information on user from directory junction
+    
+    
+SYNTAX
+    Get-ALUserDetail [-websession] <Object> [-id] <String> [-junctionid] <String> [-ldapguid] <String> [-dn] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets detailed information on user from directory junction
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        Unidesk ID of user
+        
+    -junctionid <String>
+        Directory junction ID
+        
+    -ldapguid <String>
+        
+    -dn <String>
+        LDAP DN of user
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALUserDetail -websession $websession -junctionid $dir.id -ldapguid $userid.DirectoryId.LdapGuid -dn $userid.DirectoryId.LdapDN -id $userid.DirectoryId.UnideskId
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALUserDetail -examples".
+    For more information, type: "get-help Get-ALUserDetail -detailed".
+    For technical information, type: "get-help Get-ALUserDetail -full".
+
+
+Get-ALUserList
+-------------------------
+
+NAME
+    Get-ALUserList
+    
+SYNOPSIS
+    Gets list of users and groups for specific LDAP DN
+    
+    
+SYNTAX
+    Get-ALUserList [-websession] <Object> [-junctionid] <String> [-dn] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets list of users and groups for specific LDAP DN
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -junctionid <String>
+        Directory junction ID
+        
+    -dn <String>
+        LDAP DN of user location
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALUserList -examples".
+    For more information, type: "get-help Get-ALUserList -detailed".
+    For technical information, type: "get-help Get-ALUserList -full".
+
+
 Get-ALVMName
 -------------------------
 
@@ -1232,7 +1381,7 @@ PARAMETERS
     
     -------------------------- EXAMPLE 1 --------------------------
     
-    PS C:\>Get-ALVMName -message -message $status.WorkItems.WorkItemResult.Status
+    PS C:\>Get-ALVMName -message $status.WorkItems.WorkItemResult.Status
     
     
     
