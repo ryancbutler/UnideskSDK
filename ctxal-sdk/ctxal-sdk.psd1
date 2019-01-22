@@ -139,6 +139,7 @@ PrivateData = @{
 11-10-2018 Cleaned up parameters and better get status returns
 12-29-2018 Added functionality for directory junctions
 01-22-2019 Added functionality to pull user information and assignments
+01-22-2019 Much better regex for Get-AlVMName (Thanks Bill Nickerson)  
 '
 
         # Prerelease string of this module

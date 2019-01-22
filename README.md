@@ -176,7 +176,7 @@ do{
 $status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
 Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
-#use function to extractt VM NAME from status message
+#use function to extract VM NAME from status message
 get-alvmname -message $status.WorkItems.WorkItemResult.Status
 ```
 

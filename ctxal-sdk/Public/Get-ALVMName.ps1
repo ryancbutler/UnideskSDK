@@ -7,7 +7,7 @@ function Get-ALVMName {
 .PARAMETER message
   Message from pending operation
 .EXAMPLE
-  Get-ALVMName -message -message $status.WorkItems.WorkItemResult.Status
+  Get-ALVMName -message $status.WorkItems.WorkItemResult.Status
 #>
     [cmdletbinding()]
     Param(
@@ -15,7 +15,7 @@ function Get-ALVMName {
     )
     Begin {
         Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-        Test-ALWebsession -WebSession $websession
+        #Test-ALWebsession -WebSession $websession
     }
     Process {
         $pattern = "(?<=(\]|'))([^'\[]*)-\d\d\d\d-\d\d-\d\d_\d\d-\d\d-\d\d.\d\d\d([^\[']*)(?=(\[|'))"
