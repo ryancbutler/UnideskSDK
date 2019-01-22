@@ -137,6 +137,7 @@ PrivateData = @{
 11-08-2018 Added functionality to export and import layers to and from network shares
 11-10-2018 Cleaned up parameters and better get status returns
 12-29-2018 Added functionality for directory junctions
+01-22-2019 Added functionality to pull user information and assignments
 '
 
         # Prerelease string of this module
