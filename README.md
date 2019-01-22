@@ -519,7 +519,7 @@ Remove-ALDirectory -websession $websession -id "4915204"
 $dir = Get-ALDirectory -websession $websession|where{$_.name -eq "MyDirectory"}
 $userid = Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"|Where-Object {$_.loginname -eq "myusername"}
 $userdetail = Get-ALUserDetail -websession $websession -junctionid $dir.id -ldapguid $userid.DirectoryId.LdapGuid -dn $userid.DirectoryId.LdapDN -id $userid.DirectoryId.UnideskId
-$apps = Get-ALUserAssignments -websession $websession -id $userid.DirectoryId.UnideskId -Verbose
+$apps = Get-ALUserAssignment -websession $websession -id $userid.DirectoryId.UnideskId -Verbose
 $apps|Select-Object LayerName,CurrentRevision,PendingRevision,AssignedViaDisplayName
 ```
 

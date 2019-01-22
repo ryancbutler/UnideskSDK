@@ -1,4 +1,4 @@
-function Get-ALUserAssignments
+function Get-ALUserAssignment
 {
 <#
 .SYNOPSIS
