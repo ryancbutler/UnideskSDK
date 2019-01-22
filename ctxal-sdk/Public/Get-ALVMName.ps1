@@ -18,7 +18,7 @@ function Get-ALVMName {
         Test-ALWebsession -WebSession $websession
     }
     Process {
-        $pattern = "(?<=(]|'))([^'[])(Citrix([^)]+))([^['])(?=([|'))"
+        $pattern = "(?<=(\]|'))([^'\[]*)-\d\d\d\d-\d\d-\d\d_\d\d-\d\d-\d\d.\d\d\d([^\[']*)(?=(\[|'))"
         $result = [regex]::match($message, $pattern)
         Write-Verbose $result
         return $result.value
