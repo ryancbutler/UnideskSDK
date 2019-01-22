@@ -240,6 +240,95 @@ REMARKS
     For technical information, type: "get-help Get-ALconnector -full".
 
 
+Get-ALDirectory
+-------------------------
+
+NAME
+    Get-ALDirectory
+    
+SYNOPSIS
+    Gets Directory Junctions
+    
+    
+SYNTAX
+    Get-ALDirectory [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets Directory Junctions
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALDirectory -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALDirectory -examples".
+    For more information, type: "get-help Get-ALDirectory -detailed".
+    For technical information, type: "get-help Get-ALDirectory -full".
+
+
+Get-ALDirectoryDetail
+-------------------------
+
+NAME
+    Get-ALDirectoryDetail
+    
+SYNOPSIS
+    Gets additional directory junction detail
+    
+    
+SYNTAX
+    Get-ALDirectoryDetail [-websession] <Object> [-id] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets additional directory junction detail
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        Directory Junction id
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>get-aldirectorydetail -websession $websession -id $directory.id
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALDirectoryDetail -examples".
+    For more information, type: "get-help Get-ALDirectoryDetail -detailed".
+    For technical information, type: "get-help Get-ALDirectoryDetail -full".
+
+
 Get-ALExportableRev
 -------------------------
 
