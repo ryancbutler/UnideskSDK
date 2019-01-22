@@ -54,6 +54,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
     + [Get Directory Junction Info](#get-directory-junction-info)
     + [Set Directory Junction Info](#set-directory-junction-info)
     + [Delete Directory Junction](#delete-directory-junction)
+    + [User Info](#user-info)
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
@@ -510,6 +511,16 @@ Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.
 
 ```powershell
 Remove-ALDirectory -websession $websession -id "4915204"
+```
+
+### User Info
+
+```powershell
+$dir = Get-ALDirectory -websession $websession|where{$_.name -eq "MyDirectory"}
+$userid = Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"|Where-Object {$_.loginname -eq "myusername"}
+$userdetail = Get-ALUserDetail -websession $websession -junctionid $dir.id -ldapguid $userid.DirectoryId.LdapGuid -dn $userid.DirectoryId.LdapDN -id $userid.DirectoryId.UnideskId
+$apps = Get-ALUserAssignments -websession $websession -id $userid.DirectoryId.UnideskId -Verbose
+$apps|Select-Object LayerName,CurrentRevision,PendingRevision,AssignedViaDisplayName
 ```
 
 ## System Info
