@@ -336,7 +336,7 @@ add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $ima
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
-$apprevs = get-alapplayer -websession $websession -id $app.Id
+$apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
 remove-alappassignment -websession $websession -applayerid $apprevid.LayerId -imageid $image.id
 ```
@@ -346,7 +346,7 @@ remove-alappassignment -websession $websession -applayerid $apprevid.LayerId -im
 ```powershell
 $users = @('MyGroup1','MyGroup2','Domain Users')
 $finduser = $users|get-alldapobject -websession $websession
-$app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
 $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
@@ -357,7 +357,7 @@ $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprev
 ```powershell
 $users = @('MyGroup1','MyGroup2','Domain Users')
 $finduser = $users|get-alldapobject -websession $websession
-$app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
 $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
