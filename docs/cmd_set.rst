@@ -1,7 +1,7 @@
-﻿Set Commands
+﻿set Commands
 =========================
 
-This page contains details on **Set** commands.
+This page contains details on **set** commands.
 
 Set-ALApplayer
 -------------------------
@@ -67,6 +67,87 @@ REMARKS
     To see the examples, type: "get-help Set-ALApplayer -examples".
     For more information, type: "get-help Set-ALApplayer -detailed".
     For technical information, type: "get-help Set-ALApplayer -full".
+
+
+set-aldirectory
+-------------------------
+
+NAME
+    set-aldirectory
+    
+SYNOPSIS
+    Sets properties of an existing Directory Junction
+    
+    
+SYNTAX
+    set-aldirectory [-websession] <Object> [-id] <Object> [[-name] <String>] [[-serveraddress] <String>] [[-port] <String>] [[-usessl] <String>] [[-username] <String>] [-adpassword] <String> [-force] [-WhatIf] [-Confirm] 
+    [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Sets properties of an existing Directory Junction
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <Object>
+        Junction ID
+        
+    -name <String>
+        Junction name
+        
+    -serveraddress <String>
+        AD server to connect
+        
+    -port <String>
+        AD port (uses 389 and 636 by default)
+        
+    -usessl <String>
+        Connect via SSL
+        
+    -username <String>
+        AD username (eg admin@domain.com)
+        
+    -adpassword <String>
+        AD password
+        
+    -force [<SwitchParameter>]
+        Skip AD tests
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.id -name "MYNEWNAME"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help set-aldirectory -examples".
+    For more information, type: "get-help set-aldirectory -detailed".
+    For technical information, type: "get-help set-aldirectory -full".
 
 
 Set-ALImage

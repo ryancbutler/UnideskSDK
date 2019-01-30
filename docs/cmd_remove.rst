@@ -59,6 +59,56 @@ REMARKS
     For technical information, type: "get-help Remove-ALAppassignment -full".
 
 
+remove-ALDirectory
+-------------------------
+
+NAME
+    remove-ALDirectory
+    
+SYNOPSIS
+    Removes Directory Junction
+    
+    
+SYNTAX
+    remove-ALDirectory [-websession] <Object> [-id] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes Directory Junction
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        Directory Junction ID
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Remove-ALDirectory -websession $websession -id "4915204"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help remove-ALDirectory -examples".
+    For more information, type: "get-help remove-ALDirectory -detailed".
+    For technical information, type: "get-help remove-ALDirectory -full".
+
+
 Remove-ALELAppassignment
 -------------------------
 

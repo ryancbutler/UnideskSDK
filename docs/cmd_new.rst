@@ -180,6 +180,86 @@ REMARKS
     For technical information, type: "get-help New-ALAppLayerRev -full".
 
 
+new-aldirectory
+-------------------------
+
+NAME
+    new-aldirectory
+    
+SYNOPSIS
+    Creates Directory Junction
+    
+    
+SYNTAX
+    new-aldirectory [-websession] <Object> [-name] <String> [-serveraddress] <String> [[-port] <String>] [-usessl] [-username] <String> [-adpassword] <String> [-basedn] <String> [-force] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Creates Directory Junction
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -name <String>
+        Junction name
+        
+    -serveraddress <String>
+        AD server to connect
+        
+    -port <String>
+        AD port (uses 389 and 636 by default)
+        
+    -usessl [<SwitchParameter>]
+        Connect via SSL
+        
+    -username <String>
+        AD username (eg admin@domain.com)
+        
+    -adpassword <String>
+        AD password
+        
+    -basedn <String>
+        Base AD DN
+        
+    -force [<SwitchParameter>]
+        Skip AD tests
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help new-aldirectory -examples".
+    For more information, type: "get-help new-aldirectory -detailed".
+    For technical information, type: "get-help new-aldirectory -full".
+
+
 new-ALicon
 -------------------------
 

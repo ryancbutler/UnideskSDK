@@ -21,13 +21,16 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
       - [vCenter](#vcenter)
       - [Citrix Hypervisor (XenServer)](#citrix-hypervisor--xenserver-)
     + [New Operating System Layer Version](#new-operating-system-layer-version)
+    + [Remove Operating System Layer Revision](#remove-operating-system-layer-revision)
   * [Application Layers](#application-layers)
     + [New Application Layer](#new-application-layer)
     + [New Application Layer Version](#new-application-layer-version)
     + [Set Application Layer](#set-application-layer)
+    + [Remove Application Layer Revision](#remove-application-layer-revision)
   * [Platform Layers](#platform-layers)
     + [New Platform Layer](#new-platform-layer)
     + [New Platform Layer Version](#new-platform-layer-version)
+    + [Remove Platform Layer Revision](#remove-platform-layer-revision)
   * [Images](#images)
     + [Get Image Composition](#get-image-composition)
     + [Create New Image](#create-new-image)
@@ -54,6 +57,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
     + [Get Directory Junction Info](#get-directory-junction-info)
     + [Set Directory Junction Info](#set-directory-junction-info)
     + [Delete Directory Junction](#delete-directory-junction)
+    + [User Info](#user-info)
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
@@ -175,8 +179,18 @@ do{
 $status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
 Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
-#use function to extractt VM NAME from status message
+#use function to extract VM NAME from status message
 get-alvmname -message $status.WorkItems.WorkItemResult.Status
+```
+
+### Remove Operating System Layer Revision
+
+```powershell
+$fileshare = Get-ALRemoteshare -websession $websession
+$osid = Get-ALOSlayer -websession $websession | where{$_.name -eq "Windows 10 x64"}
+$osrevid = Get-ALOSlayerDetail -websession $websession -id $osid.Id
+$osrevid = $osrevid.Revisions.OSLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -Last 1
+remove-aloslayerrev -websession $websession -osid $osid.Id -osrevid $osrevid.id -fileshareid $fileshare.id
 ```
 
 ## Application Layers
@@ -211,6 +225,15 @@ new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connec
 ```powershell
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $app.Id -scriptpath "C:\NeededScript.ps1" -OsLayerSwitching BoundToOsLayer
+```
+### Remove Application Layer Revision
+
+```powershell
+$fileshare = Get-ALRemoteshare -websession $websession
+$appid = Get-ALapplayer -websession $websession | where{$_.name -eq "7-Zip"}
+$apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
+$apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
 ```
 
 ## Platform Layers
@@ -253,6 +276,15 @@ diskformat = $connector.ValidDiskFormats.DiskFormat;
 }
 
 New-ALPlatformLayerRev @params
+```
+### Remove Platform Layer Revision
+
+```powershell
+$fileshare = Get-ALRemoteshare -websession $websession
+$platformid = Get-ALPlatformlayer -websession $websession | where{$_.name -eq "Windows 10 VDA"}
+$platformrevid = Get-ALPlatformlayerDetail -websession $websession -id $platformid.Id
+$platformrevid = $platformrevid.Revisions.PlatformLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+remove-alplatformlayerrev -websession $websession -platformid $platformid.Id -platformrevid $platformrevid.id -fileshareid $fileshare.id
 ```
 
 ## Images
@@ -510,6 +542,16 @@ Set-aldirectory -websession $websession -adpassword "MYPASSWORD" -id $directory.
 
 ```powershell
 Remove-ALDirectory -websession $websession -id "4915204"
+```
+
+### User Info
+
+```powershell
+$dir = Get-ALDirectory -websession $websession|where{$_.name -eq "MyDirectory"}
+$userid = Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"|Where-Object {$_.loginname -eq "myusername"}
+$userdetail = Get-ALUserDetail -websession $websession -junctionid $dir.id -ldapguid $userid.DirectoryId.LdapGuid -dn $userid.DirectoryId.LdapDN -id $userid.DirectoryId.UnideskId
+$apps = Get-ALUserAssignment -websession $websession -id $userid.DirectoryId.UnideskId -Verbose
+$apps|Select-Object LayerName,CurrentRevision,PendingRevision,AssignedViaDisplayName
 ```
 
 ## System Info
