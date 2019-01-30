@@ -59,6 +59,64 @@ REMARKS
     For technical information, type: "get-help Remove-ALAppassignment -full".
 
 
+Remove-ALAppLayerRev
+-------------------------
+
+NAME
+    Remove-ALAppLayerRev
+    
+SYNOPSIS
+    Removes a app layer version
+    
+    
+SYNTAX
+    Remove-ALAppLayerRev [-websession] <Object> [-appid] <Object> [-apprevid] <Object> [-fileshareid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes a app layer version
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -appid <Object>
+        Base application layer version id to use
+        
+    -apprevid <Object>
+        Application revision version id to use
+        
+    -fileshareid <Object>
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
+    
+    $appid = Get-ALapplayer -websession $websession | where{$_.name -eq "7-Zip"}
+    $apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
+    $apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+    remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Remove-ALAppLayerRev -examples".
+    For more information, type: "get-help Remove-ALAppLayerRev -detailed".
+    For technical information, type: "get-help Remove-ALAppLayerRev -full".
+
+
 remove-ALDirectory
 -------------------------
 
@@ -272,6 +330,122 @@ REMARKS
     To see the examples, type: "get-help Remove-ALImage -examples".
     For more information, type: "get-help Remove-ALImage -detailed".
     For technical information, type: "get-help Remove-ALImage -full".
+
+
+Remove-ALOSLayerRev
+-------------------------
+
+NAME
+    Remove-ALOSLayerRev
+    
+SYNOPSIS
+    Removes a OS layer version
+    
+    
+SYNTAX
+    Remove-ALOSLayerRev [-websession] <Object> [-osid] <Object> [-osrevid] <Object> [-fileshareid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes a OS layer version
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -osid <Object>
+        Base OS layer version id to use
+        
+    -osrevid <Object>
+        OS revision version id to use
+        
+    -fileshareid <Object>
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
+    
+    $osid = Get-ALOSlayer -websession $websession | where{$_.name -eq "Windows 10 x64"}
+    $osrevid = Get-ALOSlayerDetail -websession $websession -id $osid.Id
+    $osrevid = $osrevid.Revisions.OSLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -Last 1
+    remove-aloslayerrev -websession $websession -osid $osid.Id -osrevid $osrevid.id -fileshareid $fileshare.id
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Remove-ALOSLayerRev -examples".
+    For more information, type: "get-help Remove-ALOSLayerRev -detailed".
+    For technical information, type: "get-help Remove-ALOSLayerRev -full".
+
+
+Remove-ALPlatformLayerRev
+-------------------------
+
+NAME
+    Remove-ALPlatformLayerRev
+    
+SYNOPSIS
+    Removes a platform layer version
+    
+    
+SYNTAX
+    Remove-ALPlatformLayerRev [-websession] <Object> [-platformid] <Object> [-platformrevid] <Object> [-fileshareid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes a platform layer version
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -platformid <Object>
+        Base platform layer version id to use
+        
+    -platformrevid <Object>
+        Platform revision version id to use
+        
+    -fileshareid <Object>
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$fileshare = Get-ALRemoteshare -websession $websession
+    
+    $platformid = Get-ALPlatformlayer -websession $websession | where{$_.name -eq "Windows 10 VDA"}
+    $platformrevid = Get-ALPlatformlayerDetail -websession $websession -id $platformid.Id
+    $platformrevid = $platformrevid.Revisions.PlatformLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+    remove-alplatformlayerrev -websession $websession -platformid $platformid.Id -platformrevid $platformrevid.id -fileshareid $fileshare.id
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Remove-ALPlatformLayerRev -examples".
+    For more information, type: "get-help Remove-ALPlatformLayerRev -detailed".
+    For technical information, type: "get-help Remove-ALPlatformLayerRev -full".
 
 
 
