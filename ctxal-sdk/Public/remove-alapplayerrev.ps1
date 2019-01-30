@@ -32,20 +32,20 @@ Begin {
 Process {
 [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
-    <s:Body xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-		<DeleteAppLayerRevisions xmlns="http://www.unidesk.com/">
-		    <command>
-				<LayerId>$appid</LayerId>
-				<RevisionIds>
-					<long>$apprevid</long>
-				</RevisionIds>
-				<Reason>
-					<ReferenceNumber>0</ReferenceNumber>
-				</Reason>
-				<SelectedFileShare>$fileshareid</SelectedFileShare>
-			</command>
-		</DeleteAppLayerRevisions>
-	</s:Body>
+  <s:Body xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DeleteAppLayerRevisions xmlns="http://www.unidesk.com/">
+      <command>
+        <LayerId>$appid</LayerId>
+        <RevisionIds>
+          <long>$apprevid</long>
+        </RevisionIds>
+        <Reason>
+          <ReferenceNumber>0</ReferenceNumber>
+        </Reason>
+        <SelectedFileShare>$fileshareid</SelectedFileShare>
+      </command>
+    </DeleteAppLayerRevisions>
+  </s:Body>
 </s:Envelope>
 "@
 $headers = @{
