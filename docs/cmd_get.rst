@@ -1213,7 +1213,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALUserAssignment [-websession] <Object> [-id] <String> [<CommonParameters>]
+    Get-ALUserAssignment [-websession] <Object> [-id] <String[]> [<CommonParameters>]
     
     
 DESCRIPTION
@@ -1224,7 +1224,7 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -id <String>
+    -id <String[]>
         Unidesk ID of user
         
     <CommonParameters>
@@ -1313,7 +1313,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALUserList [-websession] <Object> [-junctionid] <String> [-dn] <String> [<CommonParameters>]
+    Get-ALUserList [-websession] <Object> [-junctionid] <String> [[-dn] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -1339,6 +1339,15 @@ PARAMETERS
     -------------------------- EXAMPLE 1 --------------------------
     
     PS C:\>Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"
+    
+    
+    
+    
+    
+    
+    -------------------------- EXAMPLE 2 --------------------------
+    
+    PS C:\>Get-ALUserList -websession $websession -junctionid $dir.id
     
     
     
