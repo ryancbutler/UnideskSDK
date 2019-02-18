@@ -141,7 +141,8 @@ PrivateData = @{
 12-29-2018 Added functionality for directory junctions
 01-22-2019 Added functionality to pull user information and assignments
 01-22-2019 Much better regex for Get-AlVMName (Thanks Bill Nickerson @wnickerson78)
-01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf) 
+01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf)
+02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments ) 
 '
 
         # Prerelease string of this module
