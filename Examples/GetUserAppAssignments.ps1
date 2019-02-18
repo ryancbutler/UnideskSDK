@@ -4,6 +4,7 @@ $username = "administrator"
 $SecurePassword = ConvertTo-SecureString $Pass -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ($Username, $SecurePassword)
 $websession = Connect-alsession -aplip $aplip -Credential $Credential -Verbose
+#ELM Directory Name
 $DirectoryName = "Lab"
 
 #Final Array
@@ -51,7 +52,7 @@ $groups = Get-ALUserGroupMembership -websession $websession -junctionid $dir.id 
 
 #build group array for search
 $groupids = @()
-$groups|%{$groupids += $_.DirectoryId.UnideskId}
+$groups|ForEach-Object{$groupids += $_.DirectoryId.UnideskId}
     
     #add user to group array only if it has an ID
     if($User.DirectoryId.UnideskId -ne 0)
