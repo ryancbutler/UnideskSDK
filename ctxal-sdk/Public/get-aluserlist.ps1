@@ -13,19 +13,44 @@ function Get-ALUserList
   LDAP DN of user location
 .EXAMPLE
   Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"
+.EXAMPLE
+  Get-ALUserList -websession $websession -junctionid $dir.id
 #>
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$junctionid,
-[Parameter(Mandatory=$true)][string]$dn
+[Parameter(Mandatory=$false)][string]$dn=""
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
   Test-ALWebsession -WebSession $websession
 }
 Process {
+
+if([string]::IsNullOrWhiteSpace($dn))
+{
 [xml]$xml = @"
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
+  <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <BrowseContainer xmlns="http://www.unidesk.com/">
+      <query>
+        <Id xsi:type="FolderId">
+          <UnideskId>$junctionid</UnideskId>
+          <DirectoryJunctionId>$junctionid</DirectoryJunctionId>
+          <LdapGuid/>
+          <LdapDN/>
+          <Sid/>
+        </Id>
+        <FilterType>All</FilterType>
+      </query>
+    </BrowseContainer>
+  </s:Body>
+</s:Envelope>
+"@
+}
+else {
+  [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <BrowseContainer xmlns="http://www.unidesk.com/">
@@ -43,6 +68,7 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
+}
 $headers = @{
 SOAPAction = "http://www.unidesk.com/BrowseContainer";
 "Content-Type" = "text/xml; charset=utf-8";

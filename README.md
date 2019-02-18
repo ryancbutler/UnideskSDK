@@ -550,6 +550,12 @@ Remove-ALDirectory -websession $websession -id "4915204"
 $dir = Get-ALDirectory -websession $websession|where{$_.name -eq "MyDirectory"}
 $userid = Get-ALUserList -websession $websession -junctionid $dir.id -dn "CN=Users,DC=mydomain,DC=com"|Where-Object {$_.loginname -eq "myusername"}
 $userdetail = Get-ALUserDetail -websession $websession -junctionid $dir.id -ldapguid $userid.DirectoryId.LdapGuid -dn $userid.DirectoryId.LdapDN -id $userid.DirectoryId.UnideskId
+$groups = Get-ALUserGroupMembership -websession $websession -junctionid $dir.id -id $User.DirectoryId.UnideskId -ldapguid $user.FullId.LdapGuid -ldapdn $user.FullId.LdapDN -sid $userdetail.FullId.sid
+#build group array for search
+$groupids = @()
+$groups|%{$groupids += $_.DirectoryId.UnideskId}
+#add user to group array
+$groupids += $User.DirectoryId.UnideskId
 $apps = Get-ALUserAssignment -websession $websession -id $userid.DirectoryId.UnideskId -Verbose
 $apps|Select-Object LayerName,CurrentRevision,PendingRevision,AssignedViaDisplayName
 ```
