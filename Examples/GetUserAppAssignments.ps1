@@ -4,15 +4,41 @@ $username = "administrator"
 $SecurePassword = ConvertTo-SecureString $Pass -AsPlainText -Force
 $Credential = New-Object System.Management.Automation.PSCredential ($Username, $SecurePassword)
 $websession = Connect-alsession -aplip $aplip -Credential $Credential -Verbose
+$DirectoryName = "Lab"
 
 #Final Array
 $final = @()
 
 #Get Directory
-$dir = Get-ALDirectory -websession $websession|where{$_.name -eq "Lab"}
+$dir = Get-ALDirectory -websession $websession|Where-Object{$_.name -eq $DirectoryName}
 
-#Get LDAP Users that have authenticated to ELM
-$Users = Get-ALUserList -websession $websession -junctionid $dir.id|Where-Object {$_.DirectoryId.type -eq "UserId" -and $_.DirectoryId.UnideskId -ne 0}
+
+#Recursive function to find all users
+function  Get-LDAPUsers {
+
+  param (
+  [Parameter()]
+  [string]$ldapdn
+  )
+  $FULL = Get-ALUserList -websession $websession -dn $ldapdn -junctionid $dir.ID
+
+    foreach ($item in $full)
+    {
+      if($item.type -contains "FolderSummary")
+      {
+        Get-LDAPUsers -ldapdn $item.FullId.LdapDN
+      }
+      elseif($Item.type -eq "UserSummary")
+      {
+       $item 
+      }
+    }
+
+}
+
+#Call Function
+$users = Get-LDAPUsers -ldapdn $dir.LdapDN
+
 
 #Iterate user list
 foreach ($user in $Users)
@@ -26,27 +52,36 @@ $groups = Get-ALUserGroupMembership -websession $websession -junctionid $dir.id 
 #build group array for search
 $groupids = @()
 $groups|%{$groupids += $_.DirectoryId.UnideskId}
-#add user to group array
-$groupids += $User.DirectoryId.UnideskId
+    
+    #add user to group array only if it has an ID
+    if($User.DirectoryId.UnideskId -ne 0)
+    {
+        $groupids += $User.DirectoryId.UnideskId
+    }
 
-#Get Apps that User and Groups are assigned to
-$apps = Get-ALUserAssignment -websession $websession -id $groupids
+    if($groupids)
+    {
+    #Get Apps that User and Groups are assigned to
+    $apps = Get-ALUserAssignment -websession $websession -id $groupids
      
-     #Iterate each app found
-     foreach ($app in $apps)
-     {
-     #Create PS object
-     $object = [PSCustomObject] @{
-               'UserName' = $user.LoginName
-               'UserDN' = $user.FullId.LdapDN
-               'AppLayer' = $app.LayerName;
-               'Revision' = $app.CurrentRevision;
-               'AssignedVia' = $app.AssignedVia;
-               'AssignedViaDisplayName' = $app.AssignedViaDisplayName}
-     #Add to return object
-     $final += $object
-     }
+            #Iterate each app found
+            foreach ($app in $apps)
+            {
+            #Create PS object
+            $object = [PSCustomObject] @{
+                    'UserName' = $user.LoginName
+                    'UserDN' = $user.FullId.LdapDN
+                    'AppLayer' = $app.LayerName;
+                    'Revision' = $app.CurrentRevision;
+                    'AssignedVia' = $app.AssignedVia;
+                    'AssignedViaDisplayName' = $app.AssignedViaDisplayName}
+            #Add to return object
+            $final += $object
+            }
 
+    }
 }
+
+
 #Output object
-$final|ft -AutoSize
+$final|Format-Table -AutoSize
