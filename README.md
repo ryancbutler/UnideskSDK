@@ -573,3 +573,22 @@ Get-ALSystemInfo -websession $websession
 ```powershell
 get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty value -Property @{Name="SettingName"; Expression = {$_.Name}}
 ```
+
+## Connectors
+
+### vCenter
+
+Get vCenter connector(s) information
+
+```powershell
+Get-VcenterConnector -websession $websession
+```
+
+Validate and Set vCenter Password
+
+```powershell
+$vcenter = Get-VcenterConnector -websession $websession
+$vcenter.pccConfig|Add-Member -NotePropertyName "password" -NotePropertyValue "mysecretpassword"
+
+Set-VcenterConnector -websession $websession -config $vcenter
+```
