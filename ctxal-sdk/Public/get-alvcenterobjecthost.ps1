@@ -1,9 +1,9 @@
-function Get-VcenterObjectDataCenter {
+function Get-VcenterObjectHost {
 <#
 .SYNOPSIS
-  Gets Vcenter Connector datacenters
+  Gets Vcenter Connector datacenter
 .DESCRIPTION
-  Gets Vcenter Connector datacenters
+  Gets Vcenter Connector datacenter
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .PARAMETER configid
@@ -12,15 +12,18 @@ function Get-VcenterObjectDataCenter {
   vCenter Hostname
 .PARAMETER username
   Username to authenticate to vcenter
+.PARAMETER dc
+  DC to query
 .EXAMPLE
-  Get-VcenterObjectDataCenter -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose
+  Get-VcenterObjectDataCenter -websession $websession
 #>
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$configid,
 [Parameter(Mandatory=$true)][string]$vcenter,
-[Parameter(Mandatory=$true)][string]$username
+[Parameter(Mandatory=$true)][string]$username,
+[Parameter(Mandatory=$true)][string]$dc
 
 )
 Begin {
@@ -55,10 +58,15 @@ $body = @"
   "configId": "$configid",
   "vCenterServer": "$vcenter",
   "userName": "$username",
-  "type": "Datacenter",
+  "root": {
+    "attributes": {
+      "type": "Datacenter"
+    },
+    "`$value": "$dc"
+  },
+  "type": "HostSystem",
   "properties": [
-    "name",
-    "vmFolder"
+    "name"
   ],
   "recursive": true
 }

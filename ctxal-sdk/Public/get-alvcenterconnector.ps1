@@ -41,7 +41,7 @@ $headers = @{
 }
 try
 {
-    $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers -Verbose
+    $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers
 } catch {
     # do something
 } finally {

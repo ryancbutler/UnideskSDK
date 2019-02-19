@@ -57,7 +57,7 @@ else
   Write-Verbose "Verifying Connector Data"
   try
   {
-    Invoke-RestMethod -Method Post -Uri "https://$($websession.aplip):3504/api/Configurations/verify" -Headers $headers -Body $configjson -Verbose|Out-Null
+    Invoke-RestMethod -Method Post -Uri "https://$($websession.aplip):3504/api/Configurations/verify" -Headers $headers -Body $configjson|Out-Null
   } catch {
     $responseerror = $_.ErrorDetails.Message|ConvertFrom-Json
     throw ("$($responseerror.error.message)")
@@ -68,7 +68,7 @@ else
 try
 {
   Write-Verbose "Setting Connector Data"
-  Invoke-RestMethod -Method Put -Uri "https://$($websession.aplip):3504/api/Configurations/$($config.pccid)" -Headers $headers -Body $configjson -Verbose|Out-Null
+  Invoke-RestMethod -Method Put -Uri "https://$($websession.aplip):3504/api/Configurations/$($config.pccid)" -Headers $headers -Body $configjson|Out-Null
 } catch {
   $responseerror = $_.ErrorDetails.Message|ConvertFrom-Json
   throw ("$($responseerror.error.message)")
