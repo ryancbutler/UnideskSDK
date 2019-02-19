@@ -1,4 +1,4 @@
-function Set-VcenterConnector {
+function Set-alVcenterConnector {
 <#
 .SYNOPSIS
   Sets Vcenter Connector configuration

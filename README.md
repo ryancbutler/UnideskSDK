@@ -61,6 +61,8 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
+  * [Connectors](#Connectors)
+    + [vCenter](#vCenter)
 
 ## Install and Update
 
@@ -581,14 +583,14 @@ get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty va
 Get vCenter connector(s) information
 
 ```powershell
-Get-VcenterConnector -websession $websession
+Get-alVcenterConnector -websession $websession
 ```
 
 Validate and Set vCenter Password
 
 ```powershell
-$vcenter = Get-VcenterConnector -websession $websession
+$vcenter = Get-alVcenterConnector -websession $websession
 $vcenter.pccConfig|Add-Member -NotePropertyName "password" -NotePropertyValue "mysecretpassword"
 
-Set-VcenterConnector -websession $websession -config $vcenter
+Set-alVcenterConnector -websession $websession -config $vcenter
 ```

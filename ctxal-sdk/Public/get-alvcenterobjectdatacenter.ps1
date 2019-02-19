@@ -1,17 +1,21 @@
-function Get-AlVcenterConnector {
+function Get-VcenterObjectDataCenter {
 <#
 .SYNOPSIS
-  Gets Vcenter Connector configuration
+  Gets Vcenter Connector datacenter
 .DESCRIPTION
-  Gets Vcenter Connector configuration
+  Gets Vcenter Connector datacenter
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .EXAMPLE
-  Get-AlVcenterConnector -websession $websession
+  Get-VcenterObjectDataCenter -websession $websession
 #>
 [cmdletbinding()]
 Param(
-[Parameter(Mandatory=$true)]$websession
+[Parameter(Mandatory=$true)]$websession,
+[Parameter(Mandatory=$true)][string]$configid,
+[Parameter(Mandatory=$true)][string]$vcenter,
+[Parameter(Mandatory=$true)][string]$username
+
 )
 Begin {
 #https://stackoverflow.com/questions/41897114/unexpected-error-occurred-running-a-simple-unauthorized-rest-query
@@ -39,9 +43,24 @@ $headers = @{
   "Accept" = "*/*"
   "Content-Type" = "application/json" 
 }
+$username = $username.Replace("\","\\")
+$body = @"
+{
+  "configId": "$configid",
+  "vCenterServer": "$vcenter",
+  "userName": "$username",
+  "type": "Datacenter",
+  "properties": [
+    "name",
+    "vmFolder"
+  ],
+  "recursive": true
+}
+"@
+
 try
 {
-    $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers -Verbose
+    $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/VmwareManagedObjects/findByType" -Headers $headers -Body $body -Verbose
 } catch {
     # do something
 } finally {
