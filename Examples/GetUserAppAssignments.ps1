@@ -1,3 +1,5 @@
+#Returns a list of users with what elastic layers are assigned
+
 $aplip = "192.168.1.100"
 $pass = "mysupersecretpassword"
 $username = "administrator"
