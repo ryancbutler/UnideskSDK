@@ -10,11 +10,7 @@ function Remove-ALConnector
 .PARAMETER connid
   Connector ID
 .EXAMPLE
-  $fileshare = Get-ALRemoteshare -websession $websession
-  $appid = Get-ALapplayer -websession $websession | where{$_.name -eq "7-Zip"}
-  $apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
-  $apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
-  remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
+  Remove-ALConnector -websession $websession -connid $conn.Id
 #>  
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
