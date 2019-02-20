@@ -43,7 +43,7 @@ try
 {
     $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers
 } catch {
-    # do something
+    throw $_
 } finally {
    #enable checks again
    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = $null
