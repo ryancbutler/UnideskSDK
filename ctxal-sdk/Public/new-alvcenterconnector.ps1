@@ -95,7 +95,7 @@ $body = [PSCustomObject]@{
 
 try
 {
-    $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
+    $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
 } catch {
     throw $_
 } finally {
