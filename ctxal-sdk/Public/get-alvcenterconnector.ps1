@@ -24,7 +24,9 @@ Process{
 $headers = @{
   "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
   "Accept" = "*/*"
-  "Content-Type" = "application/json" 
+  "Content-Type" = "application/json"
+  "Host" = "$($websession.aplip):3504"
+  "Referer" =  "https://$($websession.aplip):3504/ui/"
 }
 try
 {
@@ -32,17 +34,17 @@ try
 } catch {
   if($_.ErrorDetails.Message)
   {
-    if($_.ErrorDetails.Message)
-    {
     $temp = $_.ErrorDetails.Message|ConvertFrom-Json
-    Write-error $temp.error.message
-    Write-error $temp.error.sqlmessage
-    write-error $temp.error.staus
-    throw "Process failed!"
+    if($temp.message)
+    {
+      Write-error $temp.message
     }
     else {
-      throw $_
+      Write-error $temp.error.message
+      Write-error $temp.error.sqlmessage
+      write-error $temp.error.staus
     }
+    throw "Process failed!"
   }
   else {
     throw $_
