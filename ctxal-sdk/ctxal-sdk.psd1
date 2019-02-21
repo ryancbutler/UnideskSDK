@@ -27,7 +27,7 @@ Author = 'Ryan Butler'
 CompanyName = 'TechDrabble.com'
 
 # Copyright statement for this module
-Copyright = '(c) 2018 Ryan Butler. All rights reserved.'
+Copyright = '(c) 2019 Ryan Butler. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Reversed Engineered Unidesk\Citrix App Layering SDK'
