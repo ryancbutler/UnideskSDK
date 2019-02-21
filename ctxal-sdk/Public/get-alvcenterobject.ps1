@@ -147,9 +147,13 @@ if($vcenterpass)
 
 try
 {
-    $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/VmwareManagedObjects/findByType" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
+  $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/VmwareManagedObjects/findByType" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
 } catch {
-    throw $_
+    $temp = $_.ErrorDetails.Message|ConvertFrom-Json
+    Write-error $temp.error.message
+    Write-error $temp.error.sqlmessage
+    write-error $temp.error.staus
+    throw "Process failed!"
 } finally {
    
 }

@@ -27,7 +27,11 @@ try
 {
     $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers
 } catch {
-    throw $_
+  $temp = $_.ErrorDetails.Message|ConvertFrom-Json
+  Write-error $temp.error.message
+  Write-error $temp.error.sqlmessage
+  write-error $temp.error.staus
+  throw "Process failed!"
 } finally {
    
    

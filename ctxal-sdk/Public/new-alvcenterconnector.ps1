@@ -81,6 +81,7 @@ try
 {
     $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
 } catch {
+
     $temp = $_.ErrorDetails.Message|ConvertFrom-Json
     Write-error $temp.error.message
     Write-error $temp.error.sqlmessage
