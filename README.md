@@ -519,7 +519,7 @@ Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -Pas
 ### New Directory Junction
 
 ```powershell
-new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
 ```
 
 ### Get ALL Directory Junctions
@@ -578,6 +578,13 @@ get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty va
 
 ## Connectors
 
+Remove Connector
+
+```powershell
+$conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
+Remove-ALConnector -websession $websession -connid $conn.Id -Confirm:$false
+```
+
 ### vCenter
 
 Get vCenter connector(s) information
@@ -589,13 +596,14 @@ Get-alVcenterConnector -websession $websession
 Get vCenter Resource Info
 
 ```powershell
-$vcenter = Get-alVcenterConnector -websession $websession -Verbose
-$dc = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type datacenter -configid $vcenter.pccId
-$hostvar = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type Host -dc $dc.value
-$datastore = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type Datastore -dc $dc.value
-$network = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type network -dc $dc.value
-$templates = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type vmTemplate -vmfolder $dc.vmFolder
-$folders = Get-VcenterObject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose -type vmfolder -vmfolder $dc.vmFolder
+$vcenter = Get-alVcenterConnector -websession $websession
+$dc = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type datacenter -configid $vcenter.pccId
+$folder 
+$hostvar = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type Host -dc $dc.value
+$datastore = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type Datastore -dc $dc.value
+$network = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type network -dc $dc.value
+$template = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type vmTemplate -vmfolder $dc.vmFolder
+$folder = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type vmfolder -vmfolder $dc.vmFolder
 ```
 
 Validate and Set vCenter Password
@@ -613,13 +621,13 @@ Create vCenter Connector
 $vcenterpassword = "mysupersecretpassword"
 $usernamevc = "domain\username"
 $vcentername = "myvcenter.domain.local"
-$type = get-alconnectortype -websession $websession|Where-Object{$_.name -eq "Citrix MCS for vSphere"}
-$dc = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type Datacenter
-$hostvar = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type Host -dc $dc.value|where{$_.name -eq "hostname"}
-$datastore = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type Datastore -dc $dc.value|where{$_.name -eq "datastorename"}
-$network = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type network -dc $dc.value|where{$_.name -eq "networkname"}
-$template = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type vmTemplate -vmfolder $dc.vmFolder|where{$_.name -eq "templatename"}
-$folder = Get-VcenterObject -websession $websession -username $usernamevc -vcenter $vcentername -Verbose -vcenterpass $vcenterpassword -type vmfolder -vmfolder $dc.vmFolder|where{$_.name -eq "foldername"}
+$type = get-alconnectortype -websession $websession -name "Citrix MCS for vSphere"
+$dc = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Datacenter -name "Lab"
+$hostvar = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Host -dc $dc.value -name "myhostname"
+$datastore = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Datastore -dc $dc.value -name "nydatastire"
+$network = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type network -dc $dc.value -name "VLAN10"
+$template = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type vmTemplate -vmfolder $dc.vmFolder -name "CALTEMP"
+$folder = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type vmfolder -vmfolder $dc.vmFolder -name "Unidesk"
 
 
 $Params = @{

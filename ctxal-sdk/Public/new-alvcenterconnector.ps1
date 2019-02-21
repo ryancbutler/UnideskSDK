@@ -1,15 +1,51 @@
 function new-AlVcenterConnector {
 <#
 .SYNOPSIS
-  Creates Vcenter Connector configuration
+  Creates vCenter Connector configuration
 .DESCRIPTION
-  Creates Vcenter Connector configuration
+  Creates vCenter Connector configuration
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
+.PARAMETER name
+  Name of the new connector
+.PARAMETER dc
+  vCenter Datacenter id
+.PARAMETER datastore
+  vCenter Datastore id
+.PARAMETER hostsystem
+  vCenter ESXI hostname id
+.PARAMETER network
+  vCenter network id
+.PARAMETER folder
+  vCenter folder id
+.PARAMETER connid
+  ELM platform connection id
+.PARAMETER vcenterpass
+  vCenter password to authenticate
+.PARAMETER username
+  vCenter username to authenticate
+.PARAMETER vcenter
+  vCenter hostname
+.PARAMETER vmtemplate
+  vCenter template id to use
+.PARAMETER cachesize
+  Cache size for connector (GB)
 .EXAMPLE
-  Get-AlVcenterConnector -websession $websession
+  $Params = @{
+  Name = "MyconnectorTest"
+  DC = $dc
+  DATASTORE = $datastore
+  HOSTSYSTEM = $hostvar
+  NETWORK = $network
+  FOLDER = $folder
+  CONNID = $type.Id
+  VMTEMPLATE = $template
+  CACHESIZE = "250"
+  }
+
+  new-AlVcenterConnector -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword @params
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)]$name,
@@ -22,7 +58,7 @@ Param(
 [Parameter(Mandatory=$true)]$vcenterpass,
 [Parameter(Mandatory=$true)]$username,
 [Parameter(Mandatory=$true)]$vcenter,
-[Parameter(Mandatory=$true)]$vmtemplate,
+[Parameter(Mandatory=$false)]$vmtemplate,
 [Parameter(Mandatory=$false)]$cachesize="250"
 )
 Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
@@ -77,20 +113,28 @@ $body = [PSCustomObject]@{
 	'pccPlatformConnectorId' = $connid
 }
 
-try
-{
-    $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
-} catch {
+if ($PSCmdlet.ShouldProcess("Creating new vCenter Connector $name")) {
+  try
+  {
+      $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
+  } catch {
 
+    if($_.ErrorDetails.Message)
+    {
     $temp = $_.ErrorDetails.Message|ConvertFrom-Json
     Write-error $temp.error.message
     Write-error $temp.error.sqlmessage
     write-error $temp.error.staus
     throw "Process failed!"
-} finally {
-}
+    }
+    else {
+      throw $_
+    }
+  } finally {
+  }
 
-return $content
+  return $content
+}
 }
 
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}

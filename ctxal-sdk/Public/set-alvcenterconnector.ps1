@@ -13,7 +13,7 @@ function Set-alVcenterConnector {
 .EXAMPLE
   Set-VcenterConnector -websession $websession -config $connectorconfig
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)]$config,
@@ -32,38 +32,47 @@ $headers = @{
 }
 
 $configjson = $config|ConvertTo-Json -Depth 20
-if($force)
-{
-  Write-Verbose "Skipping Connector Data Validation"
-}
-else
-{
-  Write-Verbose "Verifying Connector Data"
+  if ($PSCmdlet.ShouldProcess("Setting vCenter Connector"))
+  {
+  if($force)
+  {
+    Write-Verbose "Skipping Connector Data Validation"
+  }
+  else
+  {
+    Write-Verbose "Verifying Connector Data"
+    try
+    {
+      Invoke-RestMethod -Method Post -Uri "https://$($websession.aplip):3504/api/Configurations/verify" -Headers $headers -Body $configjson|Out-Null
+    } catch {
+      $temp = $_.ErrorDetails.Message|ConvertFrom-Json
+      Write-error $temp.error.message
+      Write-error $temp.error.sqlmessage
+      write-error $temp.error.staus
+      throw "Process failed!"
+    }
+    Write-Verbose "Validation Successful"
+  }
+
   try
   {
-    Invoke-RestMethod -Method Post -Uri "https://$($websession.aplip):3504/api/Configurations/verify" -Headers $headers -Body $configjson|Out-Null
+    Write-Verbose "Setting Connector Data"
+    Invoke-RestMethod -Method Put -Uri "https://$($websession.aplip):3504/api/Configurations/$($config.pccid)" -Headers $headers -Body $configjson|Out-Null
   } catch {
+    if($_.ErrorDetails.Message)
+    {
     $temp = $_.ErrorDetails.Message|ConvertFrom-Json
     Write-error $temp.error.message
     Write-error $temp.error.sqlmessage
     write-error $temp.error.staus
     throw "Process failed!"
+    }
+    else {
+      throw $_
+    }
+  } 
+
   }
-  Write-Verbose "Validation Successful"
-}
-
-try
-{
-  Write-Verbose "Setting Connector Data"
-  Invoke-RestMethod -Method Put -Uri "https://$($websession.aplip):3504/api/Configurations/$($config.pccid)" -Headers $headers -Body $configjson|Out-Null
-} catch {
-  $temp = $_.ErrorDetails.Message|ConvertFrom-Json
-  Write-error $temp.error.message
-  Write-error $temp.error.sqlmessage
-  write-error $temp.error.staus
-  throw "Process failed!"
-} 
-
 }
 
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}

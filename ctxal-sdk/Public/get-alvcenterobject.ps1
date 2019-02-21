@@ -1,4 +1,4 @@
-function Get-VcenterObject {
+function Get-alVcenterObject {
 <#
 .SYNOPSIS
   Gets Vcenter Connector datacenters
@@ -10,10 +10,20 @@ function Get-VcenterObject {
   Connector ID
 .PARAMETER vcenter
   vCenter Hostname
+.PARAMETER vcenterpass
+  Password to authenticate to vcenter
 .PARAMETER username
   Username to authenticate to vcenter
+.PARAMETER type
+  Type of object to return
+.PARAMETER dc
+  vCenter Datacenter ID to query
+.PARAMETER vmfolder
+  vCenter folder ID to query 
+.PARAMETER name
+  Name of object to return
 .EXAMPLE
-  Get-VcenterObjectDataCenter -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose
+  Get-alVcenterObjectDataCenter -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose
 #>
 [cmdletbinding()]
 Param(
@@ -24,7 +34,8 @@ Param(
 [Parameter(Mandatory=$true)][string]$username,
 [Parameter(Mandatory=$true)][ValidateSet("Datacenter","Host","Datastore","Network","VMTemplate","VMFolder")][string]$type,
 [Parameter(Mandatory=$false)][string]$dc,
-[Parameter(Mandatory=$false)][string]$vmfolder
+[Parameter(Mandatory=$false)][string]$vmfolder,
+[Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*"
 )
 Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
 
@@ -149,11 +160,17 @@ try
 {
   $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/VmwareManagedObjects/findByType" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
 } catch {
+    if($_.ErrorDetails.Message)
+    {
     $temp = $_.ErrorDetails.Message|ConvertFrom-Json
     Write-error $temp.error.message
     Write-error $temp.error.sqlmessage
     write-error $temp.error.staus
     throw "Process failed!"
+    }
+    else {
+      throw $_
+    }
 } finally {
    
 }
@@ -190,7 +207,7 @@ else {
 
 }
   
-return $final
+return $final|Where-Object{$_.name -like $name}
 
 }
 

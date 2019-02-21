@@ -7,10 +7,13 @@ function Get-ALconnectortype
   Gets all Connector Types
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
+.PARAMETER name
+  Name of object to return
 #>
 [cmdletbinding()]
 Param(
-[Parameter(Mandatory=$true)]$websession
+[Parameter(Mandatory=$true)]$websession,
+[Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -43,7 +46,7 @@ if($obj.Envelope.Body.QueryPlatformConnectorsResponse.QueryPlatformConnectorsRes
     throw $obj.Envelope.Body.QueryPlatformConnectorsResponse.QueryPlatformConnectorsResult.Error.message
   }
   else {
-    return $obj.Envelope.Body.QueryPlatformConnectorsResponse.QueryPlatformConnectorsResult.Connectors.PlatformConnectorDetails
+    return $obj.Envelope.Body.QueryPlatformConnectorsResponse.QueryPlatformConnectorsResult.Connectors.PlatformConnectorDetails|Where-Object{$_.name -like $name}
   }
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}

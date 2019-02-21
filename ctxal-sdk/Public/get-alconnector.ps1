@@ -9,13 +9,16 @@ function Get-ALconnector
   Existing Webrequest session for ELM Appliance
 .PARAMETER type
   Connector type for publishing or creating layers\images
+.PARAMETER name
+  Name of object to return
 .EXAMPLE
   Get-ALconnector -websession $websession -type "Publish"
 #>
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][ValidateSet("Create","Publish")][string]$type
+[Parameter(Mandatory=$true)][ValidateSet("Create","Publish")][string]$type,
+[Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*"
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -48,7 +51,7 @@ if($obj.Envelope.Body.QueryPlatformConnectorConfigResponse.QueryPlatformConnecto
     throw $obj.Envelope.Body.QueryPlatformConnectorConfigResponse.QueryPlatformConnectorConfigResult.Error.message
   }
   else {
-    return $obj.Envelope.Body.QueryPlatformConnectorConfigResponse.QueryPlatformConnectorConfigResult.Configurations.PlatformConnectorConfig
+    return $obj.Envelope.Body.QueryPlatformConnectorConfigResponse.QueryPlatformConnectorConfigResult.Configurations.PlatformConnectorConfig|Where-Object{$_.name -like $name}
   }
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
