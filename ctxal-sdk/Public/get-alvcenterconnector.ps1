@@ -8,13 +8,16 @@ function Get-AlVcenterConnector {
   Existing Webrequest session for ELM Appliance
 .PARAMETER name
   Name of object to return
+.PARAMETER includescripts
+  Include ELM script hosts in return
 .EXAMPLE
   Get-AlVcenterConnector -websession $websession
 #>
 [cmdletbinding()]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*"
+[Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*",
+[Parameter(Mandatory=$false)][switch]$includescripts
 )
 Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
 
@@ -30,7 +33,15 @@ $headers = @{
 }
 try
 {
-    $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations/" -Headers $headers
+    if($includescripts)
+    {
+      $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations?filter=%7B%22include%22%3A%22scripts%22%7D" -Headers $headers
+    }
+    else 
+    {
+      $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers
+    }
+    
 } catch {
   if($_.ErrorDetails.Message)
   {
@@ -54,7 +65,7 @@ try
    
 }
 
-return $content|Where-Object{$_.name -like $name}
+return $content|Where-Object{$_.pccName -like $name}
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
 }
