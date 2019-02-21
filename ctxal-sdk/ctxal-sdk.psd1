@@ -12,7 +12,7 @@
 RootModule = 'ctxal-sdk.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2.6'
+ModuleVersion = '0.3.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -143,7 +143,7 @@ PrivateData = @{
 01-22-2019 Much better regex for Get-AlVMName (Thanks Bill Nickerson @wnickerson78)
 01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf)
 02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments) 
-02-19-2019 vCenter Connector commands
+02-21-2019 vCenter Connector commands
 '
 
         # Prerelease string of this module
