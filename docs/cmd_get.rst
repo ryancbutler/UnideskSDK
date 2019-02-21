@@ -205,7 +205,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-ALconnector [-websession] <Object> [-type] <String> [<CommonParameters>]
+    Get-ALconnector [-websession] <Object> [-type] <String> [[-name] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -218,6 +218,9 @@ PARAMETERS
         
     -type <String>
         Connector type for publishing or creating layers\images
+        
+    -name <String>
+        Name of object to return
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
@@ -1300,6 +1303,64 @@ REMARKS
     To see the examples, type: "get-help Get-ALUserDetail -examples".
     For more information, type: "get-help Get-ALUserDetail -detailed".
     For technical information, type: "get-help Get-ALUserDetail -full".
+
+
+Get-ALUserGroupMembership
+-------------------------
+
+NAME
+    Get-ALUserGroupMembership
+    
+SYNOPSIS
+    Gets group membership of user
+    
+    
+SYNTAX
+    Get-ALUserGroupMembership [-websession] <Object> [-id] <String> [-junctionid] <String> [-ldapguid] <String> [-ldapdn] <String> [-sid] <String> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets group membership of user
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        Unidesk ID of user
+        
+    -junctionid <String>
+        Directory Junction ID
+        
+    -ldapguid <String>
+        User LDAP guid
+        
+    -ldapdn <String>
+        User LDAP DN
+        
+    -sid <String>
+        User SID
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALUserGroupMembership -websession $websession -junctionid $dir.id -id $User.DirectoryId.UnideskId -ldapguid $user.FullId.LdapGuid -ldapdn $user.FullId.LdapDN -sid $userdetail.FullId.sid
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALUserGroupMembership -examples".
+    For more information, type: "get-help Get-ALUserGroupMembership -detailed".
+    For technical information, type: "get-help Get-ALUserGroupMembership -full".
 
 
 Get-ALUserList
