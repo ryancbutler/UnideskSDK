@@ -69,7 +69,9 @@ Process{
 $headers = @{
   "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
   "Accept" = "*/*"
-  "Content-Type" = "application/json" 
+  "Content-Type" = "application/json"
+  "Host" = "$($websession.aplip):3504"
+  "Referer" =  "https://$($websession.aplip):3504/ui/"
 }
 
 $body = [PSCustomObject]@{
@@ -121,11 +123,18 @@ if ($PSCmdlet.ShouldProcess("Creating new vCenter Connector $name")) {
 
     if($_.ErrorDetails.Message)
     {
-    $temp = $_.ErrorDetails.Message|ConvertFrom-Json
-    Write-error $temp.error.message
-    Write-error $temp.error.sqlmessage
-    write-error $temp.error.staus
-    throw "Process failed!"
+
+      $temp = $_.ErrorDetails.Message|ConvertFrom-Json
+      if($temp.message)
+      {
+        Write-error $temp.message
+      }
+      else {
+        Write-error $temp.error.message
+        Write-error $temp.error.sqlmessage
+        write-error $temp.error.staus
+      }
+      throw "Process failed!"
     }
     else {
       throw $_
