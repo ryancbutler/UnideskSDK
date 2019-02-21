@@ -19,8 +19,35 @@ Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
 }
 Process {
+#https://stackoverflow.com/questions/41897114/unexpected-error-occurred-running-a-simple-unauthorized-rest-query
+$code = @"
+public class SSLHandler
+{
+    public static System.Net.Security.RemoteCertificateValidationCallback GetSSLHandler()
+    {
+
+        return new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
+    }
+
+}
+"@
+#compile the class
+try{
+  if([SSLHandler])
+  {
+    Write-Verbose "SSLHandler already loaded"
+  }
+  }
+  catch
+  {
+    Write-Verbose "SSLHandler loading"
+    Add-Type -TypeDefinition $code
+  }
+
+
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+#[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::GetSSLHandler()
 $username = $Credential.UserName
 $pass = $Credential.GetNetworkCredential().Password
 

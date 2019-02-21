@@ -61,6 +61,8 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
+  * [Connectors](#Connectors)
+    + [vCenter](#vCenter)
 
 ## Install and Update
 
@@ -517,7 +519,7 @@ Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -Pas
 ### New Directory Junction
 
 ```powershell
-new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -Verbose -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
+new-aldirectory -websession $websession -serveraddress "mydc.domain.com" -usessl -username "admin@domain.com" -adpassword "MYPASSWORD" -basedn DC=domain,DC=com -name "Mydirectory"
 ```
 
 ### Get ALL Directory Junctions
@@ -572,4 +574,73 @@ Get-ALSystemInfo -websession $websession
 
 ```powershell
 get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty value -Property @{Name="SettingName"; Expression = {$_.Name}}
+```
+
+## Connectors
+
+Remove Connector
+
+```powershell
+$conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
+Remove-ALConnector -websession $websession -connid $conn.Id -Confirm:$false
+```
+
+### vCenter
+
+Get vCenter connector(s) information
+
+```powershell
+Get-alVcenterConnector -websession $websession
+```
+
+Get vCenter Resource Info
+
+```powershell
+$vcenter = Get-alVcenterConnector -websession $websession
+$dc = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type datacenter -configid $vcenter.pccId
+$folder 
+$hostvar = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type Host -dc $dc.value
+$datastore = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type Datastore -dc $dc.value
+$network = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type network -dc $dc.value
+$template = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type vmTemplate -vmfolder $dc.vmFolder
+$folder = get-alvcenterobject -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -type vmfolder -vmfolder $dc.vmFolder
+```
+
+Validate and Set vCenter Password
+
+```powershell
+$vcenter = Get-alVcenterConnector -websession $websession
+$vcenter.pccConfig|Add-Member -NotePropertyName "password" -NotePropertyValue "mysecretpassword"
+
+Set-alVcenterConnector -websession $websession -config $vcenter
+```
+
+Create vCenter Connector
+
+```powershell
+$vcenterpassword = "mysupersecretpassword"
+$usernamevc = "domain\username"
+$vcentername = "myvcenter.domain.local"
+$type = get-alconnectortype -websession $websession -name "Citrix MCS for vSphere"
+$dc = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Datacenter -name "Lab"
+$hostvar = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Host -dc $dc.value -name "myhostname"
+$datastore = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type Datastore -dc $dc.value -name "nydatastire"
+$network = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type network -dc $dc.value -name "VLAN10"
+$template = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type vmTemplate -vmfolder $dc.vmFolder -name "CALTEMP"
+$folder = get-alvcenterobject -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword -type vmfolder -vmfolder $dc.vmFolder -name "Unidesk"
+
+
+$Params = @{
+  Name = "MyconnectorTest"
+  DC = $dc
+  DATASTORE = $datastore
+  HOSTSYSTEM = $hostvar
+  NETWORK = $network
+  FOLDER = $folder
+  CONNID = $type.Id
+  VMTEMPLATE = $template
+  CACHESIZE = "250"
+}
+
+new-AlVcenterConnector -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword @params
 ```

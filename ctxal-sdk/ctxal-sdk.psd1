@@ -12,7 +12,7 @@
 RootModule = 'ctxal-sdk.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.2.6'
+ModuleVersion = '0.3.0'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -27,7 +27,7 @@ Author = 'Ryan Butler'
 CompanyName = 'TechDrabble.com'
 
 # Copyright statement for this module
-Copyright = '(c) 2018 Ryan Butler. All rights reserved.'
+Copyright = '(c) 2019 Ryan Butler. All rights reserved.'
 
 # Description of the functionality provided by this module
 Description = 'Reversed Engineered Unidesk\Citrix App Layering SDK'
@@ -142,7 +142,8 @@ PrivateData = @{
 01-22-2019 Added functionality to pull user information and assignments
 01-22-2019 Much better regex for Get-AlVMName (Thanks Bill Nickerson @wnickerson78)
 01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf)
-02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments ) 
+02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments) 
+02-21-2019 vCenter Connector commands
 '
 
         # Prerelease string of this module
