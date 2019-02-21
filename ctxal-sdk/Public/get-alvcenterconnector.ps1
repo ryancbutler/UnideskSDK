@@ -13,26 +13,10 @@ function Get-AlVcenterConnector {
 Param(
 [Parameter(Mandatory=$true)]$websession
 )
-Begin {
-#https://stackoverflow.com/questions/41897114/unexpected-error-occurred-running-a-simple-unauthorized-rest-query
-$code = @"
-public class SSLHandler
-{
-    public static System.Net.Security.RemoteCertificateValidationCallback GetSSLHandler()
-    {
-
-        return new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
-    }
-
-}
-"@
-#compile the class
-Add-Type -TypeDefinition $code
-}
+Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
 
 Process{
-#disable checks using new class
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::GetSSLHandler()
+
 #do the request
 $headers = @{
   "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
@@ -45,13 +29,12 @@ try
 } catch {
     throw $_
 } finally {
-   #enable checks again
-   [System.Net.ServicePointManager]::ServerCertificateValidationCallback = $null
+   
+   
 }
 
 return $content
 }
 
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
-
 }

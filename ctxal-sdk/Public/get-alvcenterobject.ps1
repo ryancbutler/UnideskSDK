@@ -26,26 +26,12 @@ Param(
 [Parameter(Mandatory=$false)][string]$dc,
 [Parameter(Mandatory=$false)][string]$vmfolder
 )
-Begin {
+Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
 
   if([string]::IsNullOrWhiteSpace($configid) -and [string]::IsNullOrWhiteSpace($vcenterpass))
   {
       throw "If CONFIGID is not used a password must be set"
   }
-#https://stackoverflow.com/questions/41897114/unexpected-error-occurred-running-a-simple-unauthorized-rest-query
-$code = @"
-public class SSLHandler
-{
-    public static System.Net.Security.RemoteCertificateValidationCallback GetSSLHandler()
-    {
-
-        return new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
-    }
-
-}
-"@
-#compile the class
-Add-Type -TypeDefinition $code
 
 #Case sensitive for JSON
 switch ($type) {
@@ -56,11 +42,11 @@ switch ($type) {
   "vmtemplate" {$typemod = "VirtualMachine"}
   "vmfolder" {$typemod = "Folder"}
 }
+
 }
 
 Process{
-#disable checks using new class
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::GetSSLHandler()
+
 #do the request
 $headers = @{
   "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
@@ -165,8 +151,7 @@ try
 } catch {
     throw $_
 } finally {
-   #enable checks again
-   [System.Net.ServicePointManager]::ServerCertificateValidationCallback = $null
+   
 }
 
 $final = @()

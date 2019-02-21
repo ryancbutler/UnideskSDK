@@ -25,26 +25,10 @@ Param(
 [Parameter(Mandatory=$true)]$vmtemplate,
 [Parameter(Mandatory=$false)]$cachesize="250"
 )
-Begin {
-#https://stackoverflow.com/questions/41897114/unexpected-error-occurred-running-a-simple-unauthorized-rest-query
-$code = @"
-public class SSLHandler
-{
-    public static System.Net.Security.RemoteCertificateValidationCallback GetSSLHandler()
-    {
+Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
 
-        return new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
-    }
-
-}
-"@
-#compile the class
-Add-Type -TypeDefinition $code
-}
 
 Process{
-#disable checks using new class
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::GetSSLHandler()
 #do the request
 $headers = @{
   "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
@@ -97,10 +81,12 @@ try
 {
     $content = Invoke-RestMethod -Method POST -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers -Body ($body|ConvertTo-Json -Depth 100)
 } catch {
-    throw $_
+    $temp = $_.ErrorDetails.Message|ConvertFrom-Json
+    Write-error $temp.error.message
+    Write-error $temp.error.sqlmessage
+    write-error $temp.error.staus
+    throw "Process failed!"
 } finally {
-   #enable checks again
-   [System.Net.ServicePointManager]::ServerCertificateValidationCallback = $null
 }
 
 return $content

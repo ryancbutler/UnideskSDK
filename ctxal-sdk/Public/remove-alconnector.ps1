@@ -40,6 +40,7 @@ UNIDESK_TOKEN = $websession.token;
 
 }
 $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+Write-Warning "This command may take time to remove the connector from the GUI.  You may need to logoff and back on to see the change."
 if ($PSCmdlet.ShouldProcess("Removing $connid")) {
   $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
   [xml]$obj = $return.Content
