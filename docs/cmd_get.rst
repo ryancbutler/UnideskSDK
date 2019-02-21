@@ -243,6 +243,43 @@ REMARKS
     For technical information, type: "get-help Get-ALconnector -full".
 
 
+Get-ALconnectortype
+-------------------------
+
+NAME
+    Get-ALconnectortype
+    
+SYNOPSIS
+    Gets all Connector Types
+    
+    
+SYNTAX
+    Get-ALconnectortype [-websession] <Object> [[-name] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets all Connector Types
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -name <String>
+        Name of object to return
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALconnectortype -examples".
+    For more information, type: "get-help Get-ALconnectortype -detailed".
+    For technical information, type: "get-help Get-ALconnectortype -full".
+
+
 Get-ALDirectory
 -------------------------
 
@@ -1419,6 +1456,123 @@ REMARKS
     To see the examples, type: "get-help Get-ALUserList -examples".
     For more information, type: "get-help Get-ALUserList -detailed".
     For technical information, type: "get-help Get-ALUserList -full".
+
+
+Get-AlVcenterConnector
+-------------------------
+
+NAME
+    Get-AlVcenterConnector
+    
+SYNOPSIS
+    Gets Vcenter Connector configuration
+    
+    
+SYNTAX
+    Get-AlVcenterConnector [-websession] <Object> [[-name] <String>] [-includescripts] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets Vcenter Connector configuration
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -name <String>
+        Name of object to return
+        
+    -includescripts [<SwitchParameter>]
+        Include ELM script hosts in return
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-AlVcenterConnector -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-AlVcenterConnector -examples".
+    For more information, type: "get-help Get-AlVcenterConnector -detailed".
+    For technical information, type: "get-help Get-AlVcenterConnector -full".
+
+
+Get-alVcenterObject
+-------------------------
+
+NAME
+    Get-alVcenterObject
+    
+SYNOPSIS
+    Gets Vcenter Connector datacenters
+    
+    
+SYNTAX
+    Get-alVcenterObject [-websession] <Object> [[-configid] <String>] [-vcenter] <String> [[-vcenterpass] <String>] [-username] <String> [-type] <String> [[-dc] <String>] [[-vmfolder] <String>] [[-name] <String>] 
+    [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets Vcenter Connector datacenters
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -configid <String>
+        Connector ID
+        
+    -vcenter <String>
+        vCenter Hostname
+        
+    -vcenterpass <String>
+        Password to authenticate to vcenter
+        
+    -username <String>
+        Username to authenticate to vcenter
+        
+    -type <String>
+        Type of object to return
+        
+    -dc <String>
+        vCenter Datacenter ID to query
+        
+    -vmfolder <String>
+        vCenter folder ID to query
+        
+    -name <String>
+        Name of object to return
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-alVcenterObjectDataCenter -websession $websession -configid $vcenter.pccId -username $vcenter.pccConfig.userName -vcenter $vcenter.pccConfig.vCenterServer -Verbose
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-alVcenterObject -examples".
+    For more information, type: "get-help Get-alVcenterObject -detailed".
+    For technical information, type: "get-help Get-alVcenterObject -full".
 
 
 Get-ALVMName

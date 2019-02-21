@@ -237,5 +237,58 @@ REMARKS
     For technical information, type: "get-help Set-ALImage -full".
 
 
+Set-alVcenterConnector
+-------------------------
+
+NAME
+    Set-alVcenterConnector
+    
+SYNOPSIS
+    Sets Vcenter Connector configuration
+    
+    
+SYNTAX
+    Set-alVcenterConnector [-websession] <Object> [-config] <Object> [-force] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Sets Vcenter Connector configuration
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -config <Object>
+        Connector Config
+        
+    -force [<SwitchParameter>]
+        Skip Verify
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Set-VcenterConnector -websession $websession -config $connectorconfig
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Set-alVcenterConnector -examples".
+    For more information, type: "get-help Set-alVcenterConnector -detailed".
+    For technical information, type: "get-help Set-alVcenterConnector -full".
+
+
 
 

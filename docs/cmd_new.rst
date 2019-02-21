@@ -671,5 +671,100 @@ REMARKS
     For technical information, type: "get-help New-ALPlatformLayerRev -full".
 
 
+new-AlVcenterConnector
+-------------------------
+
+NAME
+    new-AlVcenterConnector
+    
+SYNOPSIS
+    Creates vCenter Connector configuration
+    
+    
+SYNTAX
+    new-AlVcenterConnector [-websession] <Object> [-name] <Object> [-dc] <Object> [-datastore] <Object> [-hostsystem] <Object> [-network] <Object> [-folder] <Object> [-connid] <Object> [-vcenterpass] <Object> [-username] 
+    <Object> [-vcenter] <Object> [[-vmtemplate] <Object>] [[-cachesize] <Object>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Creates vCenter Connector configuration
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -name <Object>
+        Name of the new connector
+        
+    -dc <Object>
+        vCenter Datacenter id
+        
+    -datastore <Object>
+        vCenter Datastore id
+        
+    -hostsystem <Object>
+        vCenter ESXI hostname id
+        
+    -network <Object>
+        vCenter network id
+        
+    -folder <Object>
+        vCenter folder id
+        
+    -connid <Object>
+        ELM platform connection id
+        
+    -vcenterpass <Object>
+        vCenter password to authenticate
+        
+    -username <Object>
+        vCenter username to authenticate
+        
+    -vcenter <Object>
+        vCenter hostname
+        
+    -vmtemplate <Object>
+        vCenter template id to use
+        
+    -cachesize <Object>
+        Cache size for connector (GB)
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$Params = @{
+    
+    Name = "MyconnectorTest"
+    DC = $dc
+    DATASTORE = $datastore
+    HOSTSYSTEM = $hostvar
+    NETWORK = $network
+    FOLDER = $folder
+    CONNID = $type.Id
+    VMTEMPLATE = $template
+    CACHESIZE = "250"
+    }
+    
+    new-AlVcenterConnector -websession $websession -username $usernamevc -vcenter $vcentername -vcenterpass $vcenterpassword @params
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help new-AlVcenterConnector -examples".
+    For more information, type: "get-help new-AlVcenterConnector -detailed".
+    For technical information, type: "get-help new-AlVcenterConnector -full".
+
+
 
 

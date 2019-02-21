@@ -3,9 +3,58 @@
 
 This page contains details on **Invoke** commands.
 
-Invoke-ALLayerFinalize
+Invoke-ALCreateBundle
 -------------------------
 
+
+NAME
+    Invoke-ALCreateBundle
+    
+SYNOPSIS
+    Creates diagnostic bundle
+    
+    
+SYNTAX
+    Invoke-ALCreateBundle [-websession] <Object> [-IncludeCrashDumps] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Creates diagnostic bundle
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -IncludeCrashDumps [<SwitchParameter>]
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Invoke-ALCreateBundle -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Invoke-ALCreateBundle -examples".
+    For more information, type: "get-help Invoke-ALCreateBundle -detailed".
+    For technical information, type: "get-help Invoke-ALCreateBundle -full".
+
+
+Invoke-ALLayerFinalize
+-------------------------
 
 NAME
     Invoke-ALLayerFinalize

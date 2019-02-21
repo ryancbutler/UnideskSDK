@@ -12,7 +12,7 @@
 RootModule = 'ctxal-sdk.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.3.1'
+ModuleVersion = '0.3.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -72,9 +72,9 @@ PowerShellVersion = '5.0'
 FunctionsToExport = 'add-alappassignment', 'add-alelappassignment', 'connect-alsession', 
                'disconnect-alsession', 'Export-allayerrev', 'get-alapplayer', 
                'get-alapplayerdetail', 'get-alAuditInfo', 'get-alCachePointInfo', 
-               'get-alconnector', 'get-alconnectortype', 'Get-ALDirectory', 
-               'get-alDirectoryDetail', 'Get-ALExportableRev', 'get-alicon', 
-               'get-aliconassoc', 'get-alimage', 'Get-ALImageComp', 
+               'get-alconnector', 'Get-ALconnectoragent', 'get-alconnectortype', 
+               'Get-ALDirectory', 'get-alDirectoryDetail', 'Get-ALExportableRev', 
+               'get-alicon', 'get-aliconassoc', 'get-alimage', 'Get-ALImageComp', 
                'get-alimageDetail', 'Get-ALImportableRev', 'get-allayerinstalldisk', 
                'get-alldapobject', 'get-aloslayer', 'get-aloslayerdetail', 
                'Get-ALPendingOp', 'get-alplatformlayer', 'get-alplatformlayerDetail', 

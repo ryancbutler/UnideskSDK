@@ -117,6 +117,56 @@ REMARKS
     For technical information, type: "get-help Remove-ALAppLayerRev -full".
 
 
+Remove-ALConnector
+-------------------------
+
+NAME
+    Remove-ALConnector
+    
+SYNOPSIS
+    Removes Connector
+    
+    
+SYNTAX
+    Remove-ALConnector [-websession] <Object> [-connid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Removes Connector
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -connid <Object>
+        Connector ID
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Remove-ALConnector -websession $websession -connid $conn.Id
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Remove-ALConnector -examples".
+    For more information, type: "get-help Remove-ALConnector -detailed".
+    For technical information, type: "get-help Remove-ALConnector -full".
+
+
 remove-ALDirectory
 -------------------------
 
