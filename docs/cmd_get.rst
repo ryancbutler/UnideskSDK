@@ -243,6 +243,49 @@ REMARKS
     For technical information, type: "get-help Get-ALconnector -full".
 
 
+Get-ALconnectoragent
+-------------------------
+
+NAME
+    Get-ALconnectoragent
+    
+SYNOPSIS
+    Gets connector agents
+    
+    
+SYNTAX
+    Get-ALconnectoragent [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets connector agents
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALconnectoragent -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALconnectoragent -examples".
+    For more information, type: "get-help Get-ALconnectoragent -detailed".
+    For technical information, type: "get-help Get-ALconnectoragent -full".
+
+
 Get-ALconnectortype
 -------------------------
 
@@ -1469,7 +1512,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Get-AlVcenterConnector [-websession] <Object> [[-name] <String>] [-includescripts] [<CommonParameters>]
+    Get-AlVcenterConnector [-websession] <Object> [[-name] <String>] [-includescripts] [[-connid] <String>] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -1485,6 +1528,8 @@ PARAMETERS
         
     -includescripts [<SwitchParameter>]
         Include ELM script hosts in return
+        
+    -connid <String>
         
     <CommonParameters>
         This cmdlet supports the common parameters: Verbose, Debug,
