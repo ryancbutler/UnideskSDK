@@ -17,7 +17,8 @@ function Get-AlVcenterConnector {
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$false)][SupportsWildcards()][string]$name="*",
-[Parameter(Mandatory=$false)][switch]$includescripts
+[Parameter(Mandatory=$false)][switch]$includescripts,
+[Parameter(Mandatory=$false)][string]$connid
 )
 Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
 
@@ -33,14 +34,20 @@ $headers = @{
 }
 try
 {
+    $url = "https://$($websession.aplip):3504/api/Configurations"
+
+    if($connid)
+    {
+      $url = $url + "/$connid"
+    }
+    
     if($includescripts)
     {
-      $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations?filter=%7B%22include%22%3A%22scripts%22%7D" -Headers $headers
+      $url = $url + "?filter=%7B%22include%22%3A%22scripts%22%7D"
+      
     }
-    else 
-    {
-      $content = Invoke-RestMethod -Method Get -Uri "https://$($websession.aplip):3504/api/Configurations" -Headers $headers
-    }
+
+    $content = Invoke-RestMethod -Method Get -Uri $url -Headers $headers
     
 } catch {
   if($_.ErrorDetails.Message)
@@ -58,11 +65,13 @@ try
     throw "Process failed!"
   }
   else {
-    throw $_
+    Write-error $temp.error.message
+    Write-error $temp.error.sqlmessage
+    write-error $temp.error.staus
   }
 } finally {
-   
-   
+    
+    
 }
 
 return $content|Where-Object{$_.pccName -like $name}
