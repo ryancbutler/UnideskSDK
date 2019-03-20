@@ -112,7 +112,7 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 $apprevs = get-alapplayerdetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finalizable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Finalizable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $disklocation = get-allayerinstalldisk -websession $websession -id $apprevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 ```
@@ -173,7 +173,7 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id
 
 #Keep checking for change in task
@@ -191,7 +191,7 @@ get-alvmname -message $status.WorkItems.WorkItemResult.Status
 $fileshare = Get-ALRemoteshare -websession $websession
 $osid = Get-ALOSlayer -websession $websession | where{$_.name -eq "Windows 10 x64"}
 $osrevid = Get-ALOSlayerDetail -websession $websession -id $osid.Id
-$osrevid = $osrevid.Revisions.OSLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -Last 1
+$osrevid = $osrevid.Revisions.OSLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -Last 1
 remove-aloslayerrev -websession $websession -osid $osid.Id -osrevid $osrevid.id -fileshareid $fileshare.id
 ```
 
@@ -204,7 +204,7 @@ $connector = Get-ALconnector -websession $websession -type Create|where{$_.name 
 $fileshare = Get-ALRemoteshare -websession $websession
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -description "Accounting application" -connectorid $connector.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -OsLayerSwitching BoundToOsLayer -fileshareid $fileshare.id
 ```
 
@@ -216,9 +216,9 @@ $connector = Get-ALconnector -websession $websession -type Create|where{$_.name 
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 $oss = Get-ALOsLayer -websession $websession
 $osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayerId
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id
 ```
 
@@ -234,7 +234,7 @@ Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $a
 $fileshare = Get-ALRemoteshare -websession $websession
 $appid = Get-ALapplayer -websession $websession | where{$_.name -eq "7-Zip"}
 $apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
-$apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+$apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -First 1
 remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
 ```
 
@@ -247,7 +247,7 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 2016 Standard"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 New-ALPlatformLayer -websession $websession -osrevid $osrevid.Id -name "Citrix XA VDA 7.18" -connectorid $connector.id -shareid $fileshare.id -diskformat $connector.ValidDiskFormats.DiskFormat -type Create
 ```
 
@@ -258,10 +258,10 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $plats = Get-ALPlatformlayer -websession $websession|where{$_.name -eq "Windows 10 VDA"}
 $platrevs = get-alplatformlayerDetail -websession $websession -id $plats.id
-$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 
 $params = @{
 websession = $websession;
@@ -285,7 +285,7 @@ New-ALPlatformLayerRev @params
 $fileshare = Get-ALRemoteshare -websession $websession
 $platformid = Get-ALPlatformlayer -websession $websession | where{$_.name -eq "Windows 10 VDA"}
 $platformrevid = Get-ALPlatformlayerDetail -websession $websession -id $platformid.Id
-$platformrevid = $platformrevid.Revisions.PlatformLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object revision -Descending | select -First 1
+$platformrevid = $platformrevid.Revisions.PlatformLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -First 1
 remove-alplatformlayerrev -websession $websession -platformid $platformid.Id -platformrevid $platformrevid.id -fileshareid $fileshare.id
 ```
 
@@ -307,10 +307,10 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $plats = get-alplatformlayer -websession $websession|where{$_.name -eq "Windows 10 VDA"}
 $platrevs = get-alplatformlayerdetail -websession $websession -id $plats.id
-$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 #Application IDs
 $apps = @("Winscp","7-zip")
 $appids = @()
@@ -318,7 +318,7 @@ foreach ($app in $apps)
 {
     $applayerid = Get-ALapplayer -websession $websession|where{$_.name -eq $app}
     $apprevs = get-alapplayerDetail -websession $websession -id $applayerid.Id
-    $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+    $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
     $appids += $apprevid.Id
 }
 new-alimage -websession $websession -name "Windows 10 Accounting" -description "Accounting" -connectorid $connector.id -osrevid $osrevid.Id -appids $appids -platrevid $platformrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -ElasticLayerMode Session
@@ -331,10 +331,10 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerdetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $plats = Get-ALPlatformlayer -websession $websession|where{$_.name -eq "Windows 10 VDA"}
 $platrevs = get-alplatformlayerdetail -websession $websession -id $plats.id
-$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
 ```
@@ -361,7 +361,7 @@ invoke-alpublish -websession $websession -imageid $image.id
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $image.id
 ```
 
@@ -371,7 +371,7 @@ add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $ima
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 remove-alappassignment -websession $websession -applayerid $apprevid.LayerId -imageid $image.id
 ```
 
@@ -382,7 +382,7 @@ $users = @('MyGroup1','MyGroup2','Domain Users')
 $finduser = $users|get-alldapobject -websession $websession
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
 
@@ -393,7 +393,7 @@ $users = @('MyGroup1','MyGroup2','Domain Users')
 $finduser = $users|get-alldapobject -websession $websession
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
 ```
 
