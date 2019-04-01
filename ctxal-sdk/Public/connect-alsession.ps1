@@ -25,10 +25,8 @@ public class SSLHandler
 {
     public static System.Net.Security.RemoteCertificateValidationCallback GetSSLHandler()
     {
-
         return new System.Net.Security.RemoteCertificateValidationCallback((sender, certificate, chain, policyErrors) => { return true; });
     }
-
 }
 "@
 #compile the class
@@ -69,12 +67,19 @@ $headers = @{"SOAPAction" = "http://www.unidesk.com/Login"}
 $url = "https://" + $aplip + "/Unidesk.Web/API.asmx"
 $login = Invoke-WebRequest -Uri $url -Method Post -Body $xml -ContentType "text/xml" -SessionVariable websession -Headers $headers
 [xml]$mylogin = $login.Content
-$websession|add-member -NotePropertyName 'token' -NotePropertyValue $mylogin.Envelope.body.LoginResponse.LoginResult.Token
-$websession|Add-Member -NotePropertyName 'aplip' -NotePropertyValue $aplip
-Write-Verbose "TOKEN: $($mylogin.Envelope.body.LoginResponse.LoginResult.Token)"
-Write-Verbose "IP $aplip"
 
-return $websession
+if($mylogin.Envelope.Body.LoginResponse.LoginResult.Error)
+{
+  throw $mylogin.Envelope.Body.LoginResponse.LoginResult.Error.message
+}
+else {
+  $websession|add-member -NotePropertyName 'token' -NotePropertyValue $mylogin.Envelope.body.LoginResponse.LoginResult.Token
+  $websession|Add-Member -NotePropertyName 'aplip' -NotePropertyValue $aplip
+  Write-Verbose "TOKEN: $($mylogin.Envelope.body.LoginResponse.LoginResult.Token)"
+  Write-Verbose "IP $aplip"
+  return $websession
+}
+
 
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
