@@ -7,17 +7,14 @@ Function Set-ALAdminUser
   Sets Administrator User Password
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
-.PARAMETER UnideskId
-  UnideskID of User
 .PARAMETER Password
   New Password for the User
 .EXAMPLE
-  Set-ALAdminUser -websession $websession -UnideskId $admin.DirectoryId.UnideskId  -Password $PlainPassword -Verbose
+  Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
 #>
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$false)][string]$UnideskId="294912",
 [Parameter(Mandatory=$false)][string]$Password
 )
 
@@ -34,7 +31,7 @@ Process {
       <command>
         <DirectoryItem xsi:type="UserChanges">
             <ItemId xsi:type="UserId">
-                <UnideskId>$UnideskId</UnideskId>
+                <UnideskId>294912</UnideskId>
                 <DirectoryJunctionId>0</DirectoryJunctionId>
                 <LdapGuid />
                 <LdapDN />
