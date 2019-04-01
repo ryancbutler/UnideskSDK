@@ -12,7 +12,7 @@ Function Set-ALAdminUser
 .PARAMETER Password
   New Password for the User
 .EXAMPLE
-Set-ALAdminUser -websession $websession -UnideskId $admin.DirectoryId.UnideskId  -Password $PlainPassword -Verbose
+  Set-ALAdminUser -websession $websession -UnideskId $admin.DirectoryId.UnideskId  -Password $PlainPassword -Verbose
 #>
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
