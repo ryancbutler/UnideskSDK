@@ -12,7 +12,7 @@ Function Set-ALAdminUser
 .EXAMPLE
   Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact="High")]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$false)][string]$Password
