@@ -58,6 +58,8 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
     + [Set Directory Junction Info](#set-directory-junction-info)
     + [Delete Directory Junction](#delete-directory-junction)
     + [User Info](#user-info)
+  * [Local Users](#local-users)
+    + [Set Local Admin Password](#set-local-admin-password)
   * [System Info](#system-info)
     + [Get System Information (Version)](#get-system-information--version-)
     + [Get System Settings](#get-system-settings)
@@ -562,6 +564,19 @@ $apps = Get-ALUserAssignment -websession $websession -id $userid.DirectoryId.Uni
 $apps|Select-Object LayerName,CurrentRevision,PendingRevision,AssignedViaDisplayName
 ```
 
+## Local Users
+
+### Get Local Users
+
+```powershell
+Get-ALLocalUser -websession $websession
+```
+
+### Set Local Admin Password
+
+```powershell
+Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
+```
 ## System Info
 
 ### Get System Information (Version)
