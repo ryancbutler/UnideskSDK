@@ -148,6 +148,7 @@ PrivateData = @{
 01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf)
 02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments) 
 02-21-2019 vCenter Connector commands
+04-01-2019 Set admin password functionality.  Get local accounts
 '
 
         # Prerelease string of this module
