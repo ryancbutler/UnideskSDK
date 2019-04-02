@@ -877,6 +877,49 @@ REMARKS
     For technical information, type: "get-help Get-ALLdapObject -full".
 
 
+Get-ALLocalUser
+-------------------------
+
+NAME
+    Get-ALLocalUser
+    
+SYNOPSIS
+    Gets ELM local users
+    
+    
+SYNTAX
+    Get-ALLocalUser [-websession] <Object> [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets ELM local users
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Get-ALLocalUser -websession $websession
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALLocalUser -examples".
+    For more information, type: "get-help Get-ALLocalUser -detailed".
+    For technical information, type: "get-help Get-ALLocalUser -full".
+
+
 Get-ALOsLayer
 -------------------------
 

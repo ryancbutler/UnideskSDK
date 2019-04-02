@@ -3,9 +3,59 @@
 
 This page contains details on **set** commands.
 
-Set-ALApplayer
+Set-ALAdminUser
 -------------------------
 
+
+NAME
+    Set-ALAdminUser
+    
+SYNOPSIS
+    Sets Administrator User Password
+    
+    
+SYNTAX
+    Set-ALAdminUser [-websession] <Object> [[-Password] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Sets Administrator User Password
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -Password <String>
+        New Password for the User
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Set-ALAdminUser -examples".
+    For more information, type: "get-help Set-ALAdminUser -detailed".
+    For technical information, type: "get-help Set-ALAdminUser -full".
+
+
+Set-ALApplayer
+-------------------------
 
 NAME
     Set-ALApplayer
