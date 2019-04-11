@@ -593,11 +593,26 @@ get-alsystemsettinginfo -websession $websession|Select-Object -ExpandProperty va
 
 ## Connectors
 
+Get Connector Detail
+
+```powershell
+$conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
+get-alconnectordetail -websession $websession -connid $conn.Id -port $conn.ConfigurationSslPort
+```
+
 Remove Connector
 
 ```powershell
 $conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
 Remove-ALConnector -websession $websession -connid $conn.Id -Confirm:$false
+```
+
+Set Connector Credentials
+
+```powershell
+$conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
+$conndetail = get-alconnectordetail -websession $websession -connid $conn.Id -port $conn.ConfigurationSslPort
+Set-ALconnectorCreds -websession $websession -config $conndetail -connector $connector -username "domain\first.last" -password "Test123
 ```
 
 ### vCenter

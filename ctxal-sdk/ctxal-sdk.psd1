@@ -149,6 +149,7 @@ PrivateData = @{
 02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments) 
 02-21-2019 vCenter Connector commands
 04-01-2019 Set admin password functionality.  Get local accounts
+04-11-2019 Get connector detail and set connector credentials
 '
 
         # Prerelease string of this module

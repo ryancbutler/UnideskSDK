@@ -1,9 +1,9 @@
 function Get-ALConnectorDetail {
 <#
 .SYNOPSIS
-  Gets All Connector configurations
+  Gets Detailed Connector configurations
 .DESCRIPTION
-  Gets All Connector configurations
+  Gets Detailed Connector configurations
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .PARAMETER connid
