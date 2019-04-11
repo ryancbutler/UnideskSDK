@@ -53,7 +53,7 @@ try
     $config | Format-List
    
     Write-Output "Verifying Connector Creds..."
-    $verify = Invoke-RestMethod -Method Post -Uri $urlv -WebSession $websession -Headers $headers -Body $configJSON
+    Invoke-RestMethod -Method Post -Uri $urlv -WebSession $websession -Headers $headers -Body $configJSON
     Write-Output "Changing Connector Creds..."
     $content = Invoke-RestMethod -Method Put -Uri $url -WebSession $websession -Headers $headers -Body $configJSON
     Write-Output "Change Successful" -ForegroundColor Green
