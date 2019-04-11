@@ -17,7 +17,7 @@ function Set-ALConnectorCreds {
 .EXAMPLE
   Set-ALconnectorCreds -websession $websession -config $ConnectorConfig -connector $connector -username "domain\first.last" -password "Test123
 #>
-[cmdletbinding()]
+[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact="High")]
 Param(
 [Parameter(Mandatory=$true)]$websession,
 [Parameter(Mandatory=$true)][string]$username,
@@ -42,22 +42,24 @@ try
     $urlv = "https://$($websession.aplip):$($connector.ConfigurationSslPort)/api/Configurations/Verify"
     $url = "https://$($websession.aplip):$($connector.ConfigurationSslPort)/api/Configurations/$($connector.Id)"
     
-    Write-Output "Old Config:" -ForegroundColor Yellow
+    Write-output "Old Config:"
     $config | Format-List
     
     $config.pccConfig.userName = $username
     $config.pccConfig | Add-Member -MemberType NoteProperty -Name password -Value $password
     $configjson = $config |ConvertTo-Json -Depth 100
 
-    Write-Output "New Config:" -ForegroundColor Green
+    Write-output "New Config:"
     $config | Format-List
    
-    Write-Output "Verifying Connector Creds..."
+    Write-output "Verifying Connector Creds..."
     Invoke-RestMethod -Method Post -Uri $urlv -WebSession $websession -Headers $headers -Body $configJSON
-    Write-Output "Changing Connector Creds..."
+    Write-output "Changing Connector Creds..."
+    if ($PSCmdlet.ShouldProcess("Setting Connector Password")) {
     $content = Invoke-RestMethod -Method Put -Uri $url -WebSession $websession -Headers $headers -Body $configJSON
-    Write-Output "Change Successful" -ForegroundColor Green
-    
+    Write-output "Change Successful"
+    }
+
 } catch {
   if($_.ErrorDetails.Message)
   {
@@ -82,8 +84,8 @@ try
     
     
 }
-
-return $content
+[xml]$obj = $return.Content
+return $obj
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
 }
