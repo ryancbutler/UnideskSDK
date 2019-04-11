@@ -42,21 +42,21 @@ try
     $urlv = "https://$($websession.aplip):$($connector.ConfigurationSslPort)/api/Configurations/Verify"
     $url = "https://$($websession.aplip):$($connector.ConfigurationSslPort)/api/Configurations/$($connector.Id)"
     
-    Write-host "Old Config:" -ForegroundColor Yellow
+    Write-Output "Old Config:" -ForegroundColor Yellow
     $config | Format-List
     
     $config.pccConfig.userName = $username
     $config.pccConfig | Add-Member -MemberType NoteProperty -Name password -Value $password
     $configjson = $config |ConvertTo-Json -Depth 100
 
-    Write-host "New Config:" -ForegroundColor Green
+    Write-Output "New Config:" -ForegroundColor Green
     $config | Format-List
    
-    Write-host "Verifying Connector Creds..."
+    Write-Output "Verifying Connector Creds..."
     $verify = Invoke-RestMethod -Method Post -Uri $urlv -WebSession $websession -Headers $headers -Body $configJSON
-    Write-host "Changing Connector Creds..."
+    Write-Output "Changing Connector Creds..."
     $content = Invoke-RestMethod -Method Put -Uri $url -WebSession $websession -Headers $headers -Body $configJSON
-    Write-host "Change Successful" -ForegroundColor Green
+    Write-Output "Change Successful" -ForegroundColor Green
     
 } catch {
   if($_.ErrorDetails.Message)
