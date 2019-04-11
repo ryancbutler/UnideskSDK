@@ -612,7 +612,7 @@ Set Connector Credentials
 ```powershell
 $conn = get-alconnector -websession $websession -type Publish -name "MyconnectorTest7"
 $conndetail = get-alconnectordetail -websession $websession -connid $conn.Id -port $conn.ConfigurationSslPort
-Set-ALconnectorCreds -websession $websession -config $conndetail -connector $connector -username "domain\first.last" -password "Test123
+Set-ALconnectorCred -websession $websession -config $conndetail -connector $conn -username "domain\first.last" -password "Test123
 ```
 
 ### vCenter
