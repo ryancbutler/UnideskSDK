@@ -1,4 +1,4 @@
-function Set-ALConnectorCreds {
+function Set-ALConnectorCred {
 <#
 .SYNOPSIS
   Sets Connector Credentials
@@ -84,8 +84,7 @@ try
     
     
 }
-[xml]$obj = $return.Content
-return $obj
+return $content
 }
 end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
 }
