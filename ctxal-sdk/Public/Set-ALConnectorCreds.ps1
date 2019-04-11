@@ -43,14 +43,14 @@ try
     $url = "https://$($websession.aplip):$($connector.ConfigurationSslPort)/api/Configurations/$($connector.Id)"
     
     Write-host "Old Config:" -ForegroundColor Yellow
-    $config | FL
+    $config | Format-List
     
     $config.pccConfig.userName = $username
     $config.pccConfig | Add-Member -MemberType NoteProperty -Name password -Value $password
     $configjson = $config |ConvertTo-Json -Depth 100
 
     Write-host "New Config:" -ForegroundColor Green
-    $config | FL
+    $config | Format-List
    
     Write-host "Verifying Connector Creds..."
     $verify = Invoke-RestMethod -Method Post -Uri $urlv -WebSession $websession -Headers $headers -Body $configJSON
