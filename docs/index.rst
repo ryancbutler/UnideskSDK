@@ -14,6 +14,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :glob:
    :caption: Command Help
 
    cmd_connect
@@ -32,6 +33,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
 .. toctree::
    :maxdepth: 2
    :hidden:
+   :glob:
    :caption: Usage
 
    use_connect
