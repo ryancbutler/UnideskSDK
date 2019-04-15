@@ -1,4 +1,4 @@
-﻿new Commands
+﻿New Commands
 =========================
 
 This page contains details on **new** commands.

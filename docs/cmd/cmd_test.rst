@@ -1,4 +1,4 @@
-﻿test Commands
+﻿Test Commands
 =========================
 
 This page contains details on **test** commands.

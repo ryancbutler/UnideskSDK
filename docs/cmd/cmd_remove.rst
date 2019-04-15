@@ -1,4 +1,4 @@
-﻿remove Commands
+﻿Remove Commands
 =========================
 
 This page contains details on **remove** commands.
