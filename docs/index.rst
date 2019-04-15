@@ -1,7 +1,7 @@
-XenDesktop 7.x Site Import\Export Module
-========================================
+Citrix App Layering PowerShell SDK (BETA)
+=========================================
 
-A set of community function that exports XenDesktop 7.x site information and imports to another 'Site' via remote command or XML file.
+This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
 
 .. toctree::
    :maxdepth: 2
@@ -16,17 +16,22 @@ A set of community function that exports XenDesktop 7.x site information and imp
    :hidden:
    :caption: Command Help
 
-   cmd_export
-   cmd_import
-   cmd_new
-   cmd_remove
-   cmd_send
+   cmd_connect
+   cmd_disconnect
    cmd_get
+   cmd_set
+   cmd_new
+   cmd_add
+   cmd_remove
+   cmd_stop
+   cmd_import
+   cmd_export
+   cmd_invoke
+   cmd_test
 
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Examples
+   :caption: Usage
 
-   example_export
-   example_import
+   use_connect

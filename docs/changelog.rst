@@ -1,0 +1,22 @@
+Changelog
+=========================
+- 06-01-2018 BETA release
+- 06-03-2018 Function for appliance details
+- 06-03-2018 Fix in Get-alvmname for message text
+- 06-04-2018 Get system info functions
+- 06-09-2018 Better response output and clarify examples
+- 06-20-2018 Get-ALImageComp function add
+- 10-05-2018 Add stop-alworkticket function
+- 10-18-2018 Add XenServer OS import option (now vcenter and xenserver)
+- 10-18-2018 More detail for Get-ALImageComp
+- 10-30-2018 Added functionality to export, view, create, check associations and remove icons
+- 11-08-2018 Added functionality to export and import layers to and from network shares
+- 11-10-2018 Cleaned up parameters and better get status returns
+- 12-29-2018 Added functionality for directory junctions
+- 01-22-2019 Added functionality to pull user information and assignments
+- 01-22-2019 Much better regex for Get-AlVMName (Thanks Bill Nickerson @wnickerson78)
+- 01-29-2019 Added ability to remove layer revisions (Thanks Siebrand Feenstra @Siebrandf)
+- 02-18-2019 Added better functionality to see app assignments (See Examples\GetUserAppAssignments) 
+- 02-21-2019 vCenter Connector commands
+- 04-01-2019 Set admin password functionality.  Get local accounts
+- 04-11-2019 Get connector detail and set connector credentials
