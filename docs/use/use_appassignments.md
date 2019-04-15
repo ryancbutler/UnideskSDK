@@ -3,7 +3,7 @@
 ## Add app layers to an image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
@@ -13,7 +13,7 @@ add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $ima
 ## Remove app layers from an image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1

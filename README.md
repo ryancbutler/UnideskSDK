@@ -4,6 +4,8 @@
 
 This is a reversed engineered SDK that emulates the SOAP calls that AL uses to manage the appliance.  Currently only supports version **4.11 or later**.  **THIS USES UNSUPPORTED API CALLS.  PLEASE USE WITH CAUTION.**
 
+Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/latest
+
 - [Citrix App Layering PowerShell SDK (BETA)](#citrix-app-layering-powershell-sdk--beta-)
   * [Install and Update](#install-and-update)
     + [Install Manually](#install-manually)
