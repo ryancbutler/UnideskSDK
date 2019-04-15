@@ -17,23 +17,12 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
    :glob:
    :caption: Command Help
 
-   cmd_connect
-   cmd_disconnect
-   cmd_get
-   cmd_set
-   cmd_new
-   cmd_add
-   cmd_remove
-   cmd_stop
-   cmd_import
-   cmd_export
-   cmd_invoke
-   cmd_test
+   cmd/*
 
 .. toctree::
    :maxdepth: 2
    :hidden:
    :glob:
-   :caption: Usage
+   :caption: Usage Examples
 
-   use_connect
+   use/*
