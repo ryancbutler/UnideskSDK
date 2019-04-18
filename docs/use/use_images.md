@@ -58,6 +58,13 @@ Remove-ALImage -websession $websession -imageid $image.id
 ## Publish Image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting""}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 invoke-alpublish -websession $websession -imageid $image.id
+```
+
+## Clone Image
+
+```powershell
+$image = Get-ALimage -websession $websession | where {$_.name -eq "Windows 10 Accounting"}
+New-ALImageClone -websession $websession -imageid $image.Id -Confirm:$false -OutVariable ALImageClone
 ```
