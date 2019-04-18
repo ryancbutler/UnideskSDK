@@ -39,6 +39,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [Edit Image](#edit-image)
     + [Remove Image](#remove-image)
     + [Publish Image](#publish-image)
+    + [Clone Image](#clone-image)
   * [Application Assignments](#application-assignments)
     + [Add app layers to an image](#add-app-layers-to-an-image)
     + [Remove app layers from an image](#remove-app-layers-from-an-image)
@@ -355,6 +356,13 @@ Remove-ALImage -websession $websession -imageid $image.id
 ```powershell
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting""}
 invoke-alpublish -websession $websession -imageid $image.id
+```
+
+### Clone Image
+
+```powershell
+$image = Get-ALimage -websession $websession | where{$_.name -eq "Windows 10 Accounting"}
+New-ALImageClone -websession $websession -imageid $$image.Id -Confirm:$false -OutVariable ALImageClone
 ```
 
 ## Application Assignments
