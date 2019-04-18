@@ -1,7 +1,7 @@
-﻿Set Commands
+﻿ Commands
 =========================
 
-This page contains details on **set** commands.
+This page contains details on **** commands.
 
 Set-ALAdminUser
 -------------------------
@@ -117,6 +117,65 @@ REMARKS
     To see the examples, type: "get-help Set-ALApplayer -examples".
     For more information, type: "get-help Set-ALApplayer -detailed".
     For technical information, type: "get-help Set-ALApplayer -full".
+
+
+Set-ALConnectorCred
+-------------------------
+
+NAME
+    Set-ALConnectorCred
+    
+SYNOPSIS
+    Sets Connector Credentials
+    
+    
+SYNTAX
+    Set-ALConnectorCred [-websession] <Object> [-username] <String> [-password] <String> [-config] <PSObject> [-connector] <PSObject> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Sets Connector Username and Pass
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -username <String>
+        Username to be used for Connector
+        
+    -password <String>
+        password to be used for Connector
+        
+    -config <PSObject>
+        Configuration settings for specific connector (Use get-alconnectordetail)
+        
+    -connector <PSObject>
+        Configurations for specific connector (Use get-alconnector)
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>Set-ALconnectorCred -websession $websession -config $ConnectorConfig -connector $connector -username "domain\first.last" -password "Test123
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Set-ALConnectorCred -examples".
+    For more information, type: "get-help Set-ALConnectorCred -detailed".
+    For technical information, type: "get-help Set-ALConnectorCred -full".
 
 
 set-aldirectory

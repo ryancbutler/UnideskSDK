@@ -1,7 +1,7 @@
-﻿Remove Commands
+﻿ Commands
 =========================
 
-This page contains details on **remove** commands.
+This page contains details on **** commands.
 
 Remove-ALAppassignment
 -------------------------

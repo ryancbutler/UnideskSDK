@@ -1,7 +1,7 @@
-﻿Connect Commands
+﻿ Commands
 =========================
 
-This page contains details on **Connect** commands.
+This page contains details on **** commands.
 
 Connect-ALsession
 -------------------------

@@ -1,7 +1,7 @@
-﻿New Commands
+﻿ Commands
 =========================
 
-This page contains details on **new** commands.
+This page contains details on **** commands.
 
 New-ALAppLayer
 -------------------------

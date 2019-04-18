@@ -1,7 +1,7 @@
-﻿Invoke Commands
+﻿ Commands
 =========================
 
-This page contains details on **Invoke** commands.
+This page contains details on **** commands.
 
 Invoke-ALCreateBundle
 -------------------------
