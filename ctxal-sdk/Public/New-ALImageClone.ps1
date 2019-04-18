@@ -10,8 +10,8 @@ function New-ALImageClone
 .PARAMETER imageid
   id for the image to be cloned
 .EXAMPLE
-  $image = Get-ALimage -websession $websession | where{$_.name -eq "Windows 10 Accounting"}
-  New-ALImageClone -websession $websession -imageid $$image.Id -Confirm:$false -OutVariable ALImageClone
+  $image = Get-ALimage -websession $websession | where {$_.name -eq "Windows 10 Accounting"}
+  New-ALImageClone -websession $websession -imageid $image.Id -Confirm:$false -OutVariable ALImageClone
 #>  
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(

@@ -354,15 +354,15 @@ Remove-ALImage -websession $websession -imageid $image.id
 ### Publish Image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting""}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 invoke-alpublish -websession $websession -imageid $image.id
 ```
 
 ### Clone Image
 
 ```powershell
-$image = Get-ALimage -websession $websession | where{$_.name -eq "Windows 10 Accounting"}
-New-ALImageClone -websession $websession -imageid $$image.Id -Confirm:$false -OutVariable ALImageClone
+$image = Get-ALimage -websession $websession | where {$_.name -eq "Windows 10 Accounting"}
+New-ALImageClone -websession $websession -imageid $image.Id -Confirm:$false -OutVariable ALImageClone
 ```
 
 ## Application Assignments
@@ -370,7 +370,7 @@ New-ALImageClone -websession $websession -imageid $$image.Id -Confirm:$false -Ou
 ### Add app layers to an image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
@@ -380,7 +380,7 @@ add-alappassignment -websession $websession -apprevid $apprevid.id -imageid $ima
 ### Remove app layers from an image
 
 ```powershell
-$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting}
+$image = Get-ALimage -websession $websession|where{$_.name -eq "Accounting"}
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
