@@ -48,6 +48,8 @@ Param(
 [Parameter(Mandatory=$false)][string]$connectorid,
 [Parameter(Mandatory=$false)][string]$osrevid,
 [Parameter(Mandatory=$false)][string]$platrevid,
+[Parameter(Mandatory=$false)][string]$applayerid,
+[Parameter(Mandatory=$false)][string]$apprevid,
 [Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode,
 [Parameter(Mandatory=$false)][string]$diskformat,
 [Parameter(Mandatory=$false)][string]$size,
@@ -100,6 +102,12 @@ if([string]::IsNullOrWhiteSpace($platrevid))
   Write-Verbose "Using existing platrevid value $platrevid"
 }
 
+if([string]::IsNullOrWhiteSpace($apprevid))
+{
+  $apprevid=$image.AppLayer.ApplicationLayerResults.Revisions.RevisionResult.Id
+  Write-Verbose "Using existing AppLayerRevid value $apprevid"
+}
+
 if([string]::IsNullOrWhiteSpace($ElasticLayerMode))
 {
   $ElasticLayerMode=$image.ElasticLayerMode
@@ -134,7 +142,12 @@ if([string]::IsNullOrWhiteSpace($icon))
         <Description>$description</Description>
         <IconId>$icon</IconId>
         <OsLayerRevId>$osrevid</OsLayerRevId>
-        <AppLayerRevIds/>
+        <AppLayerRevIds>
+            <KeyValueOfInt64>
+                <Name>$applayerid</Name>
+                <Value>$apprevid</Value>
+            </KeyValueOfInt64>
+        </AppLayerRevIds>
         <PlatformConnectorConfigId>$connectorid</PlatformConnectorConfigId>
         <PlatformLayerRevId>$platrevid</PlatformLayerRevId>
         <SysprepType>None</SysprepType>
