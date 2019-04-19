@@ -1,7 +1,7 @@
-﻿Test Commands
+﻿ Commands
 =========================
 
-This page contains details on **test** commands.
+This page contains details on **** commands.
 
 test-aldirectory
 -------------------------

@@ -1,7 +1,7 @@
-﻿Add Commands
+﻿ Commands
 =========================
 
-This page contains details on **Add** commands.
+This page contains details on **** commands.
 
 Add-ALAppAssignment
 -------------------------

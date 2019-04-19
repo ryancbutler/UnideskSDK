@@ -1,7 +1,7 @@
-﻿Get Commands
+﻿ Commands
 =========================
 
-This page contains details on **Get** commands.
+This page contains details on **** commands.
 
 Get-ALapplayer
 -------------------------
@@ -284,6 +284,60 @@ REMARKS
     To see the examples, type: "get-help Get-ALconnectoragent -examples".
     For more information, type: "get-help Get-ALconnectoragent -detailed".
     For technical information, type: "get-help Get-ALconnectoragent -full".
+
+
+Get-ALConnectorDetail
+-------------------------
+
+NAME
+    Get-ALConnectorDetail
+    
+SYNOPSIS
+    Gets Detailed Connector configurations
+    
+    
+SYNTAX
+    Get-ALConnectorDetail [-websession] <Object> [[-name] <String>] [-includescripts] [[-port] <String>] [[-connid] <String>] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Gets Detailed Connector configurations
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -name <String>
+        
+    -includescripts [<SwitchParameter>]
+        Include ELM script hosts in return
+        
+    -port <String>
+        port of the specific connector (Use: Get-ALConnector)
+        
+    -connid <String>
+        connection ID of the specific connector (Use: Get-ALConnector)
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>get-alconnectordetail -websession $websession -connid $connector.Id -port $connector.ConfigurationSslPort
+    
+    
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Get-ALConnectorDetail -examples".
+    For more information, type: "get-help Get-ALConnectorDetail -detailed".
+    For technical information, type: "get-help Get-ALConnectorDetail -full".
 
 
 Get-ALconnectortype

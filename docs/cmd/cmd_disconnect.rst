@@ -1,7 +1,7 @@
-﻿Disconnect Commands
+﻿ Commands
 =========================
 
-This page contains details on **Disconnect** commands.
+This page contains details on **** commands.
 
 Disconnect-ALsession
 -------------------------
