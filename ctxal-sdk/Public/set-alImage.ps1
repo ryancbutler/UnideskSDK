@@ -19,6 +19,10 @@ function Set-ALImage
   Operating system layer version ID
 .PARAMETER platrevid
   Platform layer version ID
+.PARAMETER appLayerid
+  Application layer ID
+.PARAMETER apprevid
+  Application layer version ID
 .PARAMETER ElasticLayerMode
   Elastic Layer setting for the image. Options "None","Session","Office365","SessionOffice365","Desktop"
 .PARAMETER diskformat
@@ -38,7 +42,15 @@ function Set-ALImage
   $platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
   $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
   Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
+  
+  ### Edit image with latest revision for a specific app ***
+  $app = "Winscp"
+  $applayerid = Get-ALapplayer -websession $websession|where{$_.name -eq $app}
+  $apprevs = get-alapplayerDetail -websession $websession -id $applayerid.Id
+  $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $applayerid.LayerId -apprevid $apprevid.Id
 #>
+
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
@@ -48,6 +60,8 @@ Param(
 [Parameter(Mandatory=$false)][string]$connectorid,
 [Parameter(Mandatory=$false)][string]$osrevid,
 [Parameter(Mandatory=$false)][string]$platrevid,
+[Parameter(Mandatory=$false)][string]$applayerid,
+[Parameter(Mandatory=$false)][string]$apprevid,
 [Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode,
 [Parameter(Mandatory=$false)][string]$diskformat,
 [Parameter(Mandatory=$false)][string]$size,
@@ -100,6 +114,16 @@ if([string]::IsNullOrWhiteSpace($platrevid))
   Write-Verbose "Using existing platrevid value $platrevid"
 }
 
+if([string]::IsNullOrWhiteSpace($applayerid))
+{
+  $applayerid=""
+}
+
+if([string]::IsNullOrWhiteSpace($apprevid))
+{
+  $apprevid=""
+}
+
 if([string]::IsNullOrWhiteSpace($ElasticLayerMode))
 {
   $ElasticLayerMode=$image.ElasticLayerMode
@@ -134,9 +158,9 @@ if([string]::IsNullOrWhiteSpace($icon))
         <Description>$description</Description>
         <IconId>$icon</IconId>
         <OsLayerRevId>$osrevid</OsLayerRevId>
-        <AppLayerRevIds/>
         <PlatformConnectorConfigId>$connectorid</PlatformConnectorConfigId>
         <PlatformLayerRevId>$platrevid</PlatformLayerRevId>
+        <AppLayerRevIds/>
         <SysprepType>None</SysprepType>
         <LayeredImageDiskFilename>$name</LayeredImageDiskFilename>
         <LayeredImageDiskFormat>$diskformat</LayeredImageDiskFormat>
@@ -150,6 +174,34 @@ if([string]::IsNullOrWhiteSpace($icon))
   </s:Body>
 </s:Envelope>
 "@
+
+# If ApplayerId and AppRevId are provided merge the two xml blocks
+if ((![string]::IsNullOrWhiteSpace($applayerid)) -and (![string]::IsNullOrWhiteSpace($apprevid)))
+{
+    # Remove AppLayerRevIds to be able to recreate as new element
+    $DeleteNames = "AppLayerRevIds"
+    ($xml.envelope.body.editimage.command.ChildNodes | Where-Object {$DeleteNames -contains $_.Name }) | ForEach-Object {[void]$_.ParentNode.RemoveChild($_)}
+
+    # Retrieve NamespaceUri from parent
+    $xdNS = $xml.envelope.body.editimage.command.NamespaceURI
+
+    # Define Elements and Values
+    $AppLayerRevIds = $xml.CreateNode([Xml.XmlNodeType]::Element, "AppLayerRevIds", $xdNS);
+    $KeyValueOfInt64 = $xml.CreateNode([Xml.XmlNodeType]::Element, "KeyValueOfInt64", $xdNS);
+    $ElementName = $xml.CreateNode([Xml.XmlNodeType]::Element, "Name", $xdNS);
+    $ElementName.InnerText = $applayerid
+    $ElementValue = $xml.CreateNode([Xml.XmlNodeType]::Element, "Value", $xdNS);
+    $ElementValue.InnerText = $apprevid
+
+    # Append the elements
+    $KeyValueOfInt64.AppendChild($ElementName);
+    $KeyValueOfInt64.AppendChild($ElementValue);
+    $AppLayerRevIds.AppendChild($KeyValueOfInt64);
+
+    # Merge with origin
+    $xml.envelope.body.editimage.command.AppendChild($AppLayerRevIds)
+}
+
 $headers = @{
 SOAPAction = "http://www.unidesk.com/EditImage";
 "Content-Type" = "text/xml; charset=utf-8";
