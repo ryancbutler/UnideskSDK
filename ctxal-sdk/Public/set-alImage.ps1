@@ -43,7 +43,7 @@ function Set-ALImage
   $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
   Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
   
-  ### Also edit image with latest revision for a given app ***
+  ### Edit image with latest revision for a specific app ***
   $app = "Winscp"
   $applayerid = Get-ALapplayer -websession $websession|where{$_.name -eq $app}
   $apprevs = get-alapplayerDetail -websession $websession -id $applayerid.Id
