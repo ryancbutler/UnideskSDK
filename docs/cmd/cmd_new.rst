@@ -396,6 +396,56 @@ REMARKS
     For technical information, type: "get-help New-ALImage -full".
 
 
+New-ALImageClone
+-------------------------
+
+NAME
+    New-ALImageClone
+    
+SYNOPSIS
+    Clones an Image
+    
+    
+SYNTAX
+    New-ALImageClone [-websession] <Object> [-imageid] <Object> [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Clones an Image
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -imageid <Object>
+        id for the image to be cloned
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$image = Get-ALimage -websession $websession | where {$_.name -eq "Windows 10 Accounting"}
+    
+    New-ALImageClone -websession $websession -imageid $image.Id -Confirm:$false -OutVariable ALImageClone
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help New-ALImageClone -examples".
+    For more information, type: "get-help New-ALImageClone -detailed".
+    For technical information, type: "get-help New-ALImageClone -full".
+
+
 New-ALOsLayerRev
 -------------------------
 
