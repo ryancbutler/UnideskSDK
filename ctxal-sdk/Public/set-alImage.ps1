@@ -43,12 +43,12 @@ function Set-ALImage
   $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
   Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
   
-  ### Edit image with latest revision for a specific app ***
-  $app = "Winscp"
-  $applayerid = Get-ALapplayer -websession $websession|where{$_.name -eq $app}
-  $apprevs = get-alapplayerDetail -websession $websession -id $applayerid.Id
-  $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
-  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $applayerid.LayerId -apprevid $apprevid.Id
+  ### Edit image with latest revision for a specific app or apps ***
+  $apps = @("Winscp","7-zip")
+  $applayerids = foreach ($app in $apps){Get-ALapplayer -websession $websession|where{$_.name -eq $app}}
+  $apprevs = foreach ($applayerid in $applayerids){get-alapplayerDetail -websession $websession -id $applayerid.Id}
+  $apprevid = foreach ($apprev in $apprevs){$apprev.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1}
+  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id
 #>
 
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
@@ -60,8 +60,8 @@ Param(
 [Parameter(Mandatory=$false)][string]$connectorid,
 [Parameter(Mandatory=$false)][string]$osrevid,
 [Parameter(Mandatory=$false)][string]$platrevid,
-[Parameter(Mandatory=$false)][string]$applayerid,
-[Parameter(Mandatory=$false)][string]$apprevid,
+[Parameter(Mandatory=$false)][array]$applayerid,
+[Parameter(Mandatory=$false)][array]$apprevid,
 [Parameter(Mandatory=$false)][ValidateSet("None","Session","Office365","SessionOffice365","Desktop")][string]$ElasticLayerMode,
 [Parameter(Mandatory=$false)][string]$diskformat,
 [Parameter(Mandatory=$false)][string]$size,
@@ -112,16 +112,6 @@ if([string]::IsNullOrWhiteSpace($platrevid))
 {
   $platrevid=$image.PlatformLayer.Revisions.RevisionResult.Id
   Write-Verbose "Using existing platrevid value $platrevid"
-}
-
-if([string]::IsNullOrWhiteSpace($applayerid))
-{
-  $applayerid=""
-}
-
-if([string]::IsNullOrWhiteSpace($apprevid))
-{
-  $apprevid=""
 }
 
 if([string]::IsNullOrWhiteSpace($ElasticLayerMode))
@@ -185,18 +175,24 @@ if ((![string]::IsNullOrWhiteSpace($applayerid)) -and (![string]::IsNullOrWhiteS
     # Retrieve NamespaceUri from parent
     $xdNS = $xml.envelope.body.editimage.command.NamespaceURI
 
-    # Define Elements and Values
+    # Define Root Element
     $AppLayerRevIds = $xml.CreateNode([Xml.XmlNodeType]::Element, "AppLayerRevIds", $xdNS);
-    $KeyValueOfInt64 = $xml.CreateNode([Xml.XmlNodeType]::Element, "KeyValueOfInt64", $xdNS);
-    $ElementName = $xml.CreateNode([Xml.XmlNodeType]::Element, "Name", $xdNS);
-    $ElementName.InnerText = $applayerid
-    $ElementValue = $xml.CreateNode([Xml.XmlNodeType]::Element, "Value", $xdNS);
-    $ElementValue.InnerText = $apprevid
+    
+    # Define Element and values for each provided applayerid
+    for ($i=0; $i -lt $applayerid.Length; $i++){
+    
+        $KeyValueOfInt64 = $xml.CreateNode([Xml.XmlNodeType]::Element, "KeyValueOfInt64", $xdNS);
+        $ElementName = $xml.CreateNode([Xml.XmlNodeType]::Element, "Name", $xdNS);
+        $ElementName.InnerText = $applayerid[$i]
+        $ElementValue = $xml.CreateNode([Xml.XmlNodeType]::Element, "Value", $xdNS);
+        $ElementValue.InnerText = $apprevid[$i]
 
-    # Append the elements
-    $KeyValueOfInt64.AppendChild($ElementName);
-    $KeyValueOfInt64.AppendChild($ElementValue);
-    $AppLayerRevIds.AppendChild($KeyValueOfInt64);
+        # Append the elements with their values
+        $KeyValueOfInt64.AppendChild($ElementName);
+        $KeyValueOfInt64.AppendChild($ElementValue);
+        $AppLayerRevIds.AppendChild($KeyValueOfInt64);
+
+    }
 
     # Merge with origin
     $xml.envelope.body.editimage.command.AppendChild($AppLayerRevIds)
