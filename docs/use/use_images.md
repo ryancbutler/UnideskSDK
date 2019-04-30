@@ -47,13 +47,15 @@ $platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state 
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
 ```
-## Edit image with latest revision for a specific app
+
+### Edit image with latest revision for a specific app or apps
+
 ```powershell
-$app = "Winscp"
-$applayerid = Get-ALapplayer -websession $websession|where{$_.name -eq $app}
-$apprevs = get-alapplayerDetail -websession $websession -id $applayerid.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
-Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $applayerid.LayerId -apprevid $apprevid.Id
+$apps = @("Winscp","7-zip")
+$applayerids = foreach ($app in $apps){Get-ALapplayer -websession $websession|where{$_.name -eq $app}}
+$apprevs = foreach ($applayerid in $applayerids){get-alapplayerDetail -websession $websession -id $applayerid.Id}
+$apprevid = foreach ($apprev in $apprevs){$apprev.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1}
+Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id
 ```
 
 ## Remove Image
