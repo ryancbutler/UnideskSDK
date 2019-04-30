@@ -343,6 +343,7 @@ $platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state 
 $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
 Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
 ```
+
 ### Edit image with latest revision for a specific app or apps
 
 ```powershell
