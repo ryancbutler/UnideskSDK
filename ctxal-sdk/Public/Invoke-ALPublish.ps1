@@ -6,7 +6,7 @@ function Invoke-ALPublish
 .DESCRIPTION
   Publishes image(template)
 .PARAMETER imageid
-  Image ID to be published
+  Image ID's to be published
 .PARAMETER websession
   Existing Webrequest session for ELM Appliance
 .EXAMPLE
@@ -17,7 +17,7 @@ function Invoke-ALPublish
 [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
 Param(
 [Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$imageid
+[Parameter(Mandatory=$true)][array]$imageid
 )
 Begin {
   Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -40,6 +40,34 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
+
+# If multiple ImageIds are provided loopt trough the $imageid's and merge the xml blocks
+if ((![string]::IsNullOrWhiteSpace($imageid)) -and ($imageid.count -gt 1))
+{
+    # Remove original ImageIds node to be able to recreate it as a new element
+    $ChildNode = "ImageIds"
+    ($xml.envelope.body.ExportImage.command.ChildNodes | Where-Object {$ChildNode -contains $_.Name }) | ForEach-Object {[void]$_.ParentNode.RemoveChild($_)}
+
+    # Retrieve NamespaceUri from parent
+    $xdNS = $xml.envelope.body.ExportImage.command.NamespaceURI
+
+    # Define Root Element
+    $ImageIdsNode = $xml.CreateNode([Xml.XmlNodeType]::Element, $ChildNode, $xdNS);
+    
+    # Define Element and values for each provided imageid
+    for ($i=0; $i -lt $imageid.Length; $i++){
+    
+        $NewElementName = $xml.CreateNode([Xml.XmlNodeType]::Element, "long", $xdNS);
+        $NewElementName.InnerText = $imageid[$i]
+
+        # Append the element with their values
+        $ImageIdsNode.AppendChild($NewElementName) | Out-Null
+    }
+
+    # Merge with origin
+    $xml.envelope.body.ExportImage.command.AppendChild($ImageIdsNode) | Out-Null
+}
+
 $headers = @{
 SOAPAction = "http://www.unidesk.com/ExportImage";
 "Content-Type" = "text/xml; charset=utf-8";
