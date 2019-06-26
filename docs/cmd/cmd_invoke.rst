@@ -127,7 +127,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Invoke-ALPublish [-websession] <Object> [-imageid] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Invoke-ALPublish [-websession] <Object> [-imageid] <Array> [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -138,8 +138,8 @@ PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
         
-    -imageid <String>
-        Image ID to be published
+    -imageid <Array>
+        Image ID's to be published
         
     -WhatIf [<SwitchParameter>]
         
