@@ -95,6 +95,8 @@ Update-Module -Name ctxal-sdk
 
 ### Connect
 
+**Note:** If a password contains a `&` you will need to convert with `[System.Security.SecurityElement]::Escape(MY&PASSWORD)` to handle the escape character
+
 ```powershell
 $aplip = "192.168.1.5"
 $pass = "Password"
