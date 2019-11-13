@@ -1,6 +1,5 @@
-function Get-ALicon
-{
-<#
+function Get-ALicon {
+  <#
 .SYNOPSIS
   Gets all icon IDs
 .DESCRIPTION
@@ -10,16 +9,16 @@ function Get-ALicon
 .EXAMPLE
   Get-ALicon -websession $websession
 #>
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$websession
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
-[xml]$xml = @"
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$websession
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <QueryLayerIcons xmlns="http://www.unidesk.com/">
@@ -28,28 +27,28 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-$headers = @{
-SOAPAction = "http://www.unidesk.com/QueryLayerIcons";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
-
-$final = @()
-foreach ($iconid in $obj.Envelope.Body.QueryLayerIconsResponse.QueryLayerIconsResult.IconIds.long)
-{
-  $final += [PSCustomObject]@{
-    ICONID = $iconid
-    URL = "https://$($websession.aplip)/Unidesk.Web/GetImage.ashx?id=$iconid"
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/QueryLayerIcons";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
     }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+    [xml]$obj = $return.Content
+
+    $final = @()
+    foreach ($iconid in $obj.Envelope.Body.QueryLayerIconsResponse.QueryLayerIconsResult.IconIds.long) {
+      $final += [PSCustomObject]@{
+        ICONID = $iconid
+        URL    = "https://$($websession.aplip)/Unidesk.Web/GetImage.ashx?id=$iconid"
+      }
   
-}
+    }
 
-return $final
-}
+    return $final
+  }
 
 
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

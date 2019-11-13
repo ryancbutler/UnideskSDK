@@ -1,5 +1,5 @@
 function Get-ALVMName {
-    <#
+  <#
 .SYNOPSIS
   Extracts VM name out of "action required" task
 .DESCRIPTION
@@ -9,19 +9,19 @@ function Get-ALVMName {
 .EXAMPLE
   Get-ALVMName -message $status.WorkItems.WorkItemResult.Status
 #>
-    [cmdletbinding()]
-    Param(
-        [Parameter(Mandatory = $true)]$message
-    )
-    Begin {
-        Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-        #Test-ALWebsession -WebSession $websession
-    }
-    Process {
-        $pattern = "(?<=(\]|'))([^'\[]*)-\d\d\d\d-\d\d-\d\d_\d\d-\d\d-\d\d.\d\d\d([^\[']*)(?=(\[|'))"
-        $result = [regex]::match($message, $pattern)
-        Write-Verbose $result
-        return $result.value
-    }
-    end {Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$message
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    #Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    $pattern = "(?<=(\]|'))([^'\[]*)-\d\d\d\d-\d\d-\d\d_\d\d-\d\d-\d\d.\d\d\d([^\[']*)(?=(\[|'))"
+    $result = [regex]::match($message, $pattern)
+    Write-Verbose $result
+    return $result.value
+  }
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

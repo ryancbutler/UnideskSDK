@@ -1,6 +1,5 @@
-function New-ALPlatformLayerRev
-{
-<#
+function New-ALPlatformLayerRev {
+  <#
 .SYNOPSIS
   Creates new platform layer version
 .DESCRIPTION
@@ -56,29 +55,29 @@ function New-ALPlatformLayerRev
   Description = "test";
   diskformat = $connector.ValidDiskFormats.DiskFormat;
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$osrevid,
-[Parameter(Mandatory=$true)][string]$connectorid,
-[Parameter(Mandatory=$false)][string]$Description="",
-[Parameter(Mandatory=$true)][string]$shareid,
-[Parameter(Mandatory=$true)][string]$layerid,
-[Parameter(Mandatory=$true)][string]$layerrevid,
-[Parameter(Mandatory=$true)][string]$version,
-[Parameter(Mandatory=$true)][string]$Diskname,
-[Parameter(Mandatory=$false)][string]$size="10240",
-[Parameter(Mandatory=$true)][string]$diskformat,
-[Parameter(Mandatory=$false)][string]$HypervisorPlatformTypeId="vsphere",
-[Parameter(Mandatory=$false)][string]$ProvisioningPlatformTypeId="mcs",
-[Parameter(Mandatory=$false)][string]$BrokerPlatformTypeId="xendesktop"
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
-[xml]$xml = @"
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$osrevid,
+    [Parameter(Mandatory = $true)][string]$connectorid,
+    [Parameter(Mandatory = $false)][string]$Description = "",
+    [Parameter(Mandatory = $true)][string]$shareid,
+    [Parameter(Mandatory = $true)][string]$layerid,
+    [Parameter(Mandatory = $true)][string]$layerrevid,
+    [Parameter(Mandatory = $true)][string]$version,
+    [Parameter(Mandatory = $true)][string]$Diskname,
+    [Parameter(Mandatory = $false)][string]$size = "10240",
+    [Parameter(Mandatory = $true)][string]$diskformat,
+    [Parameter(Mandatory = $false)][string]$HypervisorPlatformTypeId = "vsphere",
+    [Parameter(Mandatory = $false)][string]$ProvisioningPlatformTypeId = "mcs",
+    [Parameter(Mandatory = $false)][string]$BrokerPlatformTypeId = "xendesktop"
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <CreatePlatformLayerRevision xmlns="http://www.unidesk.com/">
@@ -106,27 +105,27 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-$headers = @{
-SOAPAction = "http://www.unidesk.com/CreatePlatformLayerRevision";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-  if ($PSCmdlet.ShouldProcess("Creating platform layerversion $version from $layerrevid")) {
-  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  [xml]$obj = $return.Content
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/CreatePlatformLayerRevision";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    if ($PSCmdlet.ShouldProcess("Creating platform layerversion $version from $layerrevid")) {
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
 
 
-  if($obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.Error)
-  {
-    throw $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.Error.message
+      if ($obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.Error) {
+        throw $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.Error.message
 
+      }
+      else {
+        Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.WorkTicketId)"
+        return $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult
+      }
+    }
   }
-  else {
-    Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult.WorkTicketId)"
-    return $obj.Envelope.Body.CreatePlatformLayerRevisionResponse.CreatePlatformLayerRevisionResult
-  }
-  }
-}
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

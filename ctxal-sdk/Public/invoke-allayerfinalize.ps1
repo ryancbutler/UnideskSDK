@@ -1,6 +1,5 @@
-function Invoke-ALLayerFinalize
-{
-<#
+function Invoke-ALLayerFinalize {
+  <#
 .SYNOPSIS
   Runs finalize process on a layer
 .DESCRIPTION
@@ -23,20 +22,20 @@ function Invoke-ALLayerFinalize
   $disklocation = get-allayerinstalldisk -websession $websession -layerid $apprevid.LayerId
   invoke-allayerfinalize -websession $websession -fileshareid $shares.id -LayerRevisionId $apprevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$fileshareid,
-[Parameter(Mandatory=$true)][string]$LayerRevisionId,
-[Parameter(Mandatory=$true)][string]$uncpath,
-[Parameter(Mandatory=$true)][string]$filename
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
-[xml]$xml = @"
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$fileshareid,
+    [Parameter(Mandatory = $true)][string]$LayerRevisionId,
+    [Parameter(Mandatory = $true)][string]$uncpath,
+    [Parameter(Mandatory = $true)][string]$filename
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <FinalizeLayerRevision xmlns="http://www.unidesk.com/">
@@ -54,17 +53,17 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-$headers = @{
-    SOAPAction = "http://www.unidesk.com/FinalizeLayerRevision";
-    "Content-Type" = "text/xml; charset=utf-8";
-    UNIDESK_TOKEN = $websession.token;
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/FinalizeLayerRevision";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
     }
     $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
     if ($PSCmdlet.ShouldProcess("Finalizing $LayerRevisionId")) {
       $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
       [xml]$obj = $return.Content
-      if($obj.Envelope.Body.FinalizeLayerRevisionResponse.FinalizeLayerRevisionResult.Error)
-      {
+      if ($obj.Envelope.Body.FinalizeLayerRevisionResponse.FinalizeLayerRevisionResult.Error) {
         throw $obj.Envelope.Body.FinalizeLayerRevisionResponse.FinalizeLayerRevisionResult.Error.message
       }
       else {
@@ -72,7 +71,7 @@ $headers = @{
       }
     }
     
-}
+  }
 
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

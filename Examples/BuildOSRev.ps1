@@ -43,17 +43,15 @@ $CredentialVCenter = New-Object System.Management.Automation.PSCredential ($vcen
 Connect-VIServer -server $vcenter -Credential $CredentialVCenter
 
 #Test WINRM connectivity
-function test-wsmanquiet
-{
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$computer)
+function test-wsmanquiet {
+    [cmdletbinding()]
+    Param(
+        [Parameter(Mandatory = $true)]$computer)
 
-    try{
+    try {
         Test-WSMan -ComputerName $computer -ErrorAction Stop
     }
-    catch
-    {
+    catch {
         return $false
     }
 
@@ -65,16 +63,16 @@ $StartDTM = (Get-Date)
 
 #Gets needed AL info for layer creation
 $fileshare = Get-ALRemoteshare -websession $websession
-$connector = Get-ALconnector -websession $websession -type Create|where-object{$_.name -eq $connectorname}
-$oss = Get-ALOsLayer -websession $websession|Where-Object{$_.name -eq $os}
+$connector = Get-ALconnector -websession $websession -type Create | where-object { $_.name -eq $connectorname }
+$oss = Get-ALOsLayer -websession $websession | Where-Object { $_.name -eq $os }
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
-$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|Where-Object{$_.state -eq "Deployable"}|Sort-Object revision -Descending|Select-Object -First 1
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail | Where-Object { $_.state -eq "Deployable" } | Sort-Object revision -Descending | Select-Object -First 1
 $myosrev = new-aloslayerrev -websession $websession -version $versionname -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id -description $versiondescription -name $oss.name -Confirm:$false
 write-host $myosrev.WorkTicketId
 
-  #Waiting for new layer to become ready
-  do{
-    $status = get-alstatus -websession $websession|Where-Object{$_.id -eq $myosrev.WorkTicketId}
+#Waiting for new layer to become ready
+do {
+    $status = get-alstatus -websession $websession | Where-Object { $_.id -eq $myosrev.WorkTicketId }
     write-host $status.state
     Start-Sleep -Seconds 15
 } Until ($status.state -eq "ActionRequired")
@@ -84,7 +82,7 @@ $vmuniname = get-alvmname -message $status.WorkItems.WorkItemResult.Status
 
 $ip = $null
 #Get VM with powercli and wait for an IP
-do{
+do {
     $vm = Get-VM $vmuniname
     $ip = $vm.Guest.IPAddress[0]
     $VMNAME = $vm.ExtensionData.Guest.Hostname
@@ -100,12 +98,10 @@ $timer = [Diagnostics.Stopwatch]::StartNew()
 $timeout = 120 #2 minutes
 write-host "Checking for WINRM connectivity"
 #Tries to connect to WINRM and waits to become available
-while (-not (test-wsmanquiet -Computer $ip))
-{
+while (-not (test-wsmanquiet -Computer $ip)) {
     Write-host "Waiting for $ip to become accessible WINRM..."
-    if ($timer.Elapsed.TotalSeconds -ge $Timeout)
-    {
-    throw "Timeout exceeded. Giving up on $ComputerName"
+    if ($timer.Elapsed.TotalSeconds -ge $Timeout) {
+        throw "Timeout exceeded. Giving up on $ComputerName"
     }
 
 }
@@ -118,16 +114,16 @@ Copy-Item -ToSession $session -path $scriptpath -Destination "C:\Windows\temp\Up
 
 #Scheduled tasks script block
 $sbtask = {
-$action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Bypass -file "C:\Windows\temp\UpdateTask.ps1" -noexit'
-$trigger =  New-ScheduledTaskTrigger -AtLogOn
-Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "PSWindowsUpdate"
+    $action = New-ScheduledTaskAction -Execute 'Powershell.exe' -Argument '-ExecutionPolicy Bypass -file "C:\Windows\temp\UpdateTask.ps1" -noexit'
+    $trigger = New-ScheduledTaskTrigger -AtLogOn
+    Register-ScheduledTask -Action $action -Trigger $trigger -TaskName "PSWindowsUpdate"
 }
 
 #Creates scheduled tasks using script block
 Invoke-Command -Session $session -ScriptBlock $sbtask
 
 #Enables autologon
-Invoke-Command -Session $session -ScriptBlock {Import-Module -Name Autologon -force;Enable-AutoLogon -Username $using:localadminuser -Password (ConvertTo-SecureString -String $using:localadminpw -AsPlainText -Force) -LogonCount "1" } -ErrorAction stop
+Invoke-Command -Session $session -ScriptBlock { Import-Module -Name Autologon -force; Enable-AutoLogon -Username $using:localadminuser -Password (ConvertTo-SecureString -String $using:localadminpw -AsPlainText -Force) -LogonCount "1" } -ErrorAction stop
 
 #Restart to kick off the process
 Restart-Computer -Force -ComputerName $ip -Credential $cred
@@ -136,11 +132,10 @@ Restart-Computer -Force -ComputerName $ip -Credential $cred
 $timer = [Diagnostics.Stopwatch]::StartNew()
 #Operation timeout
 $timeout = 2 #Hours
-do{
+do {
     
-    if ($timer.Elapsed.TotalHours -ge $Timeout)
-    {
-    throw "Timeout exceeded on shutdown process"
+    if ($timer.Elapsed.TotalHours -ge $Timeout) {
+        throw "Timeout exceeded on shutdown process"
     }
 
     write-host "Waiting for VM to shutdown...."
@@ -152,9 +147,9 @@ until ($vm.PowerState -eq "PoweredOff")
 write-host "VM powered down"
 
 #Finalize Layer
-$OSS = Get-ALOslayer -websession $websession|Where-Object{$_.name -eq $os}
+$OSS = Get-ALOslayer -websession $websession | Where-Object { $_.name -eq $os }
 $OSSREVS = Get-ALOsLayerDetail -websession $websession -id $oss.Id
-$ossrevid = $OSSREVS.Revisions.OsLayerRevisionDetail|Where-Object{$_.state -eq "Finalizable"}|Sort-Object revision -Descending|Select-Object -First 1
+$ossrevid = $OSSREVS.Revisions.OsLayerRevisionDetail | Where-Object { $_.state -eq "Finalizable" } | Sort-Object revision -Descending | Select-Object -First 1
 $disklocation = get-allayerinstalldisk -websession $websession -id $ossrevid.LayerId
 invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -LayerRevisionId $ossrevid.Id -uncpath $disklocation.diskuncpath -filename $disklocation.diskname -Confirm:$false
 
@@ -162,7 +157,7 @@ invoke-allayerfinalize -websession $websession -fileshareid $fileshare.id -Layer
 $EndDTM = (Get-Date)
 
 #Compare times
-$time = ($EndDTM-$StartDTM)
+$time = ($EndDTM - $StartDTM)
 write-host "Finished in $($time.TotalMinutes) minutes" -foreground Green
 
 

@@ -1,6 +1,5 @@
-function Test-ALWebsession
-{
-<#
+function Test-ALWebsession {
+    <#
 .SYNOPSIS
     Tests for valid web request session
 .DESCRIPTION
@@ -10,26 +9,24 @@ function Test-ALWebsession
 .EXAMPLE
    Test-ALWebsession -websession $websession
 #>
-[cmdletbinding()]
-[OutputType([System.boolean])]
-Param(
-[Parameter(Mandatory=$true)]$websession
-)
-Begin {
-    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  }
-Process {
+    [cmdletbinding()]
+    [OutputType([System.boolean])]
+    Param(
+        [Parameter(Mandatory = $true)]$websession
+    )
+    Begin {
+        Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    }
+    Process {
 
-if([string]::IsNullOrWhiteSpace($websession.token))
-{
-    throw "Not Connected.  Run Connect-ALSession to connect"
-}
-else
-{
-    Write-Verbose "Connection OK"
-    #return $true
-}
+        if ([string]::IsNullOrWhiteSpace($websession.token)) {
+            throw "Not Connected.  Run Connect-ALSession to connect"
+        }
+        else {
+            Write-Verbose "Connection OK"
+            #return $true
+        }
 
-}
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+    }
+    end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

@@ -1,6 +1,5 @@
-Function Set-ALAdminUser
-{
-<#
+Function Set-ALAdminUser {
+  <#
 .SYNOPSIS
   Sets Administrator User Password
 .DESCRIPTION
@@ -12,19 +11,19 @@ Function Set-ALAdminUser
 .EXAMPLE
   Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact="High")]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$false)][string]$Password
-)
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = "High")]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $false)][string]$Password
+  )
 
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
 
-Process {
-[xml]$xml = @"
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <EditDirectoryItem xmlns="http://www.unidesk.com/">
@@ -62,27 +61,26 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-
-$headers = @{
-SOAPAction = "http://www.unidesk.com/EditDirectoryItem";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-if ($PSCmdlet.ShouldProcess("Setting Administrator Password")) {
-  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  [xml]$obj = $return.Content
-
-    if($obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.Error)
-    {
-      throw $obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.Error.message
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/EditDirectoryItem";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
     }
-    else {
-      return $obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.id
-    }
-    }
-}
 
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    if ($PSCmdlet.ShouldProcess("Setting Administrator Password")) {
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
+
+      if ($obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.Error) {
+        throw $obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.Error.message
+      }
+      else {
+        return $obj.Envelope.Body.EditDirectoryItemResponse.EditDirectoryItemResult.id
+      }
+    }
+  }
+
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

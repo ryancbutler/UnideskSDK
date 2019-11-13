@@ -1,5 +1,5 @@
 function Get-ALconnectoragent {
-<#
+  <#
 .SYNOPSIS
     Gets connector agents
 .DESCRIPTION
@@ -9,29 +9,28 @@ function Get-ALconnectoragent {
 .EXAMPLE
     Get-ALconnectoragent -websession $websession
 #>
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$websession
-)
-Begin {Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"}
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$websession
+  )
+  Begin { Write-Verbose "BEGIN: $($MyInvocation.MyCommand)" }
 
-Process{
+  Process {
 
-#do the request
-$headers = @{
-    "Cookie" = ("UMCSessionCoookie=" + $($websession.token))
-    "Accept" = "*/*"
-    "Content-Type" = "application/json"
-    "Host" = "$($websession.aplip):3504"
-    "Referer" =  "https://$($websession.aplip):3504/ui/"
-  }
-try
-{
-    $content = Invoke-RestMethod -Method GET -Uri "https://$($websession.aplip):3504/api/Agents?filter[include]=host" -Headers $headers
-} catch {
-    $temp = $_.ErrorDetails.Message|ConvertFrom-Json
-      if($temp.message)
-      {
+    #do the request
+    $headers = @{
+      "Cookie"       = ("UMCSessionCoookie=" + $($websession.token))
+      "Accept"       = "*/*"
+      "Content-Type" = "application/json"
+      "Host"         = "$($websession.aplip):3504"
+      "Referer"      = "https://$($websession.aplip):3504/ui/"
+    }
+    try {
+      $content = Invoke-RestMethod -Method GET -Uri "https://$($websession.aplip):3504/api/Agents?filter[include]=host" -Headers $headers
+    }
+    catch {
+      $temp = $_.ErrorDetails.Message | ConvertFrom-Json
+      if ($temp.message) {
         Write-error $temp.message
       }
       else {
@@ -40,15 +39,16 @@ try
         write-error $temp.error.staus
       }
       throw "Process failed!"
-} finally {
+    }
+    finally {
 
-}
+    }
 
-return $content
+    return $content
 
 
-}
+  }
 
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 
 }

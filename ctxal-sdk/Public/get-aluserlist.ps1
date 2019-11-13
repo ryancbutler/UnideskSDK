@@ -1,6 +1,5 @@
-function Get-ALUserList
-{
-<#
+function Get-ALUserList {
+  <#
 .SYNOPSIS
   Gets list of users and groups for specific LDAP DN
 .DESCRIPTION
@@ -16,21 +15,20 @@ function Get-ALUserList
 .EXAMPLE
   Get-ALUserList -websession $websession -junctionid $dir.id
 #>
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$junctionid,
-[Parameter(Mandatory=$false)][string]$dn=""
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$junctionid,
+    [Parameter(Mandatory = $false)][string]$dn = ""
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
 
-if([string]::IsNullOrWhiteSpace($dn))
-{
-[xml]$xml = @"
+    if ([string]::IsNullOrWhiteSpace($dn)) {
+      [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <BrowseContainer xmlns="http://www.unidesk.com/">
@@ -48,9 +46,9 @@ if([string]::IsNullOrWhiteSpace($dn))
   </s:Body>
 </s:Envelope>
 "@
-}
-else {
-  [xml]$xml = @"
+    }
+    else {
+      [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <BrowseContainer xmlns="http://www.unidesk.com/">
@@ -68,24 +66,24 @@ else {
   </s:Body>
 </s:Envelope>
 "@
-}
-$headers = @{
-SOAPAction = "http://www.unidesk.com/BrowseContainer";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
+    }
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/BrowseContainer";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+    [xml]$obj = $return.Content
  
-  if($obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Error)
-  {
-    throw $obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Error.message
-  }
-  else {
-    return $obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Items.DirectoryItem
-  }
+    if ($obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Error) {
+      throw $obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Error.message
+    }
+    else {
+      return $obj.Envelope.Body.BrowseContainerResponse.BrowseContainerResult.Items.DirectoryItem
+    }
 
-}
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  }
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

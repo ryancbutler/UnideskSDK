@@ -1,6 +1,5 @@
-function Add-ALELAppassignment
-{
-<#
+function Add-ALELAppassignment {
+  <#
 .SYNOPSIS
   Adds a user account or group to an applications elastic layer assignment
 .DESCRIPTION
@@ -22,18 +21,18 @@ function Add-ALELAppassignment
   $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
   $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$apprevid,
-[Parameter(Mandatory=$true,ValueFromPipeline=$true)][string]$user
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
-[xml]$xml = @"
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$apprevid,
+    [Parameter(Mandatory = $true, ValueFromPipeline = $true)][string]$user
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <UpdateAppLayerAssignment xmlns="http://www.unidesk.com/">
@@ -57,34 +56,33 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-$headers = @{
-SOAPAction = "http://www.unidesk.com/UpdateAppLayerAssignment";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-if ($PSCmdlet.ShouldProcess("Adding $apprevid to $($user.DN)")) {
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
-}
-}
-
-
-
-end{
-if ($PSCmdlet.ShouldProcess("Output for application add"))
-{
-  if($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error)
-  {
-    throw $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error.message
-
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/UpdateAppLayerAssignment";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    if ($PSCmdlet.ShouldProcess("Adding $apprevid to $($user.DN)")) {
+      $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
+    }
   }
-  else {
-    Write-Verbose "WORKTICKET: $($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId)"
-    return $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId
+
+
+
+  end {
+    if ($PSCmdlet.ShouldProcess("Output for application add")) {
+      if ($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error) {
+        throw $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.Error.message
+
+      }
+      else {
+        Write-Verbose "WORKTICKET: $($obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId)"
+        return $obj.Envelope.Body.UpdateAppLayerAssignmentResponse.UpdateAppLayerAssignmentResult.WorkTicketId
+      }
+    }
+    Write-Verbose "END: $($MyInvocation.MyCommand)"
   }
-}
-  Write-Verbose "END: $($MyInvocation.MyCommand)"
-}
 
 }

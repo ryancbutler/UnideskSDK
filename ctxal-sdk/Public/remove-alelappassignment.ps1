@@ -1,6 +1,5 @@
-function Remove-ALELAppassignment
-{
-<#
+function Remove-ALELAppassignment {
+  <#
 .SYNOPSIS
   Removes a user account or group to an applications elastic layer assignment 
 .DESCRIPTION
@@ -22,18 +21,18 @@ function Remove-ALELAppassignment
   $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
   $finduser|remove-alelappassignment -websession $websession -apprevid $apprevid.Id
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$applayerid,
-[Parameter(Mandatory=$true,ValueFromPipeline=$true)][string]$user
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
-[xml]$xml = @"
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$applayerid,
+    [Parameter(Mandatory = $true, ValueFromPipeline = $true)][string]$user
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <RemoveAppLayerAssignment xmlns="http://www.unidesk.com/">
@@ -57,28 +56,29 @@ Process {
   </s:Body>
 </s:Envelope>
 "@
-$headers = @{
-SOAPAction = "http://www.unidesk.com/RemoveAppLayerAssignment";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/RemoveAppLayerAssignment";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
 
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-  if ($PSCmdlet.ShouldProcess("Removing $($user.DN) from $applayerid")) {
-  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  [xml]$obj = $return.Content
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    if ($PSCmdlet.ShouldProcess("Removing $($user.DN) from $applayerid")) {
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
+    }
   }
-}
 
 
 
 
-end{
-  if ($PSCmdlet.ShouldProcess("Return object")) {
-    return $obj
-  }
+  end {
+    if ($PSCmdlet.ShouldProcess("Return object")) {
+      return $obj
+    }
     Write-Verbose "END: $($MyInvocation.MyCommand)"
-}
+  }
 
 }
 

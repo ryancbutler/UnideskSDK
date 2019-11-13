@@ -1,6 +1,5 @@
-function Test-ALRemoteFileShare
-{
-<#
+function Test-ALRemoteFileShare {
+  <#
 .SYNOPSIS
   Tests remote file share for export import layer processes
 .DESCRIPTION
@@ -18,24 +17,23 @@ function Test-ALRemoteFileShare
 .EXAMPLE
   Test-RemoteFileShare -websession $websession -sharepath "\\myserver\path\layers"
 #>
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$sharepath,
-[Parameter(Mandatory=$false)][string]$sharetype="Cifs",
-[Parameter(Mandatory=$false)][string]$username,
-[Parameter(Mandatory=$false)][string]$sharepw
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$sharepath,
+    [Parameter(Mandatory = $false)][string]$sharetype = "Cifs",
+    [Parameter(Mandatory = $false)][string]$username,
+    [Parameter(Mandatory = $false)][string]$sharepw
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
 
-if ($username)
-{
-Write-Verbose "Using Credentials"
-[xml]$xml = @"
+    if ($username) {
+      Write-Verbose "Using Credentials"
+      [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <TestRemoteFileShare xmlns="http://www.unidesk.com/">
@@ -52,10 +50,10 @@ Write-Verbose "Using Credentials"
   </s:Body>
 </s:Envelope>
 "@
-}
-else {
-Write-Verbose "NO Credentials"
-[xml]$xml = @"
+    }
+    else {
+      Write-Verbose "NO Credentials"
+      [xml]$xml = @"
     <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
       <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
         <TestRemoteFileShare xmlns="http://www.unidesk.com/">
@@ -70,33 +68,33 @@ Write-Verbose "NO Credentials"
       </s:Body>
     </s:Envelope>
 "@   
-}
+    }
 
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/TestRemoteFileShare";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+    [xml]$obj = $return.Content
 
-$headers = @{
-SOAPAction = "http://www.unidesk.com/TestRemoteFileShare";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
+    if ($obj.Envelope.Body.TestRemoteFileShareResponse.TestRemoteFileShareResult.Error) {
+      Write-Verbose "Problems connecting to share"
+      throw $obj.Envelope.Body.TestRemoteFileShareResponse.TestRemoteFileShareResult.Error.message
+      return $false
+    }
+    else {
+      Write-Verbose "Share connection OK"
+      #return $true
+    }
 
-if ($obj.Envelope.Body.TestRemoteFileShareResponse.TestRemoteFileShareResult.Error)
-{
-  Write-Verbose "Problems connecting to share"
-  throw $obj.Envelope.Body.TestRemoteFileShareResponse.TestRemoteFileShareResult.Error.message
-  return $false
-}
-else {
-  Write-Verbose "Share connection OK"
-  #return $true
-}
+  }
 
-}
-
-end{
-  Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end {
+    Write-Verbose "END: $($MyInvocation.MyCommand)"
+  }
 }
 
 

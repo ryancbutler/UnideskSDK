@@ -1,6 +1,5 @@
-function Import-ALOsLayer
-{
-<#
+function Import-ALOsLayer {
+  <#
 .SYNOPSIS
   Creates a new operating system layer
 .DESCRIPTION
@@ -43,42 +42,41 @@ function Import-ALOsLayer
   $XenVM = get-xenvm -name $VMName
   $response = import-aloslayer -websession $websession -vmname $vmname -connectorid $connector.id -shareid $fileshare.id -name "Windows 2016" -version "1.0" -vmid $XenVM.uuid -hypervisor xenserver
 #>
-[cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact='High')]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$vmname,
-[Parameter(Mandatory=$false)][string]$description="",
-[Parameter(Mandatory=$true)][string]$connectorid,
-[Parameter(Mandatory=$true)][string]$shareid,
-[Parameter(Mandatory=$false)][string]$icon="196608",
-[Parameter(Mandatory=$true)][string]$name,
-[Parameter(Mandatory=$false)][string]$size="61440",
-[Parameter(Mandatory=$true)][string]$version,
-[Parameter(Mandatory=$true)][string]$vmid,
-[Parameter(Mandatory=$true)][ValidateSet('esxi','xenserver')][string[]]$hypervisor
-)
-Begin {
-  Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-  Test-ALWebsession -WebSession $websession
-}
-Process {
+  [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$vmname,
+    [Parameter(Mandatory = $false)][string]$description = "",
+    [Parameter(Mandatory = $true)][string]$connectorid,
+    [Parameter(Mandatory = $true)][string]$shareid,
+    [Parameter(Mandatory = $false)][string]$icon = "196608",
+    [Parameter(Mandatory = $true)][string]$name,
+    [Parameter(Mandatory = $false)][string]$size = "61440",
+    [Parameter(Mandatory = $true)][string]$version,
+    [Parameter(Mandatory = $true)][string]$vmid,
+    [Parameter(Mandatory = $true)][ValidateSet('esxi', 'xenserver')][string[]]$hypervisor
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+  }
+  Process {
 
-switch ($hypervisor)
-{
-"esxi" {
-$platformdata =  @"
+    switch ($hypervisor) {
+      "esxi" {
+        $platformdata = @"
 <PlatformData>{"VmId":{"attributes":{"type":"VirtualMachine"},"`$value":"$vmid"},"VmName":"$vmname"}</PlatformData>
 "@   
-  }
+      }
 
-"xenserver" {
-$platformdata = @"
+      "xenserver" {
+        $platformdata = @"
 <PlatformData>{"vmUuid":"$vmid","vmName":"$vmname","osImport":true}</PlatformData>
 "@ 
-}
-}
+      }
+    }
 
-[xml]$xml = @"
+    [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <ImportOs xmlns="http://www.unidesk.com/">
@@ -105,28 +103,27 @@ $platformdata = @"
   </s:Body>
 </s:Envelope>
 "@
+    Write-Verbose $xml
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/ImportOs";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) {
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
 
-$headers = @{
-SOAPAction = "http://www.unidesk.com/ImportOs";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-if ($PSCmdlet.ShouldProcess("Importing $vmname as $name")) {
-  $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-  [xml]$obj = $return.Content
+      if ($obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error) {
+        throw $obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error.message
 
-  if($obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error)
-  {
-    throw $obj.Envelope.Body.ImportOsResponse.ImportOsResult.Error.message
+      }
+      else {
+        Write-Verbose "WORKTICKET: $($obj.Envelope.Body.ImportOsResponse.ImportOsResult.WorkTicketId)"
+        return $obj.Envelope.Body.ImportOsResponse.ImportOsResult
 
+      }
+    }
   }
-  else {
-    Write-Verbose "WORKTICKET: $($obj.Envelope.Body.ImportOsResponse.ImportOsResult.WorkTicketId)"
-    return $obj.Envelope.Body.ImportOsResponse.ImportOsResult
-
-  }
-  }
-}
-end{Write-Verbose "END: $($MyInvocation.MyCommand)"}
+  end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }

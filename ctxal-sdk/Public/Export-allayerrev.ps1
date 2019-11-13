@@ -1,6 +1,5 @@
-function Export-ALLayerRev
-{
-<#
+function Export-ALLayerRev {
+  <#
 .SYNOPSIS
   Gets revisions that can be used to export
 .DESCRIPTION
@@ -18,50 +17,46 @@ function Export-ALLayerRev
 .EXAMPLE
   Export-ALlayerrev -websession $websession -sharepath "\\myserver\path\layers" -id @(12042,225252,2412412)
 #>
-[cmdletbinding()]
-Param(
-[Parameter(Mandatory=$true)]$websession,
-[Parameter(Mandatory=$true)][string]$sharepath,
-[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$True)][string]$id,
-[Parameter(Mandatory=$false)][string]$username,
-[Parameter(Mandatory=$false)][string]$sharepw
-)
-Begin {
-Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
-Test-ALWebsession -WebSession $websession
-$idsxml = $null 
+  [cmdletbinding()]
+  Param(
+    [Parameter(Mandatory = $true)]$websession,
+    [Parameter(Mandatory = $true)][string]$sharepath,
+    [Parameter(Mandatory = $true, ValueFromPipelineByPropertyName = $True)][string]$id,
+    [Parameter(Mandatory = $false)][string]$username,
+    [Parameter(Mandatory = $false)][string]$sharepw
+  )
+  Begin {
+    Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
+    Test-ALWebsession -WebSession $websession
+    $idsxml = $null 
 
-}
+  }
 
 
-Process {
-if(!$id)
-{
-  Write-Verbose "NOTHING TO DO"
-  return $false
-}
+  Process {
+    if (!$id) {
+      Write-Verbose "NOTHING TO DO"
+      return $false
+    }
 
-Write-Verbose "Building XML"
-foreach ($revid in $id)
-{
-$idsxml += @"
+    Write-Verbose "Building XML"
+    foreach ($revid in $id) {
+      $idsxml += @"
 <anyType xsi:type="xsd:long">$revid</anyType>
 "@
-}
-}
+    }
+  }
 
-end{
-if(!$id)
-{
-  Write-Verbose "NOTHING TO DO"
-  return $false
-}
+  end {
+    if (!$id) {
+      Write-Verbose "NOTHING TO DO"
+      return $false
+    }
 
-if ($username)
-{
-Write-Verbose "Using Credentials"
-test-alremotefileshare -websession $websession -sharepath $sharepath -username $username -sharepw $sharepw
-[xml]$xml = @"
+    if ($username) {
+      Write-Verbose "Using Credentials"
+      test-alremotefileshare -websession $websession -sharepath $sharepath -username $username -sharepw $sharepw
+      [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <ExportLayerRevisions xmlns="http://www.unidesk.com/">
@@ -80,11 +75,11 @@ test-alremotefileshare -websession $websession -sharepath $sharepath -username $
   </s:Body>
 </s:Envelope>
 "@
-}
-else {
-Write-Verbose "NO Credentials"
-test-alremotefileshare -websession $websession -sharepath $sharepath
-[xml]$xml = @"
+    }
+    else {
+      Write-Verbose "NO Credentials"
+      test-alremotefileshare -websession $websession -sharepath $sharepath
+      [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <ExportLayerRevisions xmlns="http://www.unidesk.com/">
@@ -101,26 +96,26 @@ test-alremotefileshare -websession $websession -sharepath $sharepath
   </s:Body>
 </s:Envelope>
 "@ 
-}
+    }
+    Write-Verbose $xml
 
+    $headers = @{
+      SOAPAction     = "http://www.unidesk.com/ExportLayerRevisions";
+      "Content-Type" = "text/xml; charset=utf-8";
+      UNIDESK_TOKEN  = $websession.token;
+    }
+    $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
+    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+    [xml]$obj = $return.Content
 
-$headers = @{
-SOAPAction = "http://www.unidesk.com/ExportLayerRevisions";
-"Content-Type" = "text/xml; charset=utf-8";
-UNIDESK_TOKEN = $websession.token;
-}
-$url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-$return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-[xml]$obj = $return.Content
+    if ($obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.Error) {
+      throw $obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.Error.message
+    }
+    else {
+      return $obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.WorkTicketId
 
-if($obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.Error)
-{
-    throw $obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.Error.message
-}
-else {
-    return $obj.Envelope.Body.ExportLayerRevisionsResponse.ExportLayerRevisionsResult.WorkTicketId
+    }
 
-}
-
-Write-Verbose "END: $($MyInvocation.MyCommand)"}
+    Write-Verbose "END: $($MyInvocation.MyCommand)"
+  }
 }
