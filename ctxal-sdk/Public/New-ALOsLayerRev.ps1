@@ -23,6 +23,8 @@ function New-ALOsLayerRev
   Disk format of the image
 .PARAMETER shareid
   ID of file share
+.PARAMETER name
+  Name of the PackagingDisk or layer version
 .PARAMETER size
   Size of layer in GB (default 61440)
 .EXAMPLE
@@ -44,6 +46,7 @@ Param(
 [Parameter(Mandatory=$false)][string]$platformrevid,
 [Parameter(Mandatory=$true)][string]$diskformat,
 [Parameter(Mandatory=$true)][string]$shareid,
+[Parameter(Mandatory=$true)][string]$name,
 [Parameter(Mandatory=$false)][string]$size="61440"
 )
 Begin {

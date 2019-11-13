@@ -69,7 +69,7 @@ $connector = Get-ALconnector -websession $websession -type Create|where-object{$
 $oss = Get-ALOsLayer -websession $websession|Where-Object{$_.name -eq $os}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|Where-Object{$_.state -eq "Deployable"}|Sort-Object revision -Descending|Select-Object -First 1
-$myosrev = new-aloslayerrev -websession $websession -version $versionname -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id -description $versiondescription -Confirm:$false
+$myosrev = new-aloslayerrev -websession $websession -version $versionname -connectorid $connector.Id -osid $oss.id -osrevid $osrevid.id -diskformat $connector.ValidDiskFormats.DiskFormat -shareid $fileshare.id -description $versiondescription -name $oss.name -Confirm:$false
 write-host $myosrev.WorkTicketId
 
   #Waiting for new layer to become ready
