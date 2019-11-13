@@ -458,7 +458,7 @@ SYNOPSIS
     
 SYNTAX
     New-ALOsLayerRev [-websession] <Object> [-version] <String> [[-description] <String>] [-connectorid] <String> [-osid] <String> [-osrevid] <String> [[-platformrevid] <String>] [-diskformat] <String> [-shareid] <String> 
-    [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    [-name] <String> [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -492,6 +492,9 @@ PARAMETERS
         
     -shareid <String>
         ID of file share
+        
+    -name <String>
+        Name of the PackagingDisk or layer version
         
     -size <String>
         Size of layer in GB (default 61440)
