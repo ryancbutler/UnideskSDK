@@ -42,7 +42,7 @@ function New-ALImage {
     [Parameter(Mandatory = $true)]$websession,
     [Parameter(Mandatory = $true)][string]$name,
     [Parameter(Mandatory = $false)][string]$description = "",
-    [Parameter(Mandatory = $true)][string]$connectorid,
+    [Parameter(Mandatory = $true)][AllowEmptyString()][string]$connectorid,
     [Parameter(Mandatory = $true)][string[]]$appids,
     [Parameter(Mandatory = $true)][string]$osrevid,
     [Parameter(Mandatory = $true)][string]$platrevid,
