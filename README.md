@@ -29,7 +29,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [New Application Layer Version](#new-application-layer-version)
     + [Set Application Layer](#set-application-layer)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
-    + [Clone Application Layer Revision](#clone-Layer)
+    + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
   * [Platform Layers](#platform-layers)
     + [New Platform Layer](#new-platform-layer)
     + [New Platform Layer Version](#new-platform-layer-version)
@@ -256,7 +256,6 @@ remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevi
   $name = "$($Layer.name)_Copy"
   $description = $($Layer.name)
   $Iconid = $(Get-ALicon -websession $websession | Where-Object {$(Get-ALiconassoc -iconid $_.iconid -websession $websession -ea 0) | Where-Object {$_.id -match $layer.id}  }).Iconid
-
   new-qlqpplayerclone -websession $websession -apprevid $apprevid.id -name $name -description $description -iconid $Iconid -targetrevversion $targetrevversion -targetrevdescription $targetrevdescription
 ```
 
