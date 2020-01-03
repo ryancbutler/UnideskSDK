@@ -1,4 +1,4 @@
-function New-ALLayerClone {
+function New-AlApplayerClone {
   <#
 .SYNOPSIS
   Clones a Layer
