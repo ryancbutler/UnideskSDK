@@ -29,6 +29,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [New Application Layer Version](#new-application-layer-version)
     + [Set Application Layer](#set-application-layer)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
+    + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
   * [Platform Layers](#platform-layers)
     + [New Platform Layer](#new-platform-layer)
     + [New Platform Layer Version](#new-platform-layer-version)
@@ -243,6 +244,19 @@ $appid = Get-ALapplayer -websession $websession | where{$_.name -eq "7-Zip"}
 $apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
 $apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -First 1
 remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
+```
+### Clone Application Layer Revision
+
+```powershell
+  $layer = Get-ALapplayer -websession $websession | Where-Object {$_.name -like "S2016_APP_JAVA"}
+  $apprevs = Get-ALapplayerDetail -websession $websession -id $layer.id
+  $apprevid = $apprevs.Revisions.AppLayerRevisionDetail | Sort-Object id | Select-Object -Last 1
+  $targetrevversion = $apprevid.DisplayedVersion
+  $targetrevdescription = "Cloned revision $($targetrevversion)"
+  $name = "$($Layer.name)_Copy"
+  $description = $($Layer.name)
+  $Iconid = $(Get-ALicon -websession $websession | Where-Object {$(Get-ALiconassoc -iconid $_.iconid -websession $websession -ea 0) | Where-Object {$_.id -match $layer.id}  }).Iconid
+  new-qlqpplayerclone -websession $websession -apprevid $apprevid.id -name $name -description $description -iconid $Iconid -targetrevversion $targetrevversion -targetrevdescription $targetrevdescription
 ```
 
 ## Platform Layers
