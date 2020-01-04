@@ -74,17 +74,21 @@ function New-AlApplayerClone {
       UNIDESK_TOKEN  = $websession.token;
     }
     $url = "https://" + $websession.aplip + "/Unidesk.Web/API.asmx"
-    $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
-    [xml]$obj = $return.Content
+    if ($PSCmdlet.ShouldProcess("Creating Clone of $apprevid")) 
+    {
+      $return = Invoke-WebRequest -Uri $url -Method Post -Body $xml -Headers $headers -WebSession $websession
+      [xml]$obj = $return.Content
 
-    if ($obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.Error) {
-      throw $obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.Error.message
+      if ($obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.Error) {
+        throw $obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.Error.message
+      }
+      else {
+        Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.WorkTicketId)"
+        return $obj.Envelope.Body.CloneLayerResponse.CloneLayerResult
+      }
+      
+      }
     }
-    else {
-      Write-Verbose "WORKTICKET: $($obj.Envelope.Body.CloneLayerResponse.CloneLayerResult.WorkTicketId)"
-      return $obj.Envelope.Body.CloneLayerResponse.CloneLayerResult
-    }
-    
-  }
+
   end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }
