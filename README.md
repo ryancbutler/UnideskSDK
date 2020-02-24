@@ -224,8 +224,7 @@ App Layer that requires prerequisite layer(s)
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
-#App to Update
-$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+
 #Prerequisite layers
 $reqapp1 = Get-ALapplayer -websession $websession|where{$_.name -eq "firefox"}
 $apprevs1 = get-alapplayerDetail -websession $websession -id $reqapp1.Id
