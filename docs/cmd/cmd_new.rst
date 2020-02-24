@@ -93,6 +93,78 @@ REMARKS
     For technical information, type: "get-help New-ALAppLayer -full".
 
 
+New-AlApplayerClone
+-------------------------
+
+NAME
+    New-AlApplayerClone
+    
+SYNOPSIS
+    Clones a Layer
+    
+    
+SYNTAX
+    New-AlApplayerClone [-websession] <Object> [-apprevid] <Object> [-name] <String> [[-description] <String>] [[-iconid] <String>] [-targetrevversion] <String> [[-targetrevdescription] <String>] [-WhatIf] [-Confirm] 
+    [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Clones a Layer
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -apprevid <Object>
+        Application revision version id to clone from
+        
+    -name <String>
+        Name of the cloned layer
+        
+    -description <String>
+        Description of the cloned layer
+        
+    -iconid <String>
+        Icon ID
+        
+    -targetrevversion <String>
+        Versionname of the cloned layer revision
+        
+    -targetrevdescription <String>
+        Description for the cloned layer revision
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$layer = Get-ALapplayer -websession $websession | Where-Object {$_.name -like "S2016_APP_JAVA"}
+    
+    $apprevs = Get-ALapplayerDetail -websession $websession -id $layer.id
+    $apprevid = $apprevs.Revisions.AppLayerRevisionDetail | Sort-Object id | Select-Object -Last 1
+    $targetrevversion = $apprevid.DisplayedVersion
+    $targetrevdescription = "Cloned revision $($targetrevversion)"
+    $name = "$($Layer.name)_Copy"
+    $description = $($Layer.name)
+    $Iconid = $(Get-ALicon -websession $websession | Where-Object {$(Get-ALiconassoc -iconid $_.iconid -websession $websession -ea 0) | Where-Object {$_.id -match $layer.id}  }).Iconid
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help New-AlApplayerClone -examples".
+    For more information, type: "get-help New-AlApplayerClone -detailed".
+    For technical information, type: "get-help New-AlApplayerClone -full".
+
+
 New-ALAppLayerRev
 -------------------------
 
@@ -105,7 +177,7 @@ SYNOPSIS
     
 SYNTAX
     New-ALAppLayerRev [-websession] <Object> [-version] <String> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appid] <String> [-apprevid] <String> [-osrevid] <String> [[-platformrevid] <String>] 
-    [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    [[-appprereqid] <String[]>] [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -138,6 +210,9 @@ PARAMETERS
         
     -platformrevid <String>
         Platform version ID if needed
+        
+    -appprereqid <String[]>
+        Application Layer Prerequisie version ID(s) if needed
         
     -diskformat <String>
         Diskformat to store layer
