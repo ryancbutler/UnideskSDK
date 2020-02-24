@@ -27,6 +27,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
   * [Application Layers](#application-layers)
     + [New Application Layer](#new-application-layer)
     + [New Application Layer Version](#new-application-layer-version)
+    + [New Application Prerequisite Layer Version](#new-application-prerequisite-layer-version)
     + [Set Application Layer](#set-application-layer)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
     + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
@@ -218,6 +219,8 @@ new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -de
 
 ### New Application Layer Version
 
+No Prerequisite layers
+
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -228,6 +231,32 @@ $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployabl
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id
+```
+
+### New Application Prerequisite Layer Version
+App Layer that requires Prerequisite layer
+
+```powershell
+$fileshare = Get-ALRemoteshare -websession $websession
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
+#App to Update
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+#Prerequisite layers
+$reqapp1 = Get-ALapplayer -websession $websession|where{$_.name -eq "firefox"}
+$apprevs1 = get-alapplayerDetail -websession $websession -id $reqapp1.Id
+$apprevid1 = $apprevs1.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
+$reqapp2 = Get-ALapplayer -websession $websession|where{$_.name -eq "putty"}
+$apprevs2 = get-alapplayerDetail -websession $websession -id $reqapp2.Id
+$apprevid2 = $apprevs2.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
+$oss = Get-ALOsLayer -websession $websession
+$osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayerId
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+$apprevs = get-alapplayerDetail -websession $websession -id $app.Id
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+#appprereqid requires array of pre-req layer IDs
+new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id -appprereqid @($apprevid1.Id,$apprevid2.Id) -Verbose
 ```
 
 ### Set Application Layer

@@ -20,6 +20,8 @@ function New-ALAppLayerRev {
   OS version layer id to use
 .PARAMETER platformrevid
   Platform version ID if needed
+.PARAMETER appprereqid
+  Application Layer Prerequisie version ID(s) if needed
 .PARAMETER diskformat
   Diskformat to store layer
 .PARAMETER size
@@ -46,6 +48,7 @@ function New-ALAppLayerRev {
     [Parameter(Mandatory = $true)][string]$apprevid,
     [Parameter(Mandatory = $true)][string]$osrevid,
     [Parameter(Mandatory = $false)][string]$platformrevid,
+    [Parameter(Mandatory = $false)][string[]]$appprereqid,
     [Parameter(Mandatory = $true)][string]$diskformat,
     [Parameter(Mandatory = $true)][string]$fileshareid,
     [Parameter(Mandatory = $false)][string]$size = "10240"
@@ -65,6 +68,25 @@ function New-ALAppLayerRev {
       Write-Verbose "Creating withOUT Platform layer"
       $plat = @" 
 <PlatformLayerRevisionId xsi:nil="true"/>
+"@
+    }
+
+    if (-not ([string]::IsNullOrWhiteSpace($appprereqid))) {
+      Write-Verbose "Creating with layer pre-reqs"
+      $idsxml = @()
+      foreach ($revid in $appprereqid) {
+        $idsxml += @"
+<long>$revid</long>
+"@
+      }
+
+      $reqs = @"
+<CreationEnvironmentAppRevisions>$idsxml</CreationEnvironmentAppRevisions>
+"@
+    }
+    else {
+      Write-Verbose "Creating withOUT layer pre-reqs"
+      $reqs = @" 
 "@
     }
 
@@ -89,13 +111,14 @@ function New-ALAppLayerRev {
         <BaseLayerRevisionId>$apprevid</BaseLayerRevisionId>
         <OsLayerRevisionId>$osrevid</OsLayerRevisionId>
         $plat
+        $reqs
         <CreationEnvironmentAppRevisions/>
       </command>
     </CreateAppLayerRevision>
   </s:Body>
 </s:Envelope>
 "@
-    Write-Verbose $xml
+    #return $xml
     $headers = @{
       SOAPAction     = "http://www.unidesk.com/CreateAppLayerRevision";
       "Content-Type" = "text/xml; charset=utf-8";
