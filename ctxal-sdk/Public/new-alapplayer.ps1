@@ -22,6 +22,8 @@ function New-ALAppLayer {
   Operating system version ID
 .PARAMETER platformrevid
   Platform version ID if needed
+.PARAMETER appprereqid
+  Application Layer Prerequisie version ID(s) if needed
 .PARAMETER diskformat
   Disk format of the image
 .PARAMETER fileshareid
@@ -49,6 +51,7 @@ function New-ALAppLayer {
     [Parameter(Mandatory = $true)][string]$connectorid,
     [Parameter(Mandatory = $true)][string]$osrevid,
     [Parameter(Mandatory = $false)][string]$platformrevid,
+    [Parameter(Mandatory = $false)][string[]]$appprereqid,
     [Parameter(Mandatory = $true)][string]$diskformat,
     [Parameter(Mandatory = $true)][string]$fileshareid,
     [Parameter(Mandatory = $false)][string]$size = "10240",
@@ -73,6 +76,26 @@ function New-ALAppLayer {
 "@
     }
 
+    if (-not ([string]::IsNullOrWhiteSpace($appprereqid))) {
+      Write-Verbose "Creating with layer pre-reqs"
+      $idsxml = @()
+      foreach ($revid in $appprereqid) {
+        $idsxml += @"
+<long>$revid</long>
+"@
+      }
+
+      $reqs = @"
+<AppLayerRevisionIds>$idsxml</AppLayerRevisionIds>
+"@
+    }
+    else {
+      Write-Verbose "Creating withOUT layer pre-reqs"
+      $reqs = @"
+<AppLayerRevisionIds/> 
+"@
+    }
+
     [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -80,7 +103,7 @@ function New-ALAppLayer {
       <command>
         <OsLayerRevisionId>$osrevid</OsLayerRevisionId>
         $plat
-        <AppLayerRevisionIds/>
+        $reqs
         <LayerInfo>
           <Name>$name</Name>
           <Description>$description</Description>
