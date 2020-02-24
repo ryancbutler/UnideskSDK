@@ -25,6 +25,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [New Operating System Layer Version](#new-operating-system-layer-version)
     + [Remove Operating System Layer Revision](#remove-operating-system-layer-revision)
   * [Application Layers](#application-layers)
+    + [New Application Prerequisite Layer](#new-application-prerequisite-layer)
     + [New Application Layer](#new-application-layer)
     + [New Application Layer Version](#new-application-layer-version)
     + [New Application Prerequisite Layer Version](#new-application-prerequisite-layer-version)
@@ -207,6 +208,7 @@ remove-aloslayerrev -websession $websession -osid $osid.Id -osrevid $osrevid.id 
 ## Application Layers
 
 ### New Application Layer
+No Prerequisite layers
 
 ```powershell
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -216,9 +218,32 @@ $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -description "Accounting application" -connectorid $connector.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -OsLayerSwitching BoundToOsLayer -fileshareid $fileshare.id
 ```
+### New Application Prerequisite Layer
+App Layer that requires prerequisite layer(s)
+
+```powershell
+$fileshare = Get-ALRemoteshare -websession $websession
+$connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
+#App to Update
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+#Prerequisite layers
+$reqapp1 = Get-ALapplayer -websession $websession|where{$_.name -eq "firefox"}
+$apprevs1 = get-alapplayerDetail -websession $websession -id $reqapp1.Id
+$apprevid1 = $apprevs1.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
+$reqapp2 = Get-ALapplayer -websession $websession|where{$_.name -eq "putty"}
+$apprevs2 = get-alapplayerDetail -websession $websession -id $reqapp2.Id
+$apprevid2 = $apprevs2.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
+$oss = Get-ALOsLayer -websession $websession
+$osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayerId
+$osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
+new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -description "Accounting application" -connectorid $connector.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -OsLayerSwitching BoundToOsLayer -fileshareid $fileshare.id -appprereqid @($apprevid1.Id,$apprevid2.Id)
+```
+
 
 ### New Application Layer Version
-
 No Prerequisite layers
 
 ```powershell
@@ -234,7 +259,7 @@ new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connec
 ```
 
 ### New Application Prerequisite Layer Version
-App Layer that requires Prerequisite layer
+App Layer that requires prerequisite layer(s)
 
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
