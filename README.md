@@ -246,6 +246,8 @@ new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -de
 ### New Application Layer Version
 No Prerequisite layers
 
+No Prerequisite layers
+
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
