@@ -16,7 +16,7 @@ SYNOPSIS
     
 SYNTAX
     New-ALAppLayer [-websession] <Object> [-version] <String> [-name] <String> [[-description] <String>] [[-revdescription] <String>] [[-OsLayerSwitching] <String>] [-connectorid] <String> [-osrevid] <String> [[-platformrevid] 
-    <String>] [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    <String>] [[-appprereqid] <String[]>] [-diskformat] <String> [-fileshareid] <String> [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -50,6 +50,9 @@ PARAMETERS
         
     -platformrevid <String>
         Platform version ID if needed
+        
+    -appprereqid <String[]>
+        Application Layer Prerequisie version ID(s) if needed
         
     -diskformat <String>
         Disk format of the image
