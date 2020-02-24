@@ -254,6 +254,7 @@ $osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayer
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+#appprereqid requires array of pre-req layer IDs
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id -appprereqid @($apprevid1.Id,$apprevid2.Id) -Verbose
 ```
 
