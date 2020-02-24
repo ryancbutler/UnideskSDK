@@ -27,6 +27,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
   * [Application Layers](#application-layers)
     + [New Application Layer](#new-application-layer)
     + [New Application Layer Version](#new-application-layer-version)
+    + [New Application Prerequisite Layer Version](#new-application-prerequisite-layer-version)
     + [Set Application Layer](#set-application-layer)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
     + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
@@ -232,7 +233,7 @@ $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deploy
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id
 ```
 
-### New Application prerequisite layer Version
+### New Application Prerequisite Layer Version
 App Layer that requires Prerequisite layer
 
 ```powershell
