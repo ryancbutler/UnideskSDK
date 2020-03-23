@@ -56,7 +56,7 @@ function Get-ALLdapObject {
     do {
       Write-Verbose "Searching LDAP.."
       Start-Sleep -Seconds 1
-      $pendobj = get-pendingop -id $taskid -WebSession $websession
+      $pendobj = get-Alpendingop -id $taskid -WebSession $websession
     } Until ($pendobj.running -eq "False" )
 
     if ($pendobj.OperationResult.Items -ne "") {
