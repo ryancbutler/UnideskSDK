@@ -473,10 +473,10 @@ remove-alappassignment -websession $websession -applayerid $apprevid.LayerId -im
 ```powershell
 $users = @('MyGroup1','MyGroup2','Domain Users')
 $finduser = $users|get-alldapobject -websession $websession
-$app = Get-ALapplayer -websession $websession|where{$_.name -eq "Libre Office"}
+$app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
 $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
-$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
-$add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
+$apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object version -Descending|select -First 1
+$add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $finduser.unideskid -objecttype $finduser.objecttype -directoryjunctionid $finduser.directoryjunctionid -ldapguid $finduser.guid -ldapdn $finduser.dn -sid $finsuser.sid -Confirm:$False
 ```
 
 ### Remove user\group from Elastic Layers
