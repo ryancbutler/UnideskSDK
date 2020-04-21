@@ -12,21 +12,30 @@ function Add-ALELAppassignment {
   LDAP located user object
 .EXAMPLE
   $user = get-alldapobject -websession $websession -object "myusername"
-  add-alelappassignment -websession $websession -apprevid $apprevid.Id -user $user
+  add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $unideskid -objecttype $objecttype -directoryjunctionid $directoryjunctionid -ldapguid $ldapguid -ldapdn $ldapdn -sid $sid -Confirm:$False
+
 .EXAMPLE
   $users = @('MyGroup1','MyGroup2','Domain Users')
   $finduser = $users|get-alldapobject -websession $websession
   $app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
   $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
   $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
-  $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
+  $add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $finduser.unideskid -objecttype $finduser.objecttype -directoryjunctionid $finduser.directoryjunctionid -ldapguid $finduser.guid -ldapdn $finduser.dn -sid $finsuser.sid -Confirm:$False
+
 #>
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
-  Param(
+Param(
     [Parameter(Mandatory = $true)]$websession,
     [Parameter(Mandatory = $true)][string]$apprevid,
-    [Parameter(Mandatory = $true, ValueFromPipeline = $true)][string]$user
+    [Parameter(Mandatory = $true)][long]$unideskid,
+    [Parameter(Mandatory = $true)][long]$directoryjunctionid,
+    [Parameter(Mandatory = $true)][string]$ldapguid,
+    [Parameter(Mandatory = $true)][string]$ldapdn,
+    [Parameter(Mandatory = $true)][string]$sid,
+    [Parameter(Mandatory = $true)][string]$objecttype,
+    [Parameter(Mandatory = $false)][long]$imageid
   )
+
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
     Test-ALWebsession -WebSession $websession
@@ -38,14 +47,16 @@ function Add-ALELAppassignment {
     <UpdateAppLayerAssignment xmlns="http://www.unidesk.com/">
       <command>
         <AdEntityIds>
-          <DirectoryId xsi:type="$($user.objecttype)">
-            <UnideskId>$($user.UnideskId)</UnideskId>
-            <DirectoryJunctionId>$($user.DirectoryJunctionId)</DirectoryJunctionId>
-            <LdapGuid>$($user.GUID)</LdapGuid>
-            <LdapDN>$($user.DN)</LdapDN>
-            <Sid/>
+          <DirectoryId xsi:type="$objecttype">
+            <UnideskId>$unideskid</UnideskId>
+            <DirectoryJunctionId>$directoryjunctionid</DirectoryJunctionId>
+            <LdapGuid>$ldapguid</LdapGuid>
+            <LdapDN>$ldapdn</LdapDN>
+            <sid>$sid<Sid/>
           </DirectoryId>
         </AdEntityIds>
+        <LayeredImageIds/>
+          <long>$imageid<long/>
         <LayeredImageIds/>
         <AppLayerRevId>$apprevid</AppLayerRevId>
         <Reason>
