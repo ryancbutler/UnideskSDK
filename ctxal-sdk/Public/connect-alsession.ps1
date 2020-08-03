@@ -44,7 +44,8 @@ public class SSLHandler
     #[System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
     [System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::GetSSLHandler()
     $username = $Credential.UserName
-    $pass = $Credential.GetNetworkCredential().Password
+    # Needed for escaping characters &,<,>,", and '
+    $pass = [System.Security.SecurityElement]::Escape($Credential.GetNetworkCredential().Password)
 
     [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -81,3 +82,5 @@ public class SSLHandler
   }
   end { Write-Verbose "END: $($MyInvocation.MyCommand)" }
 }
+
+Connect-ALsession -Credential $cred -aplip 127.0.0.1
