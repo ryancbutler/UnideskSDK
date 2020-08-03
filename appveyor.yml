@@ -25,6 +25,8 @@ build_script:
     $env:Path += ";$env:ProgramFiles\Git\cmd"
 test_script:
   - ps: |
+      write-verbose "Dot sourcing helper functions"
+      . .\AppVeyor\helpers.ps1
       write-verbose "Running Pester..."
       $pest = Invoke-Pester -passthru -verbose
       if ($pest.FailedCount -gt 0) { 
