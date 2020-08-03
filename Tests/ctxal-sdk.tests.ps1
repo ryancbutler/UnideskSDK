@@ -1,5 +1,5 @@
-$manifest = "$env:APPVEYOR_BUILD_FOLDER\ctxal-sdk\ctxal-sdk.psd1"
-$module = "$env:APPVEYOR_BUILD_FOLDER\ctxal-sdk\ctxal-sdk.psm1"
+$manifest = ".\ctxal-sdk\ctxal-sdk.psd1"
+$module = ".\ctxal-sdk\ctxal-sdk.psm1"
 
 Describe 'Module Metadata Validation' {      
         it 'Script fileinfo should be ok' {
