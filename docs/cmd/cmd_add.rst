@@ -71,7 +71,8 @@ SYNOPSIS
     
     
 SYNTAX
-    Add-ALELAppassignment [-websession] <Object> [-apprevid] <String> [-user] <String> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Add-ALELAppassignment [-websession] <Object> [-apprevid] <String> [-unideskid] <Int64> [-directoryjunctionid] <Int64> [-ldapguid] <String> [-ldapdn] <String> [-sid] <String> [-objecttype] <String> [[-imageid] <Int64>] 
+    [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -85,8 +86,19 @@ PARAMETERS
     -apprevid <String>
         Application version layer ID
         
-    -user <String>
-        LDAP located user object
+    -unideskid <Int64>
+        
+    -directoryjunctionid <Int64>
+        
+    -ldapguid <String>
+        
+    -ldapdn <String>
+        
+    -sid <String>
+        
+    -objecttype <String>
+        
+    -imageid <Int64>
         
     -WhatIf [<SwitchParameter>]
         
@@ -102,7 +114,7 @@ PARAMETERS
     
     PS C:\>$user = get-alldapobject -websession $websession -object "myusername"
     
-    add-alelappassignment -websession $websession -apprevid $apprevid.Id -user $user
+    add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $unideskid -objecttype $objecttype -directoryjunctionid $directoryjunctionid -ldapguid $ldapguid -ldapdn $ldapdn -sid $sid -Confirm:$False
     
     
     
@@ -115,7 +127,8 @@ PARAMETERS
     $app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
     $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
     $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
-    $add = $finduser|add-alelappassignment -websession $websession -apprevid $apprevid.Id
+    $add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $finduser.unideskid -objecttype $finduser.objecttype -directoryjunctionid $finduser.directoryjunctionid -ldapguid $finduser.guid -ldapdn 
+    $finduser.dn -sid $finsuser.sid -Confirm:$False
     
     
     
