@@ -20,7 +20,7 @@ function Add-ALELAppassignment {
   $app = Get-ALapplayerDetail -websession $websession|where{$_.name -eq "Libre Office"}
   $apprevs = Get-ALapplayerDetail -websession $websession -id $app.Id
   $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
-  $add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $finduser.unideskid -objecttype $finduser.objecttype -directoryjunctionid $finduser.directoryjunctionid -ldapguid $finduser.guid -ldapdn $finduser.dn -sid $finsuser.sid -Confirm:$False
+  add-alelappassignment -websession $websession -apprevid $apprevid.Id -unideskid $finduser.unideskid -objecttype $finduser.objecttype -directoryjunctionid $finduser.directoryjunctionid -ldapguid $finduser.guid -ldapdn $finduser.dn -sid $finsuser.sid -Confirm:$False
 
 #>
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
@@ -55,9 +55,9 @@ Param(
             <sid>$sid<Sid/>
           </DirectoryId>
         </AdEntityIds>
-        <LayeredImageIds/>
+        <LayeredImageIds>
           <long>$imageid<long/>
-        <LayeredImageIds/>
+        </LayeredImageIds>
         <AppLayerRevId>$apprevid</AppLayerRevId>
         <Reason>
           <ReferenceNumber>0</ReferenceNumber>
