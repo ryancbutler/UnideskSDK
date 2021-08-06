@@ -26,6 +26,8 @@ function New-ALImage {
   Size of layer in GB (default 102400)
 .PARAMETER icon
   Icon ID (default 196608)
+.PARAMETER syspreptype
+  Syspreptype for the Image. Options "None","Offline" (default "None")
 .EXAMPLE
   $connector = Get-ALconnector -websession $websession -type "Publish"|where{$_.name -eq "PVS"}
   $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
@@ -49,7 +51,8 @@ function New-ALImage {
     [Parameter(Mandatory = $false)][ValidateSet("None", "Session", "Office365", "SessionOffice365", "Desktop")][string]$ElasticLayerMode = "None",
     [Parameter(Mandatory = $true)][string]$diskformat,
     [Parameter(Mandatory = $false)][string]$size = "102400",
-    [Parameter(Mandatory = $false)][string]$icon = "196608"
+    [Parameter(Mandatory = $false)][string]$icon = "196608",
+    [Parameter(Mandatory = $false)][ValidateSet("None", "Offline")][string]$syspreptype = "None"
   )
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -80,7 +83,7 @@ function New-ALImage {
         </AppLayerRevIds>
         <PlatformConnectorConfigId>$connectorid</PlatformConnectorConfigId>
         <PlatformLayerRevId>$platrevid</PlatformLayerRevId>
-        <SysprepType>None</SysprepType>
+        <SysprepType>$syspreptype</SysprepType>
         <LayeredImageDiskFilename>$name</LayeredImageDiskFilename>
         <LayeredImageDiskFormat>$diskformat</LayeredImageDiskFormat>
         <LayeredImagePartitionSizeMiB>$size</LayeredImagePartitionSizeMiB>
