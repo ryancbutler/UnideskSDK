@@ -400,7 +400,7 @@ SYNOPSIS
     
 SYNTAX
     New-ALImage [-websession] <Object> [-name] <String> [[-description] <String>] [-connectorid] <String> [-appids] <String[]> [-osrevid] <String> [-platrevid] <String> [[-ElasticLayerMode] <String>] [-diskformat] <String> 
-    [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    [[-size] <String>] [[-icon] <String>] [[-syspreptype] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -440,6 +440,9 @@ PARAMETERS
         
     -icon <String>
         Icon ID (default 196608)
+        
+    -syspreptype <String>
+        Syspreptype for the Image. Options "None","Offline" (default "None")
         
     -WhatIf [<SwitchParameter>]
         
