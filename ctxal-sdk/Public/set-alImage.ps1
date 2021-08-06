@@ -30,6 +30,8 @@ function Set-ALImage {
   Size of layer in MB
 .PARAMETER icon
   Icon ID
+.PARAMETER syspreptype
+  Syspreptype for the Image. Options "None","Offline"
 .EXAMPLE
   $fileshare = Get-ALRemoteshare -websession $websession
   $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -40,14 +42,14 @@ function Set-ALImage {
   $platrevs = get-alplatformlayerdetail -websession $websession -id $plats.id
   $platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
   $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
-  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat
+  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -syspreptype Offline
   
   ### Edit image with latest revision for a specific app or apps ***
   $apps = @("Winscp","7-zip")
   $applayerids = foreach ($app in $apps){Get-ALapplayer -websession $websession|where{$_.name -eq $app}}
   $apprevs = foreach ($applayerid in $applayerids){get-alapplayerDetail -websession $websession -id $applayerid.Id}
   $apprevid = foreach ($apprev in $apprevs){$apprev.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1}
-  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id
+  Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id -syspreptype Offline
 #>
 
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
@@ -64,7 +66,8 @@ function Set-ALImage {
     [Parameter(Mandatory = $false)][ValidateSet("None", "Session", "Office365", "SessionOffice365", "Desktop")][string]$ElasticLayerMode,
     [Parameter(Mandatory = $false)][string]$diskformat,
     [Parameter(Mandatory = $false)][string]$size,
-    [Parameter(Mandatory = $false)][string]$icon
+    [Parameter(Mandatory = $false)][string]$icon,
+    [Parameter(Mandatory = $false)][ValidateSet("None", "Offline")][string]$syspreptype
   )
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -126,6 +129,11 @@ function Set-ALImage {
       $icon = $image.ImageId
       Write-Verbose "Using existing icon value $icon"
     }
+    
+    if ([string]::IsNullOrWhiteSpace($syspreptype)) {
+      $icon = $image.syspreptype
+      Write-Verbose "Using existing syspreptype value $syspreptype"
+    }
 
     [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
@@ -140,7 +148,7 @@ function Set-ALImage {
         <PlatformConnectorConfigId>$connectorid</PlatformConnectorConfigId>
         <PlatformLayerRevId>$platrevid</PlatformLayerRevId>
         <AppLayerRevIds/>
-        <SysprepType>None</SysprepType>
+        <SysprepType>$syspreptype</SysprepType>
         <LayeredImageDiskFilename>$name</LayeredImageDiskFilename>
         <LayeredImageDiskFormat>$diskformat</LayeredImageDiskFormat>
         <LayeredImagePartitionSizeMiB>$size</LayeredImagePartitionSizeMiB>
