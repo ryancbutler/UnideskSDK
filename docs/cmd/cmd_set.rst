@@ -271,7 +271,7 @@ SYNOPSIS
     
 SYNTAX
     Set-ALImage [-websession] <Object> [-id] <String> [[-name] <String>] [[-description] <String>] [[-connectorid] <String>] [[-osrevid] <String>] [[-platrevid] <String>] [[-applayerid] <Array>] [[-apprevid] <Array>] 
-    [[-ElasticLayerMode] <String>] [[-diskformat] <String>] [[-size] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    [[-ElasticLayerMode] <String>] [[-diskformat] <String>] [[-size] <String>] [[-icon] <String>] [[-syspreptype] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -318,6 +318,9 @@ PARAMETERS
     -icon <String>
         Icon ID
         
+    -syspreptype <String>
+        Syspreptype for the Image. Options "None","Offline"
+        
     -WhatIf [<SwitchParameter>]
         
     -Confirm [<SwitchParameter>]
@@ -341,7 +344,7 @@ PARAMETERS
     $platformrevid = $platrevs.Revisions.PlatformLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object revision -Descending|select -First 1
     $image = Get-ALimage -websession $websession|where{$_.name -eq "Windows 10 Accounting"}
     Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat 
-    $connector.ValidDiskFormats.DiskFormat
+    $connector.ValidDiskFormats.DiskFormat -syspreptype Offline
     
     ### Edit image with latest revision for a specific app or apps ***
     $apps = @("Winscp","7-zip")
@@ -349,7 +352,7 @@ PARAMETERS
     $apprevs = foreach ($applayerid in $applayerids){get-alapplayerDetail -websession $websession -id $applayerid.Id}
     $apprevid = foreach ($apprev in $apprevs){$apprev.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1}
     Set-alimage -websession $websession -name $images.Name -description "My new description" -connectorid $connector.id -osrevid $osrevid.Id -platrevid $platformrevid.id -id $image.Id -ElasticLayerMode Session -diskformat 
-    $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id
+    $connector.ValidDiskFormats.DiskFormat -applayerid $apprevid.LayerId -apprevid $apprevid.Id -syspreptype Offline
     
     
     
