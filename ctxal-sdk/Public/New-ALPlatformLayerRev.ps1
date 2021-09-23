@@ -68,9 +68,9 @@ function New-ALPlatformLayerRev {
     [Parameter(Mandatory = $true)][string]$Diskname,
     [Parameter(Mandatory = $false)][string]$size = "10240",
     [Parameter(Mandatory = $true)][string]$diskformat,
-    [Parameter(Mandatory = $false)][string]$HypervisorPlatformTypeId = "vsphere",
-    [Parameter(Mandatory = $false)][string]$ProvisioningPlatformTypeId = "mcs",
-    [Parameter(Mandatory = $false)][string]$BrokerPlatformTypeId = "xendesktop"
+    [Parameter(Mandatory = $false)][ValidateSet("aws", "xenserver", "azure", "hyperv", "acropolis", "vsphere", "otherHypervisor")][string]$HypervisorPlatformTypeId = "vsphere",
+    [Parameter(Mandatory = $false)][ValidateSet("pvs", "mcs", "viewcomposer", "otherProvisioning")][string]$ProvisioningPlatformTypeId = "mcs",
+    [Parameter(Mandatory = $false)][ValidateSet("xenapp", "xendesktop", "azurerdsh", "rds", "view", "otherBroker")][string]$BrokerPlatformTypeId = "xendesktop"
   )
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
