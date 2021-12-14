@@ -15,10 +15,10 @@
 .PARAMETER description
   Description of the layer version
 .EXAMPLE
-  $app = Get-ALapplayer -websession $websession|where{$_.name -eq "WS2016 - CtxSt - Citrix Studio"}
+  $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
   $appdetail = Get-ALapplayerDetail -websession $websession -id $app.Id
   $appver = $appdetail.Revisions.AppLayerRevisionDetail | select-object -last 1
-  Set-alapplayer -websession $websession -layerid $app.Id -revid $appver.Id -name "7-Zip" -description "7-zip"
+  Set-AlApplayerRev -websession $websession -layerid $app.Id -revid $appver.Id -name "21.06" -description "7-zip 21.06 (2021-11-24)"
 #>
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
   Param(
