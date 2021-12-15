@@ -30,6 +30,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [New Application Layer Version](#new-application-layer-version)
     + [New Application Prerequisite Layer Version](#new-application-prerequisite-layer-version)
     + [Set Application Layer](#set-application-layer)
+    + [Set Application Layer Revision](#set-application-layer-revision)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
     + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
   * [Platform Layers](#platform-layers)
@@ -291,6 +292,16 @@ new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connec
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $app.Id -scriptpath "C:\NeededScript.ps1" -OsLayerSwitching BoundToOsLayer
 ```
+
+### Set Application Layer Revision
+
+```powershell
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+$appdetail = Get-ALapplayerDetail -websession $websession -id $app.Id
+$appver = $appdetail.Revisions.AppLayerRevisionDetail | select-object -last 1
+Set-AlApplayerRev -websession $websession -layerid $app.Id -revid $appver.Id -name "21.06" -description "7-zip 21.06 (2021-11-24)"
+```
+
 ### Remove Application Layer Revision
 
 ```powershell
