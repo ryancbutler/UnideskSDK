@@ -1,4 +1,4 @@
-﻿function Set-ALApplayerRev {
+function Set-ALApplayerRev {
   <#
 .SYNOPSIS
   Edits values of an application layer version
@@ -41,37 +41,37 @@
     $OsLayerSwitching = $applayer.OsLayerSwitching
 
     $RevisionChanges = foreach ($revision in $applayer.Revisions.AppLayerRevisionDetail) {
-        if ($revision.Id -ne $revid) {
-            "            <LayerRevisionChange>
+      if ($revision.Id -ne $revid) {
+        "            <LayerRevisionChange>
                 <Id>$($revision.Id)</Id>
                 <Name>$($revision.DisplayedVersion)</Name>
                 <Description>$($revision.Description)</Description>
             </LayerRevisionChange>"
+      }
+      else {
+        #Check for existing params
+        if ([string]::IsNullOrWhiteSpace($name)) {
+          $name = $revision.DisplayedVersion
+          Write-Verbose "Using existing name value $name"
+        }
+
+        if (!$PSBoundParameters.ContainsKey('description')) {
+          $description = $revision.Description
+          Write-Verbose "Using existing description value $description"
         }
         else {
-            #Check for existing params
-            if ([string]::IsNullOrWhiteSpace($name)) {
-              $name = $revision.DisplayedVersion
-              Write-Verbose "Using existing name value $name"
-            }
-
-            if (!$PSBoundParameters.ContainsKey('description')) {
-              $description = $revision.Description
-              Write-Verbose "Using existing description value $description"
-            }
-            else {
-              if ([string]::IsNullOrWhiteSpace($description)) {
-              $description = "" 
-              }
-            }
+          if ([string]::IsNullOrWhiteSpace($description)) {
+            $description = "" 
+          }
+        }
             
-            "            <LayerRevisionChange>
+        "            <LayerRevisionChange>
                 <Id>$($revision.Id)</Id>
                 <Name>$name</Name>
                 <Description>$description</Description>
             </LayerRevisionChange>"
-        }
-        $null = $description
+      }
+      $null = $description
     }
 
     [xml]$xml = @"
