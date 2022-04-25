@@ -6,6 +6,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
 
 Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/latest
 
+
 - [Citrix App Layering PowerShell SDK (BETA)](#citrix-app-layering-powershell-sdk--beta-)
   * [Install and Update](#install-and-update)
     + [Install Manually](#install-manually)
