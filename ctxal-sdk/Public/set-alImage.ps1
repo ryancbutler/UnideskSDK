@@ -131,7 +131,7 @@ function Set-ALImage {
     }
     
     if ([string]::IsNullOrWhiteSpace($syspreptype)) {
-      $icon = $image.syspreptype
+      $syspreptype = $image.syspreptype
       Write-Verbose "Using existing syspreptype value $syspreptype"
     }
 
