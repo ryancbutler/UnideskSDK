@@ -119,6 +119,67 @@ REMARKS
     For technical information, type: "get-help Set-ALApplayer -full".
 
 
+Set-ALApplayerRev
+-------------------------
+
+NAME
+    Set-ALApplayerRev
+    
+SYNOPSIS
+    Edits values of an application layer version
+    
+    
+SYNTAX
+    Set-ALApplayerRev [-websession] <Object> [-layerid] <String> [-revid] <String> [[-name] <String>] [[-description] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Edits values of an application layer version
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -layerid <String>
+        ID of the applayer to edit
+        
+    -revid <String>
+        ID of the applayer version to edit
+        
+    -name <String>
+        Name of the application layer version
+        
+    -description <String>
+        Description of the layer version
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+    
+    $appdetail = Get-ALapplayerDetail -websession $websession -id $app.Id
+    $appver = $appdetail.Revisions.AppLayerRevisionDetail | select-object -last 1
+    Set-AlApplayerRev -websession $websession -layerid $app.Id -revid $appver.Id -name "21.06" -description "7-zip 21.06 (2021-11-24)"
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Set-ALApplayerRev -examples".
+    For more information, type: "get-help Set-ALApplayerRev -detailed".
+    For technical information, type: "get-help Set-ALApplayerRev -full".
+
+
 Set-ALConnectorCred
 -------------------------
 

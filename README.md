@@ -31,6 +31,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
     + [New Application Layer Version](#new-application-layer-version)
     + [New Application Prerequisite Layer Version](#new-application-prerequisite-layer-version)
     + [Set Application Layer](#set-application-layer)
+    + [Set Application Layer Revision](#set-application-layer-revision)
     + [Remove Application Layer Revision](#remove-application-layer-revision)
     + [Clone Application Layer Revision](#Clone-Application-Layer-Revision)
   * [Platform Layers](#platform-layers)
@@ -189,9 +190,10 @@ $myosrev = new-aloslayerrev -websession $websession -version "2.0" -connectorid 
 
 #Keep checking for change in task
 do{
-$status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
-Start-Sleep -Seconds 5
+    $status = get-alstatus -websession $websession -id $myosrev.WorkTicketId
+    Start-Sleep -Seconds 5
 } Until ($status.state -eq "ActionRequired")
+
 #use function to extract VM NAME from status message
 get-alvmname -message $status.WorkItems.WorkItemResult.Status
 ```
@@ -203,6 +205,7 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $osid = Get-ALOSlayer -websession $websession | where{$_.name -eq "Windows 10 x64"}
 $osrevid = Get-ALOSlayerDetail -websession $websession -id $osid.Id
 $osrevid = $osrevid.Revisions.OSLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -Last 1
+
 remove-aloslayerrev -websession $websession -osid $osid.Id -osrevid $osrevid.id -fileshareid $fileshare.id
 ```
 
@@ -217,8 +220,10 @@ $fileshare = Get-ALRemoteshare -websession $websession
 $oss = Get-ALOsLayer -websession $websession|where{$_.name -eq "Windows 10 x64"}
 $osrevs = get-aloslayerDetail -websession $websession -id $oss.id
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
 new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -description "Accounting application" -connectorid $connector.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -OsLayerSwitching BoundToOsLayer -fileshareid $fileshare.id
 ```
+
 ### New Application Prerequisite Layer
 App Layer that requires prerequisite layer(s)
 
@@ -246,8 +251,6 @@ new-alapplayer -websession $websession -version "1.0" -name "Accounting APP" -de
 ### New Application Layer Version
 No Prerequisite layers
 
-No Prerequisite layers
-
 ```powershell
 $fileshare = Get-ALRemoteshare -websession $websession
 $connector = Get-ALconnector -websession $websession -type Create|where{$_.name -eq "MYvCenter"}
@@ -257,6 +260,7 @@ $osrevs = get-aloslayerdetail -websession $websession -id $app.AssociatedOsLayer
 $osrevid = $osrevs.Revisions.OsLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
 $apprevs = get-alapplayerDetail -websession $websession -id $app.Id
 $apprevid = $apprevs.Revisions.AppLayerRevisionDetail|where{$_.state -eq "Deployable"}|Sort-Object DisplayedVersion -Descending|select -First 1
+
 new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connectorid $connector.id -appid $app.Id -apprevid $apprevid.id -osrevid $osrevid.Id -diskformat $connector.ValidDiskFormats.DiskFormat -fileshareid $fileshare.id
 ```
 
@@ -292,6 +296,16 @@ new-alapplayerrev -websession $websession -version "9.0" -name $app.Name -connec
 $app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
 Set-alapplayer -websession $websession -name "7-Zip" -description "7-zip" -id $app.Id -scriptpath "C:\NeededScript.ps1" -OsLayerSwitching BoundToOsLayer
 ```
+
+### Set Application Layer Revision
+
+```powershell
+$app = Get-ALapplayer -websession $websession|where{$_.name -eq "7-Zip"}
+$appdetail = Get-ALapplayerDetail -websession $websession -id $app.Id
+$appver = $appdetail.Revisions.AppLayerRevisionDetail | select-object -last 1
+Set-AlApplayerRev -websession $websession -layerid $app.Id -revid $appver.Id -name "21.06" -description "7-zip 21.06 (2021-11-24)"
+```
+
 ### Remove Application Layer Revision
 
 ```powershell
@@ -301,6 +315,7 @@ $apprevid = get-alapplayerDetail -websession $websession -id $appid.Id
 $apprevid = $apprevid.Revisions.AppLayerRevisionDetail | where{$_.candelete -eq $true} | Sort-Object DisplayedVersion -Descending | select -First 1
 remove-alapplayerrev -websession $websession -appid $appid.Id -apprevid $apprevid.id -fileshareid $fileshare.id
 ```
+
 ### Clone Application Layer Revision
 
 ```powershell
@@ -356,6 +371,7 @@ diskformat = $connector.ValidDiskFormats.DiskFormat;
 
 New-ALPlatformLayerRev @params
 ```
+
 ### Remove Platform Layer Revision
 
 ```powershell
@@ -529,6 +545,7 @@ $temp = new-alicon -WebSession $websession -iconfile $iconfile -Verbose
 ```powershell
 Remove-ALicon -websession $websession -iconid "4259840"
 ```
+
 ## Export and Import Layers
 
 Gets "Exportable" Layers
@@ -608,6 +625,7 @@ Allows user to select which layers to import. (Press CTRL key to select more tha
 $mypath = "\\mynas\layershare\"
 Get-ALImportableRev -websession $websession -sharepath $mypath|Out-gridview -PassThru|Import-ALlayerrev -websession $websession -sharepath $mypath
 ```
+
 ## Directory Junction
 
 ### New Directory Junction
@@ -669,6 +687,7 @@ Get-ALLocalUser -websession $websession
 ```powershell
 Set-ALAdminUser -websession $websession -Password $PlainPassword -Verbose
 ```
+
 ## System Info
 
 ### Get System Information (Version)

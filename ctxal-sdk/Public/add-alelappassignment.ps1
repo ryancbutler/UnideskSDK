@@ -24,7 +24,7 @@ function Add-ALELAppassignment {
 
 #>
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
-Param(
+  Param(
     [Parameter(Mandatory = $true)]$websession,
     [Parameter(Mandatory = $true)][string]$apprevid,
     [Parameter(Mandatory = $true)][long]$unideskid,
@@ -52,11 +52,11 @@ Param(
             <DirectoryJunctionId>$directoryjunctionid</DirectoryJunctionId>
             <LdapGuid>$ldapguid</LdapGuid>
             <LdapDN>$ldapdn</LdapDN>
-            <sid>$sid<Sid/>
+            <Sid>$sid</Sid>
           </DirectoryId>
         </AdEntityIds>
         <LayeredImageIds>
-          <long>$imageid<long/>
+          <long>$imageid</long>
         </LayeredImageIds>
         <AppLayerRevId>$apprevid</AppLayerRevId>
         <Reason>
