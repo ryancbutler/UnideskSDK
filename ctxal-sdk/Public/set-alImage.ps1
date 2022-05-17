@@ -81,59 +81,59 @@ function Set-ALImage {
     if ([string]::IsNullOrWhiteSpace($name)) {
       $name = $image.Name
       Write-Verbose "Using existing name value $name"
-    }
+    } else { Write-Verbose "Using new name value $name" }
 
     if ([string]::IsNullOrWhiteSpace($description)) {
  
       $description = $image.$description
       if ([string]::IsNullOrWhiteSpace($image.$description)) {
-        $description = ""
+        $description = "(nothing)"
       }
       else {
         $description = $image.description
       }
       Write-Verbose "Using existing description value $description"
-    }
+    } else { Write-Verbose "Using new description value $description" }
 
     if ([string]::IsNullOrWhiteSpace($connectorid)) {
       $connectorid = $image.PlatformConnectorConfigId
       Write-Verbose "Using existing PlatformConnectorId value $connectorid"
-    }
+    } else { Write-Verbose "Using new connectorid value $connectorid" }
 
     if ([string]::IsNullOrWhiteSpace($osrevid)) {
       $osrevid = $image.OsRev.Revisions.RevisionResult.Id
       Write-Verbose "Using existing osrevid value $osrevid"
-    }
+    } else { Write-Verbose "Using new osrevid value $osrevid" }
 
     if ([string]::IsNullOrWhiteSpace($platrevid)) {
       $platrevid = $image.PlatformLayer.Revisions.RevisionResult.Id
       Write-Verbose "Using existing platrevid value $platrevid"
-    }
+    } else { Write-Verbose "Using new platrevid value $platrevid" }
 
     if ([string]::IsNullOrWhiteSpace($ElasticLayerMode)) {
       $ElasticLayerMode = $image.ElasticLayerMode
       Write-Verbose "Using existing ElasticLayerMode value $ElasticLayerMode"
-    }
+    } else { Write-Verbose "Using new ElasticLayerMode value $ElasticLayerMode" }
 
     if ([string]::IsNullOrWhiteSpace($diskformat)) {
       $diskformat = $image.LayeredImageDiskFormat
       Write-Verbose "Using existing diskformat value $diskformat"
-    }
+    } else { Write-Verbose "Using new diskformat value $diskformat" }
 
     if ([string]::IsNullOrWhiteSpace($size)) {
       $size = $image.LayeredImagePartitionSizeMiB
       Write-Verbose "Using existing size value $size"
-    }
+    } else { Write-Verbose "Using new size value $size" }
 
     if ([string]::IsNullOrWhiteSpace($icon)) {
       $icon = $image.ImageId
       Write-Verbose "Using existing icon value $icon"
-    }
+    } else { Write-Verbose "Using new icon value $icon" }
     
     if ([string]::IsNullOrWhiteSpace($syspreptype)) {
       $syspreptype = $image.syspreptype
       Write-Verbose "Using existing syspreptype value $syspreptype"
-    }
+    } else { Write-Verbose "Using new syspreptype value $syspreptype" }
 
     [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
