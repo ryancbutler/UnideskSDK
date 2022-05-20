@@ -620,8 +620,8 @@ SYNOPSIS
     
     
 SYNTAX
-    New-ALPlatformLayer [-websession] <Object> [-osrevid] <String> [-connectorid] <String> [[-Description] <String>] [-shareid] <String> [[-iconid] <String>] [-name] <String> [[-size] <String>] [-diskformat] <String> 
-    [[-platformrevid] <String>] [-type] <String> [[-HypervisorPlatformTypeId] <String>] [[-ProvisioningPlatformTypeId] <String>] [[-BrokerPlatformTypeId] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    New-ALPlatformLayer [-websession] <Object> [[-version] <String>] [-osrevid] <String> [-connectorid] <String> [[-Description] <String>] [-shareid] <String> [[-iconid] <String>] [-name] <String> [[-size] <String>] 
+    [-diskformat] <String> [[-platformrevid] <String>] [-type] <String> [[-HypervisorPlatformTypeId] <String>] [[-ProvisioningPlatformTypeId] <String>] [[-BrokerPlatformTypeId] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -631,6 +631,9 @@ DESCRIPTION
 PARAMETERS
     -websession <Object>
         Existing Webrequest session for ELM Appliance
+        
+    -version <String>
+        Version of the new layer
         
     -osrevid <String>
         OS version layer id to use
