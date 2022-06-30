@@ -67,7 +67,8 @@ function Set-ALImage {
     [Parameter(Mandatory = $false)][string]$diskformat,
     [Parameter(Mandatory = $false)][string]$size,
     [Parameter(Mandatory = $false)][string]$icon,
-    [Parameter(Mandatory = $false)][ValidateSet("None", "Offline")][string]$syspreptype
+    [Parameter(Mandatory = $false)][ValidateSet("None", "Offline")][string]$syspreptype,
+    [Parameter(Mandatory = $false)][string]$LayeredImageDiskFilename
   )
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
@@ -120,6 +121,11 @@ function Set-ALImage {
       Write-Verbose "Using existing diskformat value $diskformat"
     } else { Write-Verbose "Using new diskformat value $diskformat" }
 
+    if ([string]::IsNullOrWhiteSpace($LayeredImageDiskFilename)) {
+      $LayeredImageDiskFilename = $image.LayeredImageDiskFilename
+      Write-Verbose "Using existing diskformat value $LayeredImageDiskFilename"
+    } else { Write-Verbose "Using new LayeredImageDiskFilename value $LayeredImageDiskFilename" }
+
     if ([string]::IsNullOrWhiteSpace($size)) {
       $size = $image.LayeredImagePartitionSizeMiB
       Write-Verbose "Using existing size value $size"
@@ -149,7 +155,7 @@ function Set-ALImage {
         <PlatformLayerRevId>$platrevid</PlatformLayerRevId>
         <AppLayerRevIds/>
         <SysprepType>$syspreptype</SysprepType>
-        <LayeredImageDiskFilename>$name</LayeredImageDiskFilename>
+        <LayeredImageDiskFilename>$LayeredImageDiskFilename</LayeredImageDiskFilename>
         <LayeredImageDiskFormat>$diskformat</LayeredImageDiskFormat>
         <LayeredImagePartitionSizeMiB>$size</LayeredImagePartitionSizeMiB>
         <ElasticLayerMode>$ElasticLayerMode</ElasticLayerMode>

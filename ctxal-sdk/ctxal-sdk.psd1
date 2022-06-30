@@ -95,7 +95,7 @@ FunctionsToExport = 'add-alappassignment', 'add-alelappassignment', 'connect-als
                'set-alapplayer', 'Set-ALApplayerRev', 'Set-ALConnectorCred', 
                'set-aldirectory', 'set-alImage', 'set-alvcenterconnector', 
                'stop-alworkticket', 'test-aldirectory', 'test-aldirectoryauth', 
-               'test-aldirectorydn'
+               'test-aldirectorydn','Set-ALPlatformlayer'
 
 # Cmdlets to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no cmdlets to export.
 CmdletsToExport = @()
