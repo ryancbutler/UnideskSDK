@@ -48,8 +48,8 @@ function New-ALPlatformLayer {
 #>
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
   Param(
-    [Parameter(Mandatory = $true)]$websession,
-    [Parameter(Mandatory = $true)][string]$version = "1",
+    [Parameter(Mandatory = $true)]$websession,    
+    [Parameter(Mandatory = $false)][string]$version = "1",
     [Parameter(Mandatory = $true)][string]$osrevid,
     [Parameter(Mandatory = $true)][string]$connectorid,
     [Parameter(Mandatory = $false)][string]$Description = "",
