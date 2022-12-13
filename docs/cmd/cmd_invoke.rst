@@ -127,7 +127,7 @@ SYNOPSIS
     
     
 SYNTAX
-    Invoke-ALPublish [-websession] <Object> [-imageid] <Array> [-WhatIf] [-Confirm] [<CommonParameters>]
+    Invoke-ALPublish [-websession] <Object> [-imageid] <Array> [[-description] <Array>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -140,6 +140,8 @@ PARAMETERS
         
     -imageid <Array>
         Image ID's to be published
+        
+    -description <Array>
         
     -WhatIf [<SwitchParameter>]
         

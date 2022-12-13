@@ -332,7 +332,7 @@ SYNOPSIS
     
 SYNTAX
     Set-ALImage [-websession] <Object> [-id] <String> [[-name] <String>] [[-description] <String>] [[-connectorid] <String>] [[-osrevid] <String>] [[-platrevid] <String>] [[-applayerid] <Array>] [[-apprevid] <Array>] 
-    [[-ElasticLayerMode] <String>] [[-diskformat] <String>] [[-size] <String>] [[-icon] <String>] [[-syspreptype] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    [[-ElasticLayerMode] <String>] [[-diskformat] <String>] [[-size] <String>] [[-icon] <String>] [[-syspreptype] <String>] [[-LayeredImageDiskFilename] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
     
     
 DESCRIPTION
@@ -382,6 +382,8 @@ PARAMETERS
     -syspreptype <String>
         Syspreptype for the Image. Options "None","Offline"
         
+    -LayeredImageDiskFilename <String>
+        
     -WhatIf [<SwitchParameter>]
         
     -Confirm [<SwitchParameter>]
@@ -422,6 +424,68 @@ REMARKS
     To see the examples, type: "get-help Set-ALImage -examples".
     For more information, type: "get-help Set-ALImage -detailed".
     For technical information, type: "get-help Set-ALImage -full".
+
+
+Set-ALPlatformlayer
+-------------------------
+
+NAME
+    Set-ALPlatformlayer
+    
+SYNOPSIS
+    Edits values of an platform layer
+    
+    
+SYNTAX
+    Set-ALPlatformlayer [-websession] <Object> [-id] <String> [[-name] <String>] [[-description] <String>] [[-scriptpath] <String>] [[-icon] <String>] [-WhatIf] [-Confirm] [<CommonParameters>]
+    
+    
+DESCRIPTION
+    Edits values of an platform layer
+    
+
+PARAMETERS
+    -websession <Object>
+        Existing Webrequest session for ELM Appliance
+        
+    -id <String>
+        ID of the platformlayer to edit
+        
+    -name <String>
+        Name of the platform layer
+        
+    -description <String>
+        Description of the layer
+        
+    -scriptpath <String>
+        Path of script to be run
+        
+    -icon <String>
+        Icon ID
+        
+    -WhatIf [<SwitchParameter>]
+        
+    -Confirm [<SwitchParameter>]
+        
+    <CommonParameters>
+        This cmdlet supports the common parameters: Verbose, Debug,
+        ErrorAction, ErrorVariable, WarningAction, WarningVariable,
+        OutBuffer, PipelineVariable, and OutVariable. For more information, see 
+        about_CommonParameters (http://go.microsoft.com/fwlink/?LinkID=113216). 
+    
+    -------------------------- EXAMPLE 1 --------------------------
+    
+    PS C:\>$platform = Get-ALplatformlayer -websession $websession|where{$_.name -eq "XenDesktop"}
+    
+    Set-ALPlatformlayer -websession $websession -name "XenDesktop" -description "Xendesktop-Layer" -id $platform.Id -scriptpath "C:\NeededScript.ps1"
+    
+    
+    
+    
+REMARKS
+    To see the examples, type: "get-help Set-ALPlatformlayer -examples".
+    For more information, type: "get-help Set-ALPlatformlayer -detailed".
+    For technical information, type: "get-help Set-ALPlatformlayer -full".
 
 
 Set-alVcenterConnector
