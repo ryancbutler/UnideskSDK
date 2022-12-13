@@ -1,4 +1,4 @@
-﻿function Set-ALPlatformlayer {
+function Set-ALPlatformlayer {
   <#
 .SYNOPSIS
   Edits values of an platform layer

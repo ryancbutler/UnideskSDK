@@ -1,4 +1,4 @@
-﻿function Set-ALOslayer {
+function Set-ALOslayer {
   <#
 .SYNOPSIS
   Edits values of an os layer
