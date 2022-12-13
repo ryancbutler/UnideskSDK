@@ -16,13 +16,18 @@ function Invoke-ALPublish {
   [cmdletbinding(SupportsShouldProcess = $true, ConfirmImpact = 'High')]
   Param(
     [Parameter(Mandatory = $true)]$websession,
-    [Parameter(Mandatory = $true)][array]$imageid
+    [Parameter(Mandatory = $true)][array]$imageid,
+    [Parameter(Mandatory = $false)][array]$description = ""
   )
   Begin {
     Write-Verbose "BEGIN: $($MyInvocation.MyCommand)"
     Test-ALWebsession -WebSession $websession
   }
   Process {
+      if ([string]::IsNullOrWhiteSpace($description)) {
+        $description = "" 
+      }
+
     [xml]$xml = @"
 <s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/">
   <s:Body xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
@@ -32,6 +37,7 @@ function Invoke-ALPublish {
           <long>$imageid</long>
         </ImageIds>
         <Reason>
+          <Description>$description</Description>
           <ReferenceNumber>0</ReferenceNumber>
         </Reason>
       </command>

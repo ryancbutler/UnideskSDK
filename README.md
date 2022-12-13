@@ -6,6 +6,7 @@ This is a reversed engineered SDK that emulates the SOAP calls that AL uses to m
 
 Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/latest
 
+
 - [Citrix App Layering PowerShell SDK (BETA)](#citrix-app-layering-powershell-sdk--beta-)
   * [Install and Update](#install-and-update)
     + [Install Manually](#install-manually)
@@ -23,6 +24,7 @@ Alternative documentation can be found at https://unidesksdk.readthedocs.io/en/l
       - [vCenter](#vcenter)
       - [Citrix Hypervisor (XenServer)](#citrix-hypervisor--xenserver-)
     + [New Operating System Layer Version](#new-operating-system-layer-version)
+    + [Set Operating System Layer](#set-operating-system-layer)
     + [Remove Operating System Layer Revision](#remove-operating-system-layer-revision)
   * [Application Layers](#application-layers)
     + [New Application Prerequisite Layer](#new-application-prerequisite-layer)
@@ -195,6 +197,12 @@ do{
 
 #use function to extract VM NAME from status message
 get-alvmname -message $status.WorkItems.WorkItemResult.Status
+```
+
+### Set Operating System Layer
+```powershell
+$os = Get-ALoslayer -websession $websession|where{$_.name -eq "Server2016"}
+Set-ALoslayer -websession $websession -name "Server2019" -description "7-zip" -id $os.Id -scriptpath "C:\NeededScript.ps1"
 ```
 
 ### Remove Operating System Layer Revision
